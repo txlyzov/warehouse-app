@@ -1,0 +1,50 @@
+@import "../../styles/text";
+@import "../../styles/colors";
+
+.header-wrapper {
+  background-color: $green-medium;
+  height: 90px;
+  display: grid;
+  grid-template-columns: 120px 1fr 290px;
+
+  .header-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .options-block {
+    margin-left: auto;
+    margin-right: 30px;
+
+    .options-block__option {
+      margin: auto 5px;
+      color: $white;
+      @include text-h3();
+      @include text-stroke-05($black);
+      text-decoration: none;
+    }
+
+    .options-block__disabled {
+      pointer-events: none;
+      color: rgba($white, 0.75);
+    }
+  }
+
+  .login-block {
+    .login-block__unlogin {
+      width: 100%;
+      display: flex;
+      margin: auto 30px;
+      justify-content: space-between;
+    }
+
+    .login-block__username {
+      color: $red;
+
+      @include text-h2();
+      @include text-stroke-05($black);
+      text-decoration: none;
+    }
+  }
+}

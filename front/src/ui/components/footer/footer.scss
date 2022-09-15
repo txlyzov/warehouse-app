@@ -1,0 +1,44 @@
+@import "../../styles/text";
+@import "../../styles/colors";
+
+.footer-wrapper {
+  background-color: $green-medium;
+  height: 90px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .footer-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .socials-block {
+    margin-left: 30px;
+    margin-right: auto;
+
+    .socials-block__caption {
+      @include text-stroke-075($black);
+      color: $red;
+      margin-left: 10px;
+    }
+    .socials-block__icon {
+      margin: auto 10px;
+    }
+  }
+
+  .info-block {
+    margin-right: 30px;
+    margin-left: auto;
+
+    @include text-stroke-075($black);
+    color: $red;
+
+    .info-block {
+      &__caption,
+      &__item {
+        margin: auto 10px;
+      }
+    }
+  }
+}
