@@ -1,14 +1,11 @@
-import "./ForgotPassword.scss"
+import "./ForgotPassword.scss";
 import { Link } from "react-router-dom";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function ForgotPassword() {
     const [inputEmail, setInputEmail] = useState('');
-    useEffect(() => {
-    }, []);
-    // let issueText = '';
     let issueText = <h3 className="forgot-password__issue">Account does not exist. [<Link className="" to="/">Registration</Link>]</h3>
 
     const submitFunction = () => {
@@ -23,7 +20,7 @@ function ForgotPassword() {
                 <h3 className="forgot-password__prompt">Type your account email here:</h3>
                 <Input type="email"
                     closable={true}
-                    className="forgot-password__input"
+                    className="forgot-password__input-email"
                     placeholder="Enter your email"
                     width="390px"
                     onChange={e => setInputEmail(e.target.value)}
@@ -35,7 +32,7 @@ function ForgotPassword() {
                 <Button
                     click={() => submitFunction()}
                     className={`forgot-password__submit-button ${issueText ? '' : 'forgot-password__correct'}`}
-                    text="Sign in"
+                    text="Reset password"
                     type="primary"
                     size="md">
                 </Button>

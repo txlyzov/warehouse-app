@@ -37,7 +37,7 @@ function Header() {
                     :
                     <div className="login-block__unlogin">
                         <Button click={() => routeChange('sign-in')} text="Sign in" type="primary" size="sm" />
-                        <Button click={() => routeChange('sign-un')} text="Sign up" type="primary" size="sm" />
+                        <Button click={() => routeChange('sign-up')} text="Sign up" type="primary" size="sm" />
                     </div>
                 }
             </div>

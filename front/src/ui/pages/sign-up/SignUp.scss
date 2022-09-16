@@ -1,8 +1,8 @@
 @import "../../styles/Text";
 @import "../../styles/Colors";
 
-.forgot-password.wrapper {
-  background-image: url("../../../assets/images/background-fp.jpg");
+.sign-up.wrapper {
+  background-image: url("../../../assets/images/background-sign.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -12,16 +12,16 @@
   justify-content: center;
   align-items: center;
 
-  .forgot-password__form {
+  .sign-up__form {
     margin: 20px;
-    width: 600px;
-    height: 370px;
+    width: 560px;
+    height: 565px;
     border-radius: 50px;
 
     background-color: rgb($white, 0.75);
     box-shadow: 0px 0px 10px 10px $black;
 
-    .forgot-password {
+    .sign-up {
       &__header {
         height: 50px;
         margin: 30px 150px;
@@ -37,22 +37,27 @@
         margin: 30px 50px;
         text-align: left;
       }
-      &__input-email {
+      &__input-email,
+      &__input-confirm {
         margin: 0 50px;
+        height: 30px;
+      }
+      &__input-password {
+        margin: 15px 50px;
         height: 30px;
       }
 
       &__issue {
         height: 40px;
-        margin: 15px 50px;
+        margin: 30px 50px;
         text-align: left;
         color: $red;
       }
       &__submit-button {
-        margin: 0 200px 30px 200px;
+        margin: 0 180px 30px 180px;
       }
       &__correct {
-        margin-top: 70px;
+        margin-top: 100px;
       }
     }
   }
