@@ -1,0 +1,14 @@
+@import "../../styles/text";
+@import "../../styles/colors";
+
+.button-sm {
+  width: 100px;
+  height: 30px;
+}
+
+.button-primary {
+  color: $white;
+  background-color: $green-dark;
+  border: 2px solid $red;
+  border-radius: 22px;
+}
