@@ -1,0 +1,35 @@
+@import "../../styles/Text";
+@import "../../styles/Colors";
+
+.input-block {
+  display: flex;
+
+  &__reset-button {
+    margin: 0 35px;
+  }
+  .input-block__close-icon {
+    margin: 2px;
+  }
+}
+
+.input-bs {
+  width: 400px;
+  border: 1px solid $black;
+}
+
+.icon-close-bs {
+  align-items: center;
+  // margin: auto;
+}
+
+.input-heigth-1 {
+  height: 28px;
+  padding: 0 4px;
+}
+
+.input {
+  &:focus {
+    border-color: $green-medium;
+    box-shadow: 0 0 10px 0 $green-medium;
+  }
+}
