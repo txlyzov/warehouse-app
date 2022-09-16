@@ -2,16 +2,18 @@ import Button from '../button/Button';
 import Icon from '../icon/Icon';
 import './Input.scss';
 
-function Input({ width, closable, className, size, heigth, setInputValue, inputValue, ...props }) {
+function Input({ issue, width, closable, className, size, heigth, setInputValue, inputValue, ...props }) {
     const resetInput = () => {
         setInputValue('')
     }
 
     return (
         <div className={`input-block ${className}`}>
-            <input style={{ width }}
+            <input
+                style={{ width }}
                 value={inputValue} {...props}
-                className={`input-block__input input-${size ? size : 'bs'} input-heigth-${heigth ? heigth : 1}`} />
+                className={`input-block__input input-${size ? size : 'bs'} 
+                input-heigth-${heigth ? heigth : 1} ${issue ? 'negative' : ''}`} />
             {closable ?
                 <Button
                     click={() => resetInput()}

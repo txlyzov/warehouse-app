@@ -7,7 +7,7 @@ function AppRouter() {
     return (
         <Routes>
             {routes.map(route =>
-                <Route path={route.path} element={route.element} exact={route.exact} />
+                <Route key={route.path} path={route.path} element={route.element} exact={route.exact} />
             )}
             <Route path="*" element={<Error />}></Route>
         </Routes>

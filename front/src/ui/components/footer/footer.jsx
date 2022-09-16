@@ -12,10 +12,10 @@ function Footer() {
         <div className="footer-wrapper">
             <div className="socials-block footer-block">
                 <h2 className="socials-block__caption">Socials:</h2>
-                <Icon target="_blank" click={() => newPage('https://www.facebook.com')} name="facebook" size="50px" className="socials-block__icon" />
-                <Icon target="_blank" click={() => newPage('https://www.pinterest.com')} name="pinterest" size="50px" className="socials-block__icon" />
-                <Icon target="_blank" click={() => newPage('https://www.youtube.com')} name="youtube" size="50px" className="socials-block__icon" />
-                <Icon target="_blank" click={() => newPage('https://www.reddit.com')} name="reddit" size="50px" className="socials-block__icon" />
+                <Icon target="_blank" click={() => newPage('https://www.facebook.com')} name="facebook" size="50px" className="socials-block__icon" hoverable={true} />
+                <Icon target="_blank" click={() => newPage('https://www.pinterest.com')} name="pinterest" size="50px" className="socials-block__icon" hoverable={true} />
+                <Icon target="_blank" click={() => newPage('https://www.youtube.com')} name="youtube" size="50px" className="socials-block__icon" hoverable={true} />
+                <Icon target="_blank" click={() => newPage('https://www.reddit.com')} name="reddit" size="50px" className="socials-block__icon" hoverable={true} />
             </div>
             <div className="info-block footer-block">
                 <h2 className="info-block__caption">For:</h2>

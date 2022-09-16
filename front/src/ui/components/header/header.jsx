@@ -15,7 +15,6 @@ function Header() {
 
     const LIT = () => {
         setisLoggedIn(!isLoggedIn)
-        console.log(isLoggedIn);
     }
 
     return (
