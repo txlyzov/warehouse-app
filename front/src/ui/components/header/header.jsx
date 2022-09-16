@@ -1,7 +1,7 @@
-import "./header.scss"
+import "./Header.scss"
 import React from 'react';
-import Icon from "../icon/icon";
-import Button from "../button/button";
+import Icon from "../icon/Icon";
+import Button from "../button/Button";
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 

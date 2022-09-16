@@ -1,4 +1,4 @@
-import "./button.scss"
+import "./Button.scss"
 import React from 'react';
 
 function Button({ click, type, size, text }) {

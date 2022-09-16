@@ -1,4 +1,4 @@
-import FirstPage from "../ui/pages/first-page";
+import FirstPage from "../ui/pages/FirstPage";
 
 export const routes = [
   { path: "/", element: <FirstPage />, exact: true },

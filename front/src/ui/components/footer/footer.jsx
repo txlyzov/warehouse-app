@@ -1,6 +1,6 @@
-import "./footer.scss"
+import "./Footer.scss"
 import React from 'react';
-import Icon from "../icon/icon";
+import Icon from "../icon/Icon";
 
 function Footer() {
     const newPage = (route) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import IconsSVG from './icon-list.svg';
+import IconsSVG from './IconList.svg';
 
 function Icon({ click, name, className, size }) {
     return (

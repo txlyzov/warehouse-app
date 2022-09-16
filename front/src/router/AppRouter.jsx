@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { routes } from '../router/routers';
-import Error from '../ui/pages/error';
+import { routes } from './Routers';
+import Error from '../ui/pages/Error';
 
 function AppRouter() {
     return (
