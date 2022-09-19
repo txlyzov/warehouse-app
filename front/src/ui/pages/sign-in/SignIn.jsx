@@ -4,51 +4,57 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
 import { loginUser } from "../../../services/AuthService";
-import { EMAIL_FRONT_REGEX, EMAIL_REGEX, SIGN_UP } from "../../../utils/Constants";
+import { EMAIL_FRONT_REGEX, EMAIL_REGEX, AUTH } from "../../../utils/Constants";
 
 function SignIn() {
-    const errorTexts = [
-        <h3 className="sign-in__issue">Empty fields!</h3>,
-        <h3 className="sign-in__issue">Email should be like example@email.com</h3>,
-        <h3 className="sign-in__issue">Account does not exist. [<Link className="" to="/forgot-password">Registration</Link>]</h3>,
-        <h3 className="sign-in__issue">Wrong password.</h3>
-    ]
+    const errorTexts = {
+        0: <h3 className="sign-in__issue">Empty fields!</h3>,
+        1: <h3 className="sign-in__issue">Email should be like example@email.com</h3>,
+        3: <h3 className="sign-in__issue">Account does not exist. [<Link className="" to="/sign-up">Registration</Link>]</h3>,
+        5: <h3 className="sign-in__issue">Wrong password. [<Link className="" to="/forgot-password">Reset password</Link>]</h3>,
+        6: <h3 className="sign-in__issue">Unknown error</h3>,
+    }
 
     const [issueText, setIssueText] = useState(-1);
     const [inputEmail, setInputEmail] = useState('');
     const [inputPassword, setInputPassword] = useState('');
     const [inputEmailIssue, setInputEmailIssue] = useState(false);
     const [inputPasswordIssue, setInputPasswordIssue] = useState(false);
+
     const navigate = useNavigate();
+    const routeChange = (route) => {
+        navigate(route);
+    }
 
     const resetInputsErrors = () => {
         setInputEmailIssue(false);
-        setInputPasswordIssue(false)
+        setInputPasswordIssue(false);
     }
 
 
     const submitFunction = () => {
-        let issue = SIGN_UP.NO_ERROR
+        let issue = AUTH.NO_ERROR
         resetInputsErrors()
 
         if (!inputEmail) {
             setInputEmailIssue(true);
-            issue = SIGN_UP.ERROR_EMPTY_FIELS;
+            issue = AUTH.ERROR_EMPTY_FIELS;
         }
 
         if (!inputPassword) {
             setInputPasswordIssue(true);
-            issue = SIGN_UP.ERROR_EMPTY_FIELS;
+            issue = AUTH.ERROR_EMPTY_FIELS;
         }
 
-        if (issue !== SIGN_UP.NO_ERROR) {
+        if (issue !== AUTH.NO_ERROR) {
             setIssueText(issue);
             return
         }
 
 
         if (!EMAIL_REGEX.test(inputEmail)) {
-            setIssueText(SIGN_UP.ERROR_EMAIL_UNCORRECT);
+            setInputEmailIssue(true);
+            setIssueText(AUTH.ERROR_EMAIL_UNCORRECT);
             return
         }
         let requestResult = loginUser(inputEmail, inputPassword)
@@ -59,7 +65,7 @@ function SignIn() {
         let token = "anytoken";
         let username = inputEmail.match(EMAIL_FRONT_REGEX)[0];
         localStorage.setItem("loginData", JSON.stringify({ username, token }));
-        navigate('/home')
+        routeChange('/home')
     }
 
     return (
@@ -90,13 +96,22 @@ function SignIn() {
                 {issueText !== -1 ?
                     errorTexts[issueText]
                     : ''}
-                <Button
-                    click={() => submitFunction()}
-                    className={`sign-in__submit-button ${issueText !== -1 ? '' : 'sign-in__correct'}`}
-                    text="Sign in"
-                    type="primary"
-                    size="md">
-                </Button>
+                <div className={`sign-in__buttons-block ${issueText !== -1 ? '' : 'sign-in__correct'}`}>
+                    <Button
+                        click={() => submitFunction()}
+                        className={`sign-in__submit-button `}
+                        text="Sign in"
+                        type="primary"
+                        size="md">
+                    </Button>
+                    <Button
+                        click={() => routeChange('/forgot-password')}
+                        className={`sign-in__forgot-password-button`}
+                        text="Forgot password"
+                        type="secondary"
+                        size="md">
+                    </Button>
+                </div>
             </div>
         </div>
     );

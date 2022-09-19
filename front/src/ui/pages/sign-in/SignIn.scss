@@ -15,7 +15,7 @@
   .sign-in__form {
     margin: 20px;
     width: 560px;
-    height: 520px;
+    height: 445px;
     border-radius: 50px;
 
     background-color: rgb($white, 0.75);
@@ -24,7 +24,7 @@
     .sign-in {
       &__header {
         height: 50px;
-        margin: 30px 150px;
+        margin: 25px 150px;
       }
       &__separator {
         margin: 0;
@@ -34,26 +34,27 @@
       }
       &__prompt {
         height: 30px;
-        margin: 30px 50px;
+        margin: 20px 30px;
         text-align: left;
       }
       &__input-email,
       &__input-password {
-        margin: 0 50px;
+        margin: 0 30px;
         height: 30px;
       }
-
       &__issue {
-        height: 40px;
-        margin: 30px 50px;
+        height: 30px;
+        margin: 20px 30px;
         text-align: left;
         color: $red;
       }
-      &__submit-button {
-        margin: 0 180px 30px 180px;
+      &__buttons-block {
+        display: flex;
+        margin: 0 30px 35px 30px;
+        justify-content: space-between;
       }
       &__correct {
-        margin-top: 100px;
+        margin-top: 70px;
       }
     }
   }

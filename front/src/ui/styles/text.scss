@@ -1,4 +1,6 @@
+@use "sass:map";
 @import url("https://fonts.googleapis.com/css2?family=Montserrat");
+@import "./Breakpoints";
 
 @mixin text-style {
   font-family: "Montserrat";
@@ -69,4 +71,19 @@ h4 {
 
 p {
   margin: 0;
+}
+
+@media (min-width: map.get($grid-breakpoints,xxl)) {
+  // h1 {
+  //   @include text-h2();
+  // }
+  // h2 {
+  //   @include text-h3();
+  // }
+  // h3 {
+  //   @include text-h4();
+  // }
+  // h4 {
+  //   @include text-h4();
+  // }
 }
