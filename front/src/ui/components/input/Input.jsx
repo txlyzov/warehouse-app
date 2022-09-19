@@ -19,7 +19,6 @@ function Input({ issue, width, closable, className, size, heigth, setInputValue,
                     click={() => resetInput()}
                     className={`input-block__reset-button`}
                     text={<Icon
-                        color={'white'}
                         name="close"
                         size="22px"
                         className={`input-block__close-icon close-icon-${size ? size : 'bs'}`} />}

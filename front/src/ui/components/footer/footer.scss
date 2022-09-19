@@ -2,7 +2,7 @@
 @import "../../styles/Colors";
 
 .footer-wrapper {
-  background-color: $green-medium;
+  background-color: $green-pp-100;
   height: 90px;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -18,8 +18,8 @@
     margin-right: auto;
 
     .socials-block__caption {
-      @include text-stroke-075($black);
-      color: $red;
+      @include text-stroke-075($black-100);
+      color: $red-en-100;
       margin-left: 10px;
     }
     .socials-block__icon {
@@ -31,8 +31,8 @@
     margin-right: 30px;
     margin-left: auto;
 
-    @include text-stroke-075($black);
-    color: $red;
+    @include text-stroke-075($black-100);
+    color: $red-en-100;
 
     .info-block {
       &__caption,

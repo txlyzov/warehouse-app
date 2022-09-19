@@ -2,9 +2,9 @@ import "./Icon.scss"
 import React from 'react';
 import IconsSVG from './IconList.svg';
 
-function Icon({ hoverable, click, name, className, size, backgroundColor, color }) {
+function Icon({ hoverable, click, name, className, size, backgroundColor }) {
     backgroundColor = backgroundColor ? backgroundColor : "transparent"
-    color = color ? color : ""
+
     return (
         <svg style={{ backgroundColor }}
             onClick={click}
