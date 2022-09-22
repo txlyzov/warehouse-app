@@ -10,14 +10,14 @@ function Input({ issue, width, closable, className, size, heigth, setInputValue,
     return (
         <div className={`input-block ${className}`}>
             <input
-                style={{ width }}
+                // style={{ width }}
                 value={inputValue} {...props}
                 className={`input-block__input input-${size ? size : 'bs'} 
                 input-heigth-${heigth ? heigth : 1} ${issue ? 'negative' : ''}`} />
             {closable ?
                 <Button
                     click={() => resetInput()}
-                    className={`input-block__reset-button`}
+                    className={`input-block__reset-button reset-button-${size ? size : 'bs'}`}
                     text={<Icon
                         name="close"
                         size="22px"
