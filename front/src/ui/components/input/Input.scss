@@ -1,0 +1,41 @@
+@import "../../styles/Text";
+@import "../../styles/Colors";
+
+.input-block {
+  display: flex;
+
+  &__input {
+    &.negative {
+      border-color: $red-en-100;
+      box-shadow: 0 0 10px 0 $red-en-100;
+    }
+    &:focus {
+      border-color: $green-pp-100;
+      box-shadow: 0 0 10px 0 $green-pp-100;
+    }
+  }
+
+  &__reset-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.reset-button-bs {
+      margin: 0 35px;
+    }
+  }
+}
+
+.input-bs {
+  width: 400px;
+  border: 1px solid $black-100;
+}
+
+.icon-close-bs {
+  align-items: center;
+}
+
+.input-heigth-1 {
+  height: 28px;
+  padding: 0 4px;
+}
