@@ -12,6 +12,7 @@ function Input({ issue, width, closable, className, size, heigth, setInputValue,
             <input
                 // style={{ width }}
                 value={inputValue} {...props}
+                onChange={e => setInputValue(e.target.value)}
                 className={`input-block__input input-${size ? size : 'bs'} 
                 input-heigth-${heigth ? heigth : 1} ${issue ? 'negative' : ''}`} />
             {closable ?

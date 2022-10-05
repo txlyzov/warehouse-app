@@ -80,7 +80,6 @@ function SignIn() {
                     className="sign-in__input-email"
                     placeholder="Enter your email"
                     width="390px"
-                    onChange={e => setInputEmail(e.target.value)}
                     inputValue={inputEmail}
                     setInputValue={setInputEmail} />
                 <h3 className="sign-in__prompt">Type your password here:</h3>
@@ -90,7 +89,6 @@ function SignIn() {
                     className="sign-in__input-password"
                     placeholder="Enter your password"
                     width="390px"
-                    onChange={e => setInputPassword(e.target.value)}
                     inputValue={inputPassword}
                     setInputValue={setInputPassword} />
                 {issueText !== -1 ?
