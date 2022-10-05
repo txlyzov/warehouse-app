@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class FirstPage extends Component {
-    render() {
-        return (
-            <div>
-                Hello there
-            </div>
-        );
-    }
+function FirstPage() {
+  return (
+    <div>
+      Hello there
+    </div>
+  );
 }
 
 export default FirstPage;

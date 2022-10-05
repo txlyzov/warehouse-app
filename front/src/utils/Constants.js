@@ -1,4 +1,4 @@
-//Auth constants
+// Auth constants
 
 export const AUTH = {
   NO_ERROR: -1,
@@ -11,7 +11,7 @@ export const AUTH = {
   ERROR_REQUEST: 6,
 };
 
-//Regex constants
+// Regex constants
 
 export const EMAIL_REGEX = /\S+@\S+\.\S+/;
 
