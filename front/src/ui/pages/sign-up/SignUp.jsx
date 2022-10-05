@@ -94,7 +94,6 @@ function SignUp() {
                     className="sign-up__input-email"
                     placeholder="Enter your email"
                     width="390px"
-                    onChange={e => setInputEmail(e.target.value)}
                     inputValue={inputEmail}
                     setInputValue={setInputEmail} />
                 <h3 className="sign-up__prompt">Type your password here:</h3>
@@ -104,7 +103,6 @@ function SignUp() {
                     className="sign-up__input-password"
                     placeholder="Enter your password"
                     width="390px"
-                    onChange={e => setInputPassword(e.target.value)}
                     inputValue={inputPassword}
                     setInputValue={setInputPassword} />
                 <Input type="password"
@@ -113,7 +111,6 @@ function SignUp() {
                     className="sign-up__input-confirm"
                     placeholder="Confirm your password"
                     width="390px"
-                    onChange={e => setInputConfirmPassword(e.target.value)}
                     inputValue={inputConfirmPassword}
                     setInputValue={setInputConfirmPassword} />
                 {issueText !== -1 ?

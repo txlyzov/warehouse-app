@@ -72,7 +72,6 @@ function ForgotPassword() {
                     className="forgot-password__input-email"
                     placeholder="Enter your email"
                     width="390px"
-                    onChange={e => setInputEmail(e.target.value)}
                     inputValue={inputEmail}
                     setInputValue={setInputEmail} />
                 {issueText !== -1 ?

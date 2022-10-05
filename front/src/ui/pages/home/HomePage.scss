@@ -1,0 +1,66 @@
+@import "../../styles/Text";
+@import "../../styles/Colors";
+
+$table-borders: 2px;
+
+.home.wrapper {
+  background-image: url("../../../assets/images/background-tables.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .home__elements-block {
+    margin: 20px;
+    width: 1000px;
+    height: 700px;
+    border-radius: 50px;
+
+    background-color: rgba($white-100, 0.75);
+    box-shadow: 0px 0px 10px 10px $black-100;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .home {
+      &__top-elements {
+        margin-top: 40px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .home {
+          &__add-warehouse-button {
+            margin-left: 40px;
+          }
+          &__input-search {
+            margin-right: 10px;
+          }
+        }
+      }
+      &__center-elements {
+        margin: 35px 100px;
+      }
+      &__bottom-elements {
+        width: 100%;
+        .home__counter {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0 100px 40px auto;
+          width: 300px;
+          height: 60px;
+          background-color: $green-pp-100;
+          border: $table-borders $red-en-100 solid;
+          border-radius: 10px;
+          color: $white-100;
+          @include text-stroke-05($black-100);
+        }
+      }
+    }
+  }
+}
