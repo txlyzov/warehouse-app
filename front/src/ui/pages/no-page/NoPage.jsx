@@ -15,7 +15,12 @@ function NoPage() {
         <div className='no-page__content'>
           <h1 className='no-page__title'>Nothing here!</h1>
           <h2 className='no-page__note'>Probably you are lost</h2>
-          <Button click={() => routeChange('/')} type="secondary" className="no-page__return-button" text="Return" />
+          <Button
+            className="no-page__return-button"
+            click={() => routeChange('/')}
+            size="lg"
+            type="secondary"
+            text="Return" />
         </div>
       </div>
     </div>

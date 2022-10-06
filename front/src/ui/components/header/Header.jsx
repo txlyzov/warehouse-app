@@ -1,20 +1,23 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import './Header.scss';
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Icon from '../icon/Icon';
 import Button from '../button/Button';
+import { getLoginData, removeLoginData, setLoginData } from '../../../utils/LocalStorageUtil';
 
 function Header() {
-  const [isLoggedIn, setisLoggedIn] = useState(true);
-
   const navigate = useNavigate();
   const routeChange = (route) => {
     navigate(route);
   };
 
   const LIT = () => {
-    setisLoggedIn(!isLoggedIn);
+    if (getLoginData()) {
+      removeLoginData()
+    } else {
+      setLoginData('loginData', { 'username': 'Qwerty', 'token': 'anytoken' });
+    }
   };
 
   return (
@@ -25,14 +28,14 @@ function Header() {
 
       <div className="options-block header-block">
         <Link className="options-block__option" to="/">Welcome page</Link>
-        <Link className={`options-block__option ${isLoggedIn ? '' : 'options-block__disabled'}`} to="/home">Home</Link>
+        <Link className={`options-block__option ${getLoginData() ? '' : 'options-block__disabled'}`} to="/home">Home</Link>
         <Link className="options-block__option" to="/help">Help</Link>
         <Link onClick={LIT} className="options-block__option">[!LIT!]</Link>
       </div>
 
       <div className="login-block header-block">
-        {isLoggedIn === true
-          ? <Link className="login-block__username">Username</Link>
+        {getLoginData()
+          ? <Link className="login-block__username">{getLoginData().username}</Link>
           : (
             <div className="login-block__unlogin">
               <Button click={() => routeChange('sign-in')} text="Sign in" type="primary" size="sm" />
