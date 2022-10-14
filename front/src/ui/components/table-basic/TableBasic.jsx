@@ -16,7 +16,7 @@ function TableBasic({
     return (
       <tr className="table-basic__row ">
         {columnInRow.map((columnItem, colIndex) => <td
-          key={colIndex}
+          key={columnItem.value}
           style={style}
           className={`table-basic__cell row-${rowIndex % 2} col-${colIndex % 2} ${action ? 'selectable' : ''}`}>
           {item[`${columnItem.value}`]}

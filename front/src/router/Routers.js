@@ -7,10 +7,15 @@ import SignUp from "../ui/pages/sign-up/SignUp";
 
 const routes = [
   { path: "/", element: <MainPage />, exact: true },
-  { path: "/sign-in", element: <SignIn />, exact: true },
-  { path: "/sign-up", element: <SignUp />, exact: true },
-  { path: "/forgot-password", element: <ForgotPassword />, exact: true },
-  { path: "/home", element: <HomePage />, exact: true },
+  { path: "/sign-in", needAuth: false, element: <SignIn />, exact: true },
+  { path: "/sign-up", needAuth: false, element: <SignUp />, exact: true },
+  {
+    path: "/forgot-password",
+    needAuth: false,
+    element: <ForgotPassword />,
+    exact: true,
+  },
+  { path: "/home", needAuth: true, element: <HomePage />, exact: true },
   //   { path: "/123/:id", element: <123 />, exact: true },
 ];
 
