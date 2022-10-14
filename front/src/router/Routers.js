@@ -1,9 +1,10 @@
 import React from "react";
 import ForgotPassword from "../ui/pages/forgot-password/ForgotPassword";
-import HomePage from "../ui/pages/home/HomePage";
+import HomePage from "../ui/pages/home-page/HomePage";
 import MainPage from "../ui/pages/main-page/MainPage";
 import SignIn from "../ui/pages/sign-in/SignIn";
 import SignUp from "../ui/pages/sign-up/SignUp";
+import WarehousePage from "../ui/pages/warehouse-page/WarehousePage";
 
 const routes = [
   { path: "/", element: <MainPage />, exact: true },
@@ -16,6 +17,12 @@ const routes = [
     exact: true,
   },
   { path: "/home", needAuth: true, element: <HomePage />, exact: true },
+  {
+    path: "/warehouse/:id",
+    needAuth: true,
+    element: <WarehousePage />,
+    exact: true,
+  },
   //   { path: "/123/:id", element: <123 />, exact: true },
 ];
 

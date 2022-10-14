@@ -3,22 +3,27 @@ import React from 'react';
 import './TableBasic.scss';
 
 function TableBasic({
-  data, column, cellWidth, cellHeight, action,
+  data, column, cellWidth, cellHeight, action, className
 }) {
   const style = {
     width: cellWidth || '100px',
     height: cellHeight || '100px',
   };
   function TableHeadItem({ item }) {
-    return <th key={item.heading} className="table-basic__column-name">{item.heading}</th>;
+    return <th
+      key={item.heading}
+      style={style}
+      className="table-basic__column-name">
+      {item.heading}
+    </th>;
   }
   function TableRow({ item, columnInRow, rowIndex }) {
     return (
-      <tr className="table-basic__row ">
+      <tr className={`table-basic__row ${action ? 'selectable' : ''}`}>
         {columnInRow.map((columnItem, colIndex) => <td
           key={columnItem.value}
           style={style}
-          className={`table-basic__cell row-${rowIndex % 2} col-${colIndex % 2} ${action ? 'selectable' : ''}`}>
+          className={`table-basic__cell row-${rowIndex % 2} col-${colIndex % 2}`}>
           {item[`${columnItem.value}`]}
         </td>)}
       </tr>
@@ -26,7 +31,7 @@ function TableBasic({
   }
 
   return (
-    <table className="table-basic wrapper">
+    <table className={`${className || ''} table-basic wrapper`}>
       <thead className="table-basic__thead">
         <tr>
           {column.map((item, index) => <TableHeadItem key={index} item={item} />)}

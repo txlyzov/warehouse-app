@@ -12,6 +12,7 @@ $table-borders: 1px;
       background: $green-djg-100;
       color: $white-100;
       @include text-h2();
+      @include text-stroke-05($black-100);
     }
   }
   &__tbody {
