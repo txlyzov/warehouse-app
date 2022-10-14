@@ -7,7 +7,7 @@ import './MainPage.scss'
 function MainPage() {
     const [isAutorised, setIsAutorised] = useState(false);
     useEffect(() => {
-        setIsAutorised(!!JSON.parse(localStorage.getItem('loginData')));
+        setIsAutorised(!!getLoginData('loginData'));
     }, [getLoginData()]);
     const navigate = useNavigate();
     const routeChange = (route) => {

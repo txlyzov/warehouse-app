@@ -60,6 +60,7 @@ function HomePage() {
           <div className="home__counter">
             <h3 className="home__counter-text">
               Active slots:
+              {' '}
               {warehouseData.length}
               {' '}
               / 20
