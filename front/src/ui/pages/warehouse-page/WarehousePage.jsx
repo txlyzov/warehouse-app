@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../components/button/Button';
 import TableBasic from '../../components/table-basic/TableBasic';
 import Input from '../../components/input/Input';
+import Checkbox from '../../components/checkbox/Checkbox';
 
 function WarehousePage() {
     const [inputSearch, setInputSearch] = useState('');
@@ -39,7 +40,7 @@ function WarehousePage() {
         { heading: 'Item Id', value: 'id' },
         { heading: 'Name', value: 'id' },
         { heading: 'Value', value: 'id' },
-        { heading: 'Select', value: 'id' },
+        // { heading: 'Select', value: 'id' },
     ]
     return (
         <div className="warehouse wrapper">
@@ -124,9 +125,12 @@ function WarehousePage() {
                             / 20
                         </h3>
                     </div>
+                    {/* <div>
+                        <Checkbox />
+                    </div> */}
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import './TableBasic.scss';
+import TableBasicRow from './TableBasicRow/TableBasicRow';
 
 function TableBasic({
   data, column, cellWidth, cellHeight, action, className
@@ -9,6 +10,7 @@ function TableBasic({
     width: cellWidth || '100px',
     height: cellHeight || '100px',
   };
+
   function TableHeadItem({ item }) {
     return <th
       key={item.heading}
@@ -21,7 +23,7 @@ function TableBasic({
     return (
       <tr className={`table-basic__row ${action ? 'selectable' : ''}`}>
         {columnInRow.map((columnItem, colIndex) => <td
-          key={columnItem.value}
+          key={columnItem + colIndex}
           style={style}
           className={`table-basic__cell row-${rowIndex % 2} col-${colIndex % 2}`}>
           {item[`${columnItem.value}`]}
@@ -35,10 +37,15 @@ function TableBasic({
       <thead className="table-basic__thead">
         <tr>
           {column.map((item, index) => <TableHeadItem key={index} item={item} />)}
+          <td style={style}
+            className="table-basic__column-name">
+            Select
+          </td>
         </tr>
       </thead>
       <tbody className="table-basic__tbody">
-        {data.map((item, rowIndex) => <TableRow key={rowIndex} item={item} columnInRow={column} rowIndex={rowIndex} />)}
+        {/* {data.map((item, rowIndex) => <TableRow key={rowIndex} item={item} columnInRow={column} rowIndex={rowIndex} />)} */}
+        {data.map((item, rowIndex) => <TableBasicRow action={action} style={style} key={rowIndex} item={item} columnInRow={column} rowIndex={rowIndex} />)}
       </tbody>
     </table>
   );
