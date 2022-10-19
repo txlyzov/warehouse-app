@@ -18,7 +18,7 @@
         "react"
     ],
     "rules": {
-        "no-unused-vars": "off",
+        "no-unused-vars": "warn",
         "react/no-array-index-key": "warn",
         "react/jsx-props-no-spreading": "off",
         "react/prop-types": "off",

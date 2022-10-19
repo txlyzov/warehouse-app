@@ -1,7 +1,7 @@
 @import "../../styles/Text";
 @import "../../styles/Colors";
 
-button {
+.button {
   &:hover,
   &:active {
     @include text-stroke-05($black-100);

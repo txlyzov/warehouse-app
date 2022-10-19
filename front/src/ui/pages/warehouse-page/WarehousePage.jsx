@@ -2,45 +2,98 @@ import './WarehousePage.scss';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/button/Button';
 import TableBasic from '../../components/table-basic/TableBasic';
 import Input from '../../components/input/Input';
 import Checkbox from '../../components/checkbox/Checkbox';
+import { selectTableContent, setTableContentRedux } from '../../../redux-store/basic-table/BasicTableSlise';
 
 function WarehousePage() {
     const [inputSearch, setInputSearch] = useState('');
-    const [tableContent, setTableContent] = useState([]);
-    const [warehouseData, setWarehouseData] = useState([]);
+    // const [tableContent, setTableContent] = useState([]);
+    // const [warehouseData, setWarehouseData] = useState([]);
+    const [tableContent, setTableContent] = useState([{ index: 0, data: {}, isSelected: false }]);
+    const [warehouseData, setWarehouseData] = useState([{ index: 0, data: {}, isSelected: false }]);
+    // const [tableContent, setTableContent] = useState({ data: [], selected: [] });
+    // const [warehouseData, setWarehouseData] = useState({ data: [], selected: [] });
 
-    useEffect(() => {
-        axios('https://jsonplaceholder.typicode.com/users')
-            .then((res) => {
-                setWarehouseData(res.data.slice(0, 5));
-                setTableContent(res.data.slice(0, 5));
-            })
-            .catch((err) => console.log(err));
-    }, []);
-
-    useEffect(() => {
-        if (inputSearch.length === 0) {
-            setTableContent(warehouseData);
-            return;
-        }
-        const regex = new RegExp(inputSearch, 'g');
-        const searchResults = warehouseData.filter((element) => element.name.match(regex));
-        setTableContent(searchResults);
-    }, [inputSearch]);
-
-    const navigate = useNavigate();
-    const routeChange = (route) => {
-        navigate(route);
-    };
+    const dispatch = useDispatch();
+    const reduxTableContent = useSelector(selectTableContent);
 
     const columnSettings = [
         { heading: 'Item Id', value: 'id' },
         { heading: 'Name', value: 'id' },
         { heading: 'Value', value: 'id' },
     ]
+
+    async function request() {
+        axios('https://jsonplaceholder.typicode.com/users')
+            .then((res) => res)
+            .catch((err) => err);
+    }
+
+    useEffect(() => {
+        const fetchData = async () => axios('https://jsonplaceholder.typicode.com/users')
+            .then((res) => {
+                const dataArray = []
+                res.data.slice(0, 5).forEach((element, index) => {
+                    dataArray.push({ index, data: element, isSelected: false })
+                });
+                console.log(dataArray);
+                dispatch(setTableContentRedux(dataArray));
+                console.log(333);
+                setWarehouseData(dataArray);
+                setTableContent(dataArray);
+            })
+            .catch((err) => err)
+
+        fetchData();
+
+
+        // axios('https://jsonplaceholder.typicode.com/users')
+        //     .then((res) => {
+        //         // setWarehouseData(res.data.slice(0, 5));
+        //         // setTableContent(res.data.slice(0, 5));
+        //         const dataArray = []
+        //         res.data.slice(0, 5).forEach((element, index) => {
+        //             dataArray.push({ index, data: element, isSelected: false })
+        //         });
+        //         console.log(dataArray);
+        //         setWarehouseData(dataArray);
+        //         setTableContent(dataArray);
+
+        //         // setWarehouseData({ data: res.data.slice(0, 5), selected: [] });
+        //         // setTableContent({ data: res.data.slice(0, 5), selected: [] });
+        //     })
+        //     .catch((err) => console.log(err));
+    }, []);
+
+    // useEffect(() => {
+    //     if (inputSearch.length === 0) {
+    //         setTableContent(warehouseData);
+    //         return;
+    //     }
+    //     const regex = new RegExp(inputSearch, 'g');
+    //     const searchResults = warehouseData.filter((element) => element.data.name.match(regex));
+    //     setTableContent(searchResults);
+    // }, [inputSearch]);
+
+    // useEffect(() => {
+    //     if (inputSearch.length === 0) {
+    //         setTableContent(reduxTableContent);
+    //         return;
+    //     }
+    //     const regex = new RegExp(inputSearch, 'g');
+    //     const searchResults = reduxTableContent.filter((element) => element.data.name.match(regex));
+    //     setTableContent(searchResults);
+    // }, [inputSearch, reduxTableContent]);
+
+    const navigate = useNavigate();
+    const routeChange = (route) => {
+        navigate(route);
+    };
+
     return (
         <div className="warehouse wrapper">
             <div className="warehouse__elements-block">
@@ -124,9 +177,9 @@ function WarehousePage() {
                             / 20
                         </h3>
                     </div>
-                    {/* <div>
-                        <Checkbox />
-                    </div> */}
+                    <div>
+                        <button type="button" onClick={() => console.log(reduxTableContent)}>sdfdf</button>
+                    </div>
                 </div>
             </div>
         </div >

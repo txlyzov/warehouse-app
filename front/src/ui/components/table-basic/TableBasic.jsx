@@ -3,13 +3,14 @@ import React, { useEffect } from 'react';
 import './TableBasic.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import TableBasicRow from './TableBasicRow/TableBasicRow';
-import { selectCheckboxState, setCheckboxState } from '../../../redux-store/basic-table/BasicTableSlise';
+import { selectCheckboxState, selectTableContent, setCheckboxState, setTableContentRedux } from '../../../redux-store/basic-table/BasicTableSlise';
 
 function TableBasic({
   data, column, cellWidth, cellHeight, action, className
 }) {
 
   const dispatch = useDispatch();
+  const reduxTableContent = useSelector(selectTableContent);
   const tableCheckboxState = useSelector(selectCheckboxState);
 
   useEffect(() => {
@@ -43,6 +44,13 @@ function TableBasic({
     );
   }
 
+  function updateCheckboxes() {
+    const updatedTableContent = reduxTableContent.map((element) => ({ ...element, isSelected: !tableCheckboxState }))
+    dispatch(setCheckboxState(!tableCheckboxState))
+    dispatch(setTableContentRedux(updatedTableContent))
+    console.log(updatedTableContent);
+  }
+
   return (
     <table className={`${className || ''} table-basic wrapper`}>
       <thead className="table-basic__thead">
@@ -52,8 +60,7 @@ function TableBasic({
             aria-hidden="true"
             className="table-basic__column-name"
             onClick={() => {
-              console.log(tableCheckboxState);
-              dispatch(setCheckboxState(!tableCheckboxState))
+              updateCheckboxes()
             }}
           >
             Select
@@ -68,11 +75,12 @@ function TableBasic({
             style={style}
             key={rowIndex}
             item={item}
+            // item={item.data}
             columnInRow={column}
             rowIndex={rowIndex}
           />)}
       </tbody>
-    </table>
+    </table >
   );
 }
 
