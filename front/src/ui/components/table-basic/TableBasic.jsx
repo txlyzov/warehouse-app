@@ -4,9 +4,10 @@ import './TableBasic.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import TableBasicRow from './TableBasicRow/TableBasicRow';
 import { selectCheckboxState, selectTableData, setCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
+import TableBasicEmptyRow from './TableBasicEmptyRow/TableBasicEmptyRow';
 
 function TableBasic({
-  data, column, cellWidth, cellHeight, action, className
+  data, column, cellWidth, cellHeight, action, className, minRowsOnPage = 0
 }) {
 
   const dispatch = useDispatch();
@@ -44,6 +45,18 @@ function TableBasic({
   //   );
   // }
 
+  const generateEmptyRows = () => {
+    const tableBasicEmptyRow = [];
+    for (let row = 0; row < (minRowsOnPage - data.length); row += 1) {
+      tableBasicEmptyRow.push(<TableBasicEmptyRow
+        style={style}
+        key={row}
+        columnInRow={column}
+        rowIndex={data.length + row} />)
+    }
+    return tableBasicEmptyRow;
+  };
+
   function updateCheckboxes() {
     const updatedTableContent = tableData.map((element) => ({ ...element, isSelected: !tableCheckboxState }))
     dispatch(setCheckboxState(!tableCheckboxState))
@@ -79,6 +92,17 @@ function TableBasic({
             columnInRow={column}
             rowIndex={rowIndex}
           />)}
+        {minRowsOnPage - data.length > 0 ?
+          // <TableBasicEmptyRow
+          //   style={style}
+          //   key={- 1}
+          //   columnInRow={column}
+          //   rowIndex={data.length} />
+          generateEmptyRows()
+          :
+          // data.length
+          ''
+        }
       </tbody>
     </table >
   );

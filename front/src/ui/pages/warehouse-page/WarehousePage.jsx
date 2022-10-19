@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/button/Button';
 import TableBasic from '../../components/table-basic/TableBasic';
 import Input from '../../components/input/Input';
-import { selectTableData, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
+import { selectTableData, setCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
 
 function WarehousePage() {
     const [inputSearch, setInputSearch] = useState('');
@@ -71,6 +71,7 @@ function WarehousePage() {
 
     useEffect(() => {
         if (inputSearch.length === 0) {
+            console.log(tableData);
             setDisplayedContent(tableData);
             return;
         }
@@ -166,6 +167,7 @@ function WarehousePage() {
                             column={columnSettings}
                             cellHeight='50px'
                             cellWidth='150px'
+                            minRowsOnPage={5}
                         />
                     </div>
                 </div>
