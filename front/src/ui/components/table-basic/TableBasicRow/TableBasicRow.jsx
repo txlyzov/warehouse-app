@@ -2,29 +2,29 @@ import './TableBasicRow.scss';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Checkbox from '../../checkbox/Checkbox';
-import { selectCheckboxState, selectTableContent, setTableContentRedux, setTableFieldRedux } from '../../../../redux-store/basic-table/BasicTableSlise';
+import { selectCheckboxState, selectTableData, setTableData } from '../../../../redux-store/basic-table/BasicTableSlise';
 
 function TableBasicRow({ action, item, columnInRow, rowIndex, style }) {
     const [active, setActive] = useState(false);
 
     const dispatch = useDispatch();
-    const reduxTableContent = useSelector(selectTableContent);
+    const tableData = useSelector(selectTableData);
 
     const tableCheckboxState = useSelector(selectCheckboxState);
 
     useEffect(() => {
-        if (reduxTableContent) {
-            const temp = reduxTableContent.map(rowElement =>
+        if (tableData) {
+            const temp = tableData.map(rowElement =>
                 rowElement.index === item.index ?
                     { ...item, isSelected: active } : rowElement);
-            dispatch(setTableContentRedux(temp))
+            dispatch(setTableData(temp))
             // dispatch(setTableFieldRedux({ index: 90, data: item.data, isSelected: true }))
         }
     }, [active]);
 
     useEffect(() => {
-        setActive(reduxTableContent[item.index].isSelected);
-    }, [reduxTableContent[item.index].isSelected]);
+        setActive(tableData[item.index].isSelected);
+    }, [tableData[item.index].isSelected]);
 
     // useEffect(() => {
     //     setActive(tableCheckboxState);

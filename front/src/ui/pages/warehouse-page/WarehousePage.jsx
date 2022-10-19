@@ -6,20 +6,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/button/Button';
 import TableBasic from '../../components/table-basic/TableBasic';
 import Input from '../../components/input/Input';
-import Checkbox from '../../components/checkbox/Checkbox';
-import { selectTableContent, setTableContentRedux } from '../../../redux-store/basic-table/BasicTableSlise';
+import { selectTableData, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
 
 function WarehousePage() {
     const [inputSearch, setInputSearch] = useState('');
     // const [tableContent, setTableContent] = useState([]);
     // const [warehouseData, setWarehouseData] = useState([]);
-    const [tableContent, setTableContent] = useState([{ index: 0, data: {}, isSelected: false }]);
-    const [warehouseData, setWarehouseData] = useState([{ index: 0, data: {}, isSelected: false }]);
+    // const [tableContent, setTableContent] = useState([{ index: 0, data: {}, isSelected: false }]);
+    // const [warehouseData, setWarehouseData] = useState([{ index: 0, data: {}, isSelected: false }]);
     // const [tableContent, setTableContent] = useState({ data: [], selected: [] });
     // const [warehouseData, setWarehouseData] = useState({ data: [], selected: [] });
 
     const dispatch = useDispatch();
-    const reduxTableContent = useSelector(selectTableContent);
+    const tableData = useSelector(selectTableData);
+    const [tableDisplayedContent, setDisplayedContent] = useState([]);
 
     const columnSettings = [
         { heading: 'Item Id', value: 'id' },
@@ -40,11 +40,11 @@ function WarehousePage() {
                 res.data.slice(0, 5).forEach((element, index) => {
                     dataArray.push({ index, data: element, isSelected: false })
                 });
-                console.log(dataArray);
-                dispatch(setTableContentRedux(dataArray));
-                console.log(333);
-                setWarehouseData(dataArray);
-                setTableContent(dataArray);
+                // console.log(dataArray);
+                dispatch(setTableData(dataArray));
+                // console.log(333);
+                // setWarehouseData(dataArray);
+                setDisplayedContent(dataArray)
             })
             .catch((err) => err)
 
@@ -69,15 +69,17 @@ function WarehousePage() {
         //     .catch((err) => console.log(err));
     }, []);
 
-    // useEffect(() => {
-    //     if (inputSearch.length === 0) {
-    //         setTableContent(warehouseData);
-    //         return;
-    //     }
-    //     const regex = new RegExp(inputSearch, 'g');
-    //     const searchResults = warehouseData.filter((element) => element.data.name.match(regex));
-    //     setTableContent(searchResults);
-    // }, [inputSearch]);
+    useEffect(() => {
+        if (inputSearch.length === 0) {
+            setDisplayedContent(tableData);
+            return;
+        }
+        const regex = new RegExp(inputSearch, 'g');
+        const searchResults = tableData.filter((element) => element.data.name.match(regex));
+        // setTableContent(searchResults);
+        // console.log(searchResults);
+        setDisplayedContent(searchResults)
+    }, [inputSearch]);
 
     // useEffect(() => {
     //     if (inputSearch.length === 0) {
@@ -160,7 +162,7 @@ function WarehousePage() {
                         <TableBasic
                             action={(element) => routeChange(`/warehouse/${element.id}`)}
                             className="warehouse__table"
-                            data={tableContent}
+                            data={tableDisplayedContent}
                             column={columnSettings}
                             cellHeight='50px'
                             cellWidth='150px'
@@ -172,13 +174,13 @@ function WarehousePage() {
                         <h3 className="warehouse__pagination">
                             Active slots:
                             {' '}
-                            {warehouseData.length}
+                            {tableDisplayedContent.length}
                             {' '}
                             / 20
                         </h3>
                     </div>
                     <div>
-                        <button type="button" onClick={() => console.log(reduxTableContent)}>sdfdf</button>
+                        <button type="button" onClick={() => console.log(tableData)}>sdfdf</button>
                     </div>
                 </div>
             </div>

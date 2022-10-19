@@ -3,14 +3,14 @@ import React, { useEffect } from 'react';
 import './TableBasic.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import TableBasicRow from './TableBasicRow/TableBasicRow';
-import { selectCheckboxState, selectTableContent, setCheckboxState, setTableContentRedux } from '../../../redux-store/basic-table/BasicTableSlise';
+import { selectCheckboxState, selectTableData, setCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
 
 function TableBasic({
   data, column, cellWidth, cellHeight, action, className
 }) {
 
   const dispatch = useDispatch();
-  const reduxTableContent = useSelector(selectTableContent);
+  const tableData = useSelector(selectTableData);
   const tableCheckboxState = useSelector(selectCheckboxState);
 
   useEffect(() => {
@@ -31,24 +31,24 @@ function TableBasic({
     </th>;
   }
 
-  function TableRow({ item, columnInRow, rowIndex }) {
-    return (
-      <tr className={`table-basic__row ${action ? 'selectable' : ''}`}>
-        {columnInRow.map((columnItem, colIndex) => <td
-          key={columnItem + colIndex}
-          style={style}
-          className={`table-basic__cell row-${rowIndex % 2} col-${colIndex % 2}`}>
-          {item[`${columnItem.value}`]}
-        </td>)}
-      </tr>
-    );
-  }
+  // function TableRow({ item, columnInRow, rowIndex }) {
+  //   return (
+  //     <tr className={`table-basic__row ${action ? 'selectable' : ''}`}>
+  //       {columnInRow.map((columnItem, colIndex) => <td
+  //         key={columnItem + colIndex}
+  //         style={style}
+  //         className={`table-basic__cell row-${rowIndex % 2} col-${colIndex % 2}`}>
+  //         {item[`${columnItem.value}`]}
+  //       </td>)}
+  //     </tr>
+  //   );
+  // }
 
   function updateCheckboxes() {
-    const updatedTableContent = reduxTableContent.map((element) => ({ ...element, isSelected: !tableCheckboxState }))
+    const updatedTableContent = tableData.map((element) => ({ ...element, isSelected: !tableCheckboxState }))
     dispatch(setCheckboxState(!tableCheckboxState))
-    dispatch(setTableContentRedux(updatedTableContent))
-    console.log(updatedTableContent);
+    dispatch(setTableData(updatedTableContent))
+    // console.log(updatedTableContent);
   }
 
   return (

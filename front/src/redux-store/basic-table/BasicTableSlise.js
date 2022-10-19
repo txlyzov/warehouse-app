@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   checkboxState: false,
-  tableContent: [{ index: 0, data: [], isSelected: false }],
+  tableData: [{ index: 0, data: [], isSelected: false }],
 };
 
 const basicTableSlice = createSlice({
@@ -12,15 +12,14 @@ const basicTableSlice = createSlice({
     setCheckboxState: (state, action) => {
       state.checkboxState = action.payload;
     },
-    setTableContentRedux: (state, action) => {
-      state.tableContent = action.payload;
+    setTableData: (state, action) => {
+      state.tableData = action.payload;
     },
   },
 });
 
 export const selectCheckboxState = (state) => state.basicTable.checkboxState;
-export const selectTableContent = (state) => state.basicTable.tableContent;
+export const selectTableData = (state) => state.basicTable.tableData;
 
-export const { setCheckboxState, setTableContentRedux, setTableFieldRedux } =
-  basicTableSlice.actions;
+export const { setCheckboxState, setTableData } = basicTableSlice.actions;
 export default basicTableSlice.reducer;
