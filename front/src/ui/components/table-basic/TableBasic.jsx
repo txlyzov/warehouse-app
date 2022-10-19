@@ -1,11 +1,21 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, { useEffect } from 'react';
 import './TableBasic.scss';
+import { useDispatch, useSelector } from 'react-redux';
 import TableBasicRow from './TableBasicRow/TableBasicRow';
+import { selectCheckboxState, setCheckboxState } from '../../../redux-store/basic-table/BasicTableSlise';
 
 function TableBasic({
   data, column, cellWidth, cellHeight, action, className
 }) {
+
+  const dispatch = useDispatch();
+  const tableCheckboxState = useSelector(selectCheckboxState);
+
+  useEffect(() => {
+    dispatch(setCheckboxState(false))
+  }, []);
+
   const style = {
     width: cellWidth || '100px',
     height: cellHeight || '100px',
@@ -19,6 +29,7 @@ function TableBasic({
       {item.heading}
     </th>;
   }
+
   function TableRow({ item, columnInRow, rowIndex }) {
     return (
       <tr className={`table-basic__row ${action ? 'selectable' : ''}`}>
@@ -38,14 +49,28 @@ function TableBasic({
         <tr>
           {column.map((item, index) => <TableHeadItem key={index} item={item} />)}
           <td style={style}
-            className="table-basic__column-name">
+            aria-hidden="true"
+            className="table-basic__column-name"
+            onClick={() => {
+              console.log(tableCheckboxState);
+              dispatch(setCheckboxState(!tableCheckboxState))
+            }}
+          >
             Select
           </td>
         </tr>
       </thead>
       <tbody className="table-basic__tbody">
         {/* {data.map((item, rowIndex) => <TableRow key={rowIndex} item={item} columnInRow={column} rowIndex={rowIndex} />)} */}
-        {data.map((item, rowIndex) => <TableBasicRow action={action} style={style} key={rowIndex} item={item} columnInRow={column} rowIndex={rowIndex} />)}
+        {data.map((item, rowIndex) =>
+          <TableBasicRow
+            action={action}
+            style={style}
+            key={rowIndex}
+            item={item}
+            columnInRow={column}
+            rowIndex={rowIndex}
+          />)}
       </tbody>
     </table>
   );

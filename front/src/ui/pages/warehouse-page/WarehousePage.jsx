@@ -36,11 +36,10 @@ function WarehousePage() {
         navigate(route);
     };
 
-    const column = [
+    const columnSettings = [
         { heading: 'Item Id', value: 'id' },
         { heading: 'Name', value: 'id' },
         { heading: 'Value', value: 'id' },
-        // { heading: 'Select', value: 'id' },
     ]
     return (
         <div className="warehouse wrapper">
@@ -109,7 +108,7 @@ function WarehousePage() {
                             action={(element) => routeChange(`/warehouse/${element.id}`)}
                             className="warehouse__table"
                             data={tableContent}
-                            column={column}
+                            column={columnSettings}
                             cellHeight='50px'
                             cellWidth='150px'
                         />
