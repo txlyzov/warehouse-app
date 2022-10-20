@@ -1,18 +1,21 @@
 import './WarehousePage.scss';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/button/Button';
 import TableBasic from '../../components/table-basic/TableBasic';
 import Input from '../../components/input/Input';
-import { selectTableData, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
+import { selectCheckboxesSelected, selectTableData, setGlobalCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
 
 function WarehousePage() {
+    const location = useLocation();
     const dispatch = useDispatch();
     const tableData = useSelector(selectTableData);
+    const selectedOptionsValue = useSelector(selectCheckboxesSelected);
     const [tableDisplayedContent, setDisplayedContent] = useState([]);
     const [inputSearch, setInputSearch] = useState('');
+
 
     const columnSettings = [
         { heading: 'Item Id', value: 'id' },
@@ -20,11 +23,14 @@ function WarehousePage() {
         { heading: 'Value', value: 'username' },
     ]
 
-    async function request() {
-        axios('https://jsonplaceholder.typicode.com/users')
-            .then((res) => res)
-            .catch((err) => err);
-    }
+    useEffect(() => {
+        if (selectedOptionsValue === tableData.length) {
+            dispatch(setGlobalCheckboxState(true))
+        }
+        if (selectedOptionsValue === 0) {
+            dispatch(setGlobalCheckboxState(false))
+        }
+    }, [selectedOptionsValue]);
 
     useEffect(() => {
         const fetchData = async () => axios('https://jsonplaceholder.typicode.com/users')
@@ -75,7 +81,7 @@ function WarehousePage() {
                     </div>
                     <div className='warehouse__items-counter-block'>
                         <h3 className='warehouse__items-counter'>
-                            Total cargo: [value]
+                            Selected positions: {selectedOptionsValue}/{tableData.length}
                         </h3>
                     </div>
                 </div>
@@ -120,7 +126,7 @@ function WarehousePage() {
                             setInputValue={setInputSearch}
                         />
                         <TableBasic
-                            action={(element) => routeChange(`/warehouse/${element.id}`)}
+                            action={(element) => routeChange(`${location.pathname}/item/${element.data.id}`)}
                             className="warehouse__table"
                             data={tableDisplayedContent}
                             column={columnSettings}

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import './TableBasic.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import TableBasicRow from './TableBasicRow/TableBasicRow';
-import { selectCheckboxState, selectTableData, setCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
+import { selectGlobalCheckboxState, selectTableData, setGlobalCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
 import TableBasicEmptyRow from './TableBasicEmptyRow/TableBasicEmptyRow';
 
 function TableBasic({
@@ -12,10 +12,10 @@ function TableBasic({
 
   const dispatch = useDispatch();
   const tableData = useSelector(selectTableData);
-  const tableCheckboxState = useSelector(selectCheckboxState);
+  const tableCheckboxState = useSelector(selectGlobalCheckboxState);
 
   useEffect(() => {
-    dispatch(setCheckboxState(false))
+    dispatch(setGlobalCheckboxState(false))
   }, []);
 
   const style = {
@@ -49,7 +49,7 @@ function TableBasic({
 
   function updateCheckboxes() {
     const updatedTableContent = tableData.map((element) => ({ ...element, isSelected: !tableCheckboxState }))
-    dispatch(setCheckboxState(!tableCheckboxState))
+    dispatch(setGlobalCheckboxState(!tableCheckboxState))
     dispatch(setTableData(updatedTableContent))
   }
 

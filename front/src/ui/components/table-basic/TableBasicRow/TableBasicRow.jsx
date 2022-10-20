@@ -2,7 +2,7 @@ import './TableBasicRow.scss';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Checkbox from '../../checkbox/Checkbox';
-import { selectTableData, setTableData } from '../../../../redux-store/basic-table/BasicTableSlise';
+import { selectTableData, setCheckboxesSelected, setTableData } from '../../../../redux-store/basic-table/BasicTableSlise';
 
 function TableBasicRow({ action, item, columnInRow, rowIndex, style }) {
 
@@ -21,6 +21,7 @@ function TableBasicRow({ action, item, columnInRow, rowIndex, style }) {
 
     useEffect(() => {
         setActive(tableData[item.index].isSelected);
+        dispatch(setCheckboxesSelected(tableData[item.index].isSelected))
     }, [tableData[item.index].isSelected]);
 
     return (
@@ -30,7 +31,9 @@ function TableBasicRow({ action, item, columnInRow, rowIndex, style }) {
                 key={columnItem + colIndex}
                 style={style}
                 className={`table-basic__cell row-${rowIndex % 2} col-${colIndex % 2}`}
-                onClick={() => console.log(active)}
+                onClick={() => {
+                    action(item)
+                }}
             >
                 {item.data[`${columnItem.value}`]}
             </td>)}

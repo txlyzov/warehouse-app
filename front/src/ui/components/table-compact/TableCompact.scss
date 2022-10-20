@@ -22,9 +22,6 @@ $table-borders: 1px;
         .cell-content-1 {
           @include text-h4();
         }
-        &.selectable:hover {
-          border: $table-borders $red-en-100 solid;
-        }
       }
       .row-0.col-0,
       .row-1.col-1 {
