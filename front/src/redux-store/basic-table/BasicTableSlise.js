@@ -12,6 +12,7 @@ const basicTableSlice = createSlice({
   reducers: {
     setGlobalCheckboxState: (state, action) => {
       state.globalCheckboxState = action.payload;
+      state.checkboxesSelected = action.payload ? state.tableData.length : 0;
     },
     setTableData: (state, action) => {
       state.tableData = action.payload;
@@ -20,6 +21,10 @@ const basicTableSlice = createSlice({
       state.checkboxesSelected += action.payload ? 1 : -1;
       state.checkboxesSelected =
         state.checkboxesSelected > 0 ? state.checkboxesSelected : 0;
+      state.checkboxesSelected =
+        state.checkboxesSelected < state.tableData.length
+          ? state.checkboxesSelected
+          : state.tableData.length;
     },
   },
 });

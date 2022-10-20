@@ -10,10 +10,13 @@ import { selectCheckboxesSelected, selectTableData, setGlobalCheckboxState, setT
 
 function WarehousePage() {
     const location = useLocation();
+
     const dispatch = useDispatch();
     const tableData = useSelector(selectTableData);
     const selectedOptionsValue = useSelector(selectCheckboxesSelected);
+
     const [tableDisplayedContent, setDisplayedContent] = useState([]);
+    const [currentTablePage, setCurrentTablePage] = useState(0);
     const [inputSearch, setInputSearch] = useState('');
 
 
@@ -36,11 +39,11 @@ function WarehousePage() {
         const fetchData = async () => axios('https://jsonplaceholder.typicode.com/users')
             .then((res) => {
                 const dataArray = []
-                res.data.slice(0, 5).forEach((element, index) => {
+                res.data.forEach((element, index) => {
                     dataArray.push({ index, data: element, isSelected: false })
                 });
-                dispatch(setTableData(dataArray));
-                setDisplayedContent(dataArray)
+                dispatch(setTableData(dataArray.slice(0, 9)));
+                setDisplayedContent(dataArray.slice(0, 5))
             })
             .catch((err) => err)
 
@@ -48,8 +51,9 @@ function WarehousePage() {
     }, []);
 
     useEffect(() => {
+        setCurrentTablePage(0)
         if (inputSearch.length === 0) {
-            setDisplayedContent(tableData);
+            setDisplayedContent(tableData.slice((currentTablePage) * 5, (currentTablePage + 1) * 5));
             return;
         }
         const regex = new RegExp(inputSearch, 'g');
@@ -66,7 +70,10 @@ function WarehousePage() {
         <div className="warehouse wrapper">
             <div className="warehouse__elements-block">
                 <div className="warehouse__top-elements">
-                    <div className='warehouse__name-block'>
+                    <div className='warehouse__name-block'
+                        aria-hidden="true"
+                        onClick={() => { navigator.clipboard.writeText('name') }}
+                    >
                         <h2 className='warehouse__name'>
                             Warehouse
                         </h2>
@@ -74,7 +81,10 @@ function WarehousePage() {
                             Name
                         </h2>
                     </div>
-                    <div className='warehouse__id-block'>
+                    <div className='warehouse__id-block'
+                        aria-hidden="true"
+                        onClick={() => { navigator.clipboard.writeText('id') }}
+                    >
                         <h3 className='warehouse__id'>
                             ID: [value]
                         </h3>
@@ -148,6 +158,18 @@ function WarehousePage() {
                     </div>
                     <div>
                         <button type="button" onClick={() => console.log(tableData)}>sdfdf</button>
+                        <button type="button" onClick={() => {
+                            if (currentTablePage < tableData.length / 5 - 1) {
+                                setCurrentTablePage(currentTablePage + 1);
+                                setDisplayedContent(tableData.slice((currentTablePage + 1) * 5, (currentTablePage + 2) * 5));
+                            }
+                        }}>+</button>
+                        <button type="button" onClick={() => {
+                            if (currentTablePage > 0) {
+                                setCurrentTablePage(currentTablePage - 1);
+                                setDisplayedContent(tableData.slice((currentTablePage - 1) * 5, (currentTablePage) * 5));
+                            }
+                        }}>-</button>
                     </div>
                 </div>
             </div>
