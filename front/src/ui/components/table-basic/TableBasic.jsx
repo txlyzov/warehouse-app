@@ -32,27 +32,17 @@ function TableBasic({
     </th>;
   }
 
-  // function TableRow({ item, columnInRow, rowIndex }) {
-  //   return (
-  //     <tr className={`table-basic__row ${action ? 'selectable' : ''}`}>
-  //       {columnInRow.map((columnItem, colIndex) => <td
-  //         key={columnItem + colIndex}
-  //         style={style}
-  //         className={`table-basic__cell row-${rowIndex % 2} col-${colIndex % 2}`}>
-  //         {item[`${columnItem.value}`]}
-  //       </td>)}
-  //     </tr>
-  //   );
-  // }
-
   const generateEmptyRows = () => {
     const tableBasicEmptyRow = [];
     for (let row = 0; row < (minRowsOnPage - data.length); row += 1) {
-      tableBasicEmptyRow.push(<TableBasicEmptyRow
-        style={style}
-        key={row}
-        columnInRow={column}
-        rowIndex={data.length + row} />)
+      tableBasicEmptyRow.push(
+        <TableBasicEmptyRow
+          style={style}
+          key={row}
+          columnInRow={column}
+          rowIndex={data.length + row}
+        />
+      )
     }
     return tableBasicEmptyRow;
   };
@@ -61,7 +51,6 @@ function TableBasic({
     const updatedTableContent = tableData.map((element) => ({ ...element, isSelected: !tableCheckboxState }))
     dispatch(setCheckboxState(!tableCheckboxState))
     dispatch(setTableData(updatedTableContent))
-    // console.log(updatedTableContent);
   }
 
   return (
@@ -71,36 +60,28 @@ function TableBasic({
           {column.map((item, index) => <TableHeadItem key={index} item={item} />)}
           <td style={style}
             aria-hidden="true"
-            className="table-basic__column-name"
+            className={`table-basic__column-name selectable ${tableCheckboxState ? 'selected' : ''}`}
             onClick={() => {
               updateCheckboxes()
             }}
           >
-            Select
+            {tableCheckboxState ? '>Selected<' : '> Select <'}
           </td>
         </tr>
       </thead>
       <tbody className="table-basic__tbody">
-        {/* {data.map((item, rowIndex) => <TableRow key={rowIndex} item={item} columnInRow={column} rowIndex={rowIndex} />)} */}
         {data.map((item, rowIndex) =>
           <TableBasicRow
             action={action}
             style={style}
             key={rowIndex}
             item={item}
-            // item={item.data}
             columnInRow={column}
             rowIndex={rowIndex}
           />)}
         {minRowsOnPage - data.length > 0 ?
-          // <TableBasicEmptyRow
-          //   style={style}
-          //   key={- 1}
-          //   columnInRow={column}
-          //   rowIndex={data.length} />
           generateEmptyRows()
           :
-          // data.length
           ''
         }
       </tbody>

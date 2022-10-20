@@ -27,9 +27,7 @@ $table-borders: 1px;
 
   &.selectable:hover {
     .table-basic__cell {
-      border: $table-borders $red-en-100 solid;
-      // border-top: $table-borders $red-en-100 solid;
-      // border-bottom: $table-borders $red-en-100 solid;
+      // border: $table-borders $red-en-100 solid;
     }
     .row-0.col-0,
     .row-1.col-1 {

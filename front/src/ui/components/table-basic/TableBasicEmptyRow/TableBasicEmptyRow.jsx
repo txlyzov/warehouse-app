@@ -4,13 +4,6 @@ import React from 'react';
 function TableBasicEmptyRow({ columnInRow, rowIndex, style }) {
 
     const emptyCells = () => {
-        // columnInRow.map((columnItem, colIndex) => <td
-        //     aria-hidden="true"
-        //     // key={columnItem + colIndex}
-        //     style={style}
-        //     className={`table-basic__cell row-${rowIndex % 2} col-${colIndex % 2}`}
-        // >dsf</td>)
-        // return columnInRow;
         const td = [];
         for (let colIndex = 0; colIndex < columnInRow.length; colIndex += 1) {
             td.push(<td

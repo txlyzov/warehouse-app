@@ -6,25 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/button/Button';
 import TableBasic from '../../components/table-basic/TableBasic';
 import Input from '../../components/input/Input';
-import { selectTableData, setCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
+import { selectTableData, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
 
 function WarehousePage() {
-    const [inputSearch, setInputSearch] = useState('');
-    // const [tableContent, setTableContent] = useState([]);
-    // const [warehouseData, setWarehouseData] = useState([]);
-    // const [tableContent, setTableContent] = useState([{ index: 0, data: {}, isSelected: false }]);
-    // const [warehouseData, setWarehouseData] = useState([{ index: 0, data: {}, isSelected: false }]);
-    // const [tableContent, setTableContent] = useState({ data: [], selected: [] });
-    // const [warehouseData, setWarehouseData] = useState({ data: [], selected: [] });
-
     const dispatch = useDispatch();
     const tableData = useSelector(selectTableData);
     const [tableDisplayedContent, setDisplayedContent] = useState([]);
+    const [inputSearch, setInputSearch] = useState('');
 
     const columnSettings = [
         { heading: 'Item Id', value: 'id' },
-        { heading: 'Name', value: 'id' },
-        { heading: 'Value', value: 'id' },
+        { heading: 'Name', value: 'name' },
+        { heading: 'Value', value: 'username' },
     ]
 
     async function request() {
@@ -40,57 +33,23 @@ function WarehousePage() {
                 res.data.slice(0, 5).forEach((element, index) => {
                     dataArray.push({ index, data: element, isSelected: false })
                 });
-                // console.log(dataArray);
                 dispatch(setTableData(dataArray));
-                // console.log(333);
-                // setWarehouseData(dataArray);
                 setDisplayedContent(dataArray)
             })
             .catch((err) => err)
 
         fetchData();
-
-
-        // axios('https://jsonplaceholder.typicode.com/users')
-        //     .then((res) => {
-        //         // setWarehouseData(res.data.slice(0, 5));
-        //         // setTableContent(res.data.slice(0, 5));
-        //         const dataArray = []
-        //         res.data.slice(0, 5).forEach((element, index) => {
-        //             dataArray.push({ index, data: element, isSelected: false })
-        //         });
-        //         console.log(dataArray);
-        //         setWarehouseData(dataArray);
-        //         setTableContent(dataArray);
-
-        //         // setWarehouseData({ data: res.data.slice(0, 5), selected: [] });
-        //         // setTableContent({ data: res.data.slice(0, 5), selected: [] });
-        //     })
-        //     .catch((err) => console.log(err));
     }, []);
 
     useEffect(() => {
         if (inputSearch.length === 0) {
-            console.log(tableData);
             setDisplayedContent(tableData);
             return;
         }
         const regex = new RegExp(inputSearch, 'g');
         const searchResults = tableData.filter((element) => element.data.name.match(regex));
-        // setTableContent(searchResults);
-        // console.log(searchResults);
         setDisplayedContent(searchResults)
     }, [inputSearch]);
-
-    // useEffect(() => {
-    //     if (inputSearch.length === 0) {
-    //         setTableContent(reduxTableContent);
-    //         return;
-    //     }
-    //     const regex = new RegExp(inputSearch, 'g');
-    //     const searchResults = reduxTableContent.filter((element) => element.data.name.match(regex));
-    //     setTableContent(searchResults);
-    // }, [inputSearch, reduxTableContent]);
 
     const navigate = useNavigate();
     const routeChange = (route) => {
@@ -165,8 +124,8 @@ function WarehousePage() {
                             className="warehouse__table"
                             data={tableDisplayedContent}
                             column={columnSettings}
-                            cellHeight='50px'
-                            cellWidth='150px'
+                            cellHeight='46px'
+                            cellWidth='146px'
                             minRowsOnPage={5}
                         />
                     </div>

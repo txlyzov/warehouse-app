@@ -5,7 +5,12 @@ $table-borders: 1px;
 
 .table-basic {
   border-spacing: 0px;
-  border-collapse: no-collapse;
+  // border-collapse: collapse; //no-collapse;
+  // border-top: 1px $black-100 solid;
+  // border: $table-borders $black-100 solid;
+  // border-right: transparent 1px solid;
+  background-color: $black-100;
+  // padding: 1px 0.5px 1px 1px;
   &__thead {
     .table-basic__column-name {
       border: $table-borders $black-100 solid;
@@ -13,6 +18,20 @@ $table-borders: 1px;
       color: $white-100;
       @include text-h3();
       @include text-stroke-05($black-100);
+
+      &.selectable {
+        &:hover {
+          background: $green-djg-75;
+        }
+        &:active {
+          background: $green-djg-25;
+        }
+      }
+
+      &.selected {
+        color: $red-en-100;
+        @include text-stroke-05($white-100);
+      }
     }
   }
   &__tbody {
@@ -78,9 +97,7 @@ $table-borders: 1px;
 
       &.selectable:hover {
         .table-basic__cell {
-          border: $table-borders $red-en-100 solid;
-          // border-top: $table-borders $red-en-100 solid;
-          // border-bottom: $table-borders $red-en-100 solid;
+          // border: $table-borders $red-en-100 solid;
         }
         .row-0.col-0,
         .row-1.col-1 {
