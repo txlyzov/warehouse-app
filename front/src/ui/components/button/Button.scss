@@ -2,6 +2,10 @@
 @import "../../styles/Colors";
 
 .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   &:hover,
   &:active {
     @include text-stroke-05($black-100);

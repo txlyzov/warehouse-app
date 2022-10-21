@@ -8,6 +8,7 @@ import TableBasic from '../../components/table-basic/TableBasic';
 import Input from '../../components/input/Input';
 import { selectCheckboxesSelected, selectTableData, setGlobalCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
 import Pagination from '../../components/pagination/Pagination';
+import { setModalContent } from '../../../redux-store/modal/ModalSlice';
 
 function WarehousePage() {
     const location = useLocation();
@@ -21,6 +22,8 @@ function WarehousePage() {
     const [currentTablePage, setCurrentTablePage] = useState(0);
     const [itemsOnPage, setItemsOnPage] = useState(5);
     const [inputSearch, setInputSearch] = useState('');
+
+    // const qwe = useSelector(selectModalTitle)
 
 
     const columnSettings = [
@@ -113,7 +116,12 @@ function WarehousePage() {
                                 text="Delete selected"
                                 size="md"
                             />
-                            <Button click={() => routeChange('/create-warehouse')}
+                            <Button click={() => dispatch(
+                                setModalContent(<img
+                                    src="https://media.discordapp.net/attachments/609515090609438755/1022218378317930587/unknown.png"
+                                    alt="img"
+                                />))
+                            }
                                 className="warehouse__delete-warehouse-button"
                                 type="primary"
                                 text="Delete warehouse"
@@ -194,6 +202,7 @@ function WarehousePage() {
                             minRowsOnPage={itemsOnPage}
                         />
                     </div>
+                    {/* <button type='button' onClick={() => console.log(qwe)}>sd</button> */}
                 </div>
             </div>
         </div >
