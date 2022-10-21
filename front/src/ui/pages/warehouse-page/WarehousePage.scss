@@ -101,8 +101,27 @@ $table-borders: 2px;
             flex-direction: column;
 
             .warehouse {
-              &__input-search {
-                margin: 0px 20px 30px auto;
+              &__table-options {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                margin: 0px 20px 30px 80px;
+                .warehouse {
+                  &__table-sizes {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 160px;
+                    .warehouse__size-button {
+                      @include text-h3;
+                      @include text-stroke-075($black-100);
+                    }
+                  }
+                  &__table-search {
+                    // margin: 0px 20px 30px auto;
+                  }
+                }
               }
               &__table {
                 margin: auto 120px auto auto;

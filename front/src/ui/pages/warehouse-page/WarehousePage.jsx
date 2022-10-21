@@ -18,6 +18,7 @@ function WarehousePage() {
 
     const [tableDisplayedContent, setDisplayedContent] = useState([]);
     const [currentTablePage, setCurrentTablePage] = useState(0);
+    const [itemsOnPage, setItemsOnPage] = useState(5);
     const [inputSearch, setInputSearch] = useState('');
 
 
@@ -66,6 +67,12 @@ function WarehousePage() {
     const routeChange = (route) => {
         navigate(route);
     };
+
+    const changeItemsOnPage = (value) => {
+        setItemsOnPage(value)
+        setCurrentTablePage(value)
+        setDisplayedContent(tableData.slice(0, value))
+    }
 
     return (
         <div className="warehouse wrapper">
@@ -128,14 +135,40 @@ function WarehousePage() {
                         </div>
                     </div>
                     <div className='warehouse__table-block'>
-                        <Input
-                            closable
-                            className="warehouse__input-search"
-                            placeholder="Search by name"
-                            width="390px"
-                            inputValue={inputSearch}
-                            setInputValue={setInputSearch}
-                        />
+                        <div className='warehouse__table-options'>
+                            <div className='warehouse__table-sizes'>
+                                <Button
+                                    className='warehouse__size-button'
+                                    type={itemsOnPage === 5 ? 'primary' : 'secondary'}
+                                    size='smd'
+                                    text='5'
+                                    click={() => changeItemsOnPage(5)}
+                                />
+                                <Button
+                                    className='warehouse__size-button'
+                                    type={itemsOnPage === 15 ? 'primary' : 'secondary'}
+                                    size='smd'
+                                    text='15'
+                                    click={() => changeItemsOnPage(15)}
+                                />
+                                <Button
+                                    className='warehouse__size-button'
+                                    type={itemsOnPage === tableData.length
+                                        ? 'primary' : 'secondary'}
+                                    size='smd'
+                                    text='all'
+                                    click={() => changeItemsOnPage(tableData.length)}
+                                />
+                            </div>
+                            <Input
+                                closable
+                                className="warehouse__table-search"
+                                placeholder="Search by name"
+                                width="390px"
+                                inputValue={inputSearch}
+                                setInputValue={setInputSearch}
+                            />
+                        </div>
                         <TableBasic
                             action={(element) => routeChange(`${location.pathname}/item/${element.data.id}`)}
                             className="warehouse__table"
@@ -156,7 +189,10 @@ function WarehousePage() {
                             size="lg"
                             outputCurrentPage={(pageNumber) => {
                                 setCurrentTablePage(pageNumber - 1)
-                                setDisplayedContent(tableData.slice((pageNumber - 1) * 5, (pageNumber) * 5))
+                                setDisplayedContent(tableData.slice(
+                                    (pageNumber - 1) * itemsOnPage,
+                                    (pageNumber) * itemsOnPage
+                                ))
                             }}
                         />
                     </div>

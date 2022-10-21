@@ -73,3 +73,14 @@
     border: 2px solid $red-en-100;
   }
 }
+
+.button-smd {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 10px;
+
+  &:active {
+    border: 2px solid $red-en-100;
+  }
+}
