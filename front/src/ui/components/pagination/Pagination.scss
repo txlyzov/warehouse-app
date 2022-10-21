@@ -1,0 +1,93 @@
+@import "../../styles/Text";
+@import "../../styles/Colors";
+
+$lg-size-width: 50px;
+$lg-size-heigth: 60px;
+$border-width: 1px;
+
+.pagination.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min-content;
+
+  .pagination {
+    &__to-first {
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+      border-right-width: 1px;
+    }
+    &__to-prev {
+      border-radius: 0px;
+      border-right-width: 1px;
+      border-left-width: 1px;
+    }
+    &__to-next {
+      border-radius: 0px;
+      border-right-width: 1px;
+      border-left-width: 1px;
+    }
+    &__to-last {
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+      border-left-width: 1px;
+    }
+
+    &__middle-block {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $green-pp-100;
+      border: 1px $red-en-100 solid;
+      border-width: $border-width * 2 $border-width;
+      color: $white-100;
+      //   @include text-stroke-05($black-100);
+      .pagination__edit-block {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        .pagination {
+          &__input,
+          &__page-number {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  &.pagination-lg {
+    .pagination {
+      &__to-first,
+      &__to-prev,
+      &__to-next,
+      &__to-last {
+        width: $lg-size-width;
+        height: $lg-size-heigth;
+        @include text-h3;
+      }
+
+      &__middle-block {
+        width: $lg-size-width * 2 - $border-width * 2;
+        height: $lg-size-heigth - $border-width * 4;
+        @include text-h3;
+
+        .pagination__edit-block {
+          .pagination {
+            &__input {
+              .input-block__input {
+                width: 30px;
+                height: 38px;
+                margin: 10px 0 10px 10px;
+              }
+            }
+            &__page-number {
+              @include text-h3;
+            }
+          }
+        }
+      }
+    }
+  }
+}

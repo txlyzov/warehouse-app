@@ -7,6 +7,7 @@ import Button from '../../components/button/Button';
 import TableBasic from '../../components/table-basic/TableBasic';
 import Input from '../../components/input/Input';
 import { selectCheckboxesSelected, selectTableData, setGlobalCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
+import Pagination from '../../components/pagination/Pagination';
 
 function WarehousePage() {
     const location = useLocation();
@@ -148,28 +149,19 @@ function WarehousePage() {
                 </div>
                 <div className="warehouse__bottom-elements">
                     <div className="warehouse__pagination-element">
-                        <h3 className="warehouse__pagination">
-                            Active slots:
-                            {' '}
-                            {tableDisplayedContent.length}
-                            {' '}
-                            / 20
-                        </h3>
+                        <Pagination
+                            inputCurrentPage={currentTablePage + 1}
+                            totalPages={Math.ceil(tableData.length / 5)}
+                            className="warehouse__pagination"
+                            size="lg"
+                            outputCurrentPage={(pageNumber) => {
+                                setCurrentTablePage(pageNumber - 1)
+                                setDisplayedContent(tableData.slice((pageNumber - 1) * 5, (pageNumber) * 5))
+                            }}
+                        />
                     </div>
                     <div>
                         <button type="button" onClick={() => console.log(tableData)}>sdfdf</button>
-                        <button type="button" onClick={() => {
-                            if (currentTablePage < tableData.length / 5 - 1) {
-                                setCurrentTablePage(currentTablePage + 1);
-                                setDisplayedContent(tableData.slice((currentTablePage + 1) * 5, (currentTablePage + 2) * 5));
-                            }
-                        }}>+</button>
-                        <button type="button" onClick={() => {
-                            if (currentTablePage > 0) {
-                                setCurrentTablePage(currentTablePage - 1);
-                                setDisplayedContent(tableData.slice((currentTablePage - 1) * 5, (currentTablePage) * 5));
-                            }
-                        }}>-</button>
                     </div>
                 </div>
             </div>
