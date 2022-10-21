@@ -1,7 +1,7 @@
 import './WarehousePage.scss';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/button/Button';
 import TableBasic from '../../components/table-basic/TableBasic';
@@ -11,6 +11,7 @@ import Pagination from '../../components/pagination/Pagination';
 
 function WarehousePage() {
     const location = useLocation();
+    const params = useParams();
 
     const dispatch = useDispatch();
     const tableData = useSelector(selectTableData);
@@ -55,7 +56,7 @@ function WarehousePage() {
     useEffect(() => {
         setCurrentTablePage(0)
         if (inputSearch.length === 0) {
-            setDisplayedContent(tableData.slice((currentTablePage) * 5, (currentTablePage + 1) * 5));
+            setDisplayedContent(tableData.slice(0, itemsOnPage));
             return;
         }
         const regex = new RegExp(inputSearch, 'g');
@@ -94,7 +95,7 @@ function WarehousePage() {
                         onClick={() => { navigator.clipboard.writeText('id') }}
                     >
                         <h3 className='warehouse__id'>
-                            ID: [value]
+                            ID: {params.warehouseId}
                         </h3>
                     </div>
                     <div className='warehouse__items-counter-block'>
@@ -133,6 +134,20 @@ function WarehousePage() {
                                 size="md"
                             />
                         </div>
+
+                        <Pagination
+                            inputCurrentPage={currentTablePage + 1}
+                            totalPages={Math.ceil(tableData.length / itemsOnPage)}
+                            className="warehouse__pagination"
+                            size="lg"
+                            outputCurrentPage={(pageNumber) => {
+                                setCurrentTablePage(pageNumber - 1)
+                                setDisplayedContent(tableData.slice(
+                                    (pageNumber - 1) * itemsOnPage,
+                                    (pageNumber) * itemsOnPage
+                                ))
+                            }}
+                        />
                     </div>
                     <div className='warehouse__table-block'>
                         <div className='warehouse__table-options'>
@@ -176,28 +191,8 @@ function WarehousePage() {
                             column={columnSettings}
                             cellHeight='46px'
                             cellWidth='146px'
-                            minRowsOnPage={5}
+                            minRowsOnPage={itemsOnPage}
                         />
-                    </div>
-                </div>
-                <div className="warehouse__bottom-elements">
-                    <div className="warehouse__pagination-element">
-                        <Pagination
-                            inputCurrentPage={currentTablePage + 1}
-                            totalPages={Math.ceil(tableData.length / 5)}
-                            className="warehouse__pagination"
-                            size="lg"
-                            outputCurrentPage={(pageNumber) => {
-                                setCurrentTablePage(pageNumber - 1)
-                                setDisplayedContent(tableData.slice(
-                                    (pageNumber - 1) * itemsOnPage,
-                                    (pageNumber) * itemsOnPage
-                                ))
-                            }}
-                        />
-                    </div>
-                    <div>
-                        <button type="button" onClick={() => console.log(tableData)}>sdfdf</button>
                     </div>
                 </div>
             </div>

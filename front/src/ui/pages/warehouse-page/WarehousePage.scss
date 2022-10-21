@@ -4,9 +4,11 @@
 $table-borders: 2px;
 
 .warehouse.wrapper {
-  background-image: url("../../../assets/images/background-tables.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url("../../../assets/images/background-tables.jpg") no-repeat
+    center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
   background-size: cover;
   width: 100%;
 
@@ -17,7 +19,8 @@ $table-borders: 2px;
   .warehouse__elements-block {
     margin: 20px;
     width: 1200px;
-    height: 690px;
+    min-height: 690px;
+    height: min-content;
     border-radius: 50px;
 
     background-color: rgba($white-100, 0.75);
@@ -66,18 +69,22 @@ $table-borders: 2px;
       }
 
       &__center-elements {
-        margin: 15px 0;
+        margin: 15px 0 40px 0;
         width: 100%;
+        height: 100%;
         display: grid;
         grid-template-columns: 1fr 2fr;
         .warehouse {
           &__options-buttons-block {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            // justify-content: space-between;
             flex-direction: column;
 
             .warehouse {
+              &__delete-buttons {
+                margin-bottom: 90px;
+              }
               &__delete-buttons,
               &__edit-buttons {
                 display: flex;
@@ -91,8 +98,16 @@ $table-borders: 2px;
                   &__add-cargo-button,
                   &__edit-warehouse-button {
                     margin: 20px;
+                    @include text-h3;
                   }
                 }
+              }
+              &__pagination {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                margin: 20px auto auto auto;
+                height: 100%;
               }
             }
           }
@@ -124,7 +139,7 @@ $table-borders: 2px;
                 }
               }
               &__table {
-                margin: auto 120px auto auto;
+                margin: 0 120px auto auto;
               }
             }
           }
@@ -132,7 +147,7 @@ $table-borders: 2px;
       }
 
       &__bottom-elements {
-        // margin: 20px auto 40px 20px;
+        // margin: 0 0 40px 0;
         width: 100%;
         display: grid;
         grid-template-columns: repeat(3, 1fr);

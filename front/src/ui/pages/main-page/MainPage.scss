@@ -2,9 +2,11 @@
 @import "../../styles/Colors";
 
 .main-page.wrapper {
-  background-image: url("../../../assets/images/background-main.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url("../../../assets/images/background-main.jpg") no-repeat center
+    center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
   background-size: cover;
   width: 100%;
   display: grid;

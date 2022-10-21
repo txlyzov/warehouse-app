@@ -41,6 +41,13 @@ $border-width: 1px;
       border: 1px $red-en-100 solid;
       border-width: $border-width * 2 $border-width;
       color: $white-100;
+
+      &:hover {
+        background-color: $green-pp-75;
+      }
+      &:active {
+        background-color: $green-pp-25;
+      }
       //   @include text-stroke-05($black-100);
       .pagination__edit-block {
         display: flex;

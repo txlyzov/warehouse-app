@@ -18,7 +18,7 @@ const routes = [
   },
   { path: "/home", needAuth: true, element: <HomePage />, exact: true },
   {
-    path: "/warehouse/:id",
+    path: "/warehouse/:warehouseId",
     needAuth: true,
     element: <WarehousePage />,
     exact: true,

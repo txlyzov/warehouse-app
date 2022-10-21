@@ -41,6 +41,10 @@ function Pagination({ inputCurrentPage = 1, totalPages = 1, size, className, out
         }
     }, [isEditMode]);
 
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [totalPages]);
+
     return (
         <div className={`pagination wrapper pagination-${size || 'md'} ${className}`}>
             <Button click={currentPage === 1 ? null : () => changePage(1)} className='pagination__to-first' type='primary' size='ssm' text="<<" />
