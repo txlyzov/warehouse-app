@@ -65,6 +65,10 @@
               font-weight: 700;
               line-height: 32px;
               text-align: center;
+
+              &.error-case {
+                color: $red-en-100;
+              }
             }
 
             .modal__close-button {

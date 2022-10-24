@@ -9,6 +9,7 @@ import Input from '../../components/input/Input';
 import { selectCheckboxesSelected, selectTableData, setGlobalCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
 import Pagination from '../../components/pagination/Pagination';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
+import { ConfirmModal } from '../../components/modal/modal-templates/modal-templates';
 
 function WarehousePage() {
     const location = useLocation();
@@ -23,23 +24,11 @@ function WarehousePage() {
     const [itemsOnPage, setItemsOnPage] = useState(5);
     const [inputSearch, setInputSearch] = useState('');
 
-    // const qwe = useSelector(selectModalTitle)
-
-
     const columnSettings = [
         { heading: 'Item Id', value: 'id' },
         { heading: 'Name', value: 'name' },
         { heading: 'Value', value: 'username' },
     ]
-
-    useEffect(() => {
-        if (selectedOptionsValue === tableData.length) {
-            dispatch(setGlobalCheckboxState(true))
-        }
-        if (selectedOptionsValue === 0) {
-            dispatch(setGlobalCheckboxState(false))
-        }
-    }, [selectedOptionsValue]);
 
     useEffect(() => {
         const fetchData = async () => axios('https://jsonplaceholder.typicode.com/users')
@@ -66,6 +55,15 @@ function WarehousePage() {
         const searchResults = tableData.filter((element) => element.data.name.match(regex));
         setDisplayedContent(searchResults)
     }, [inputSearch]);
+
+    useEffect(() => {
+        if (selectedOptionsValue === tableData.length) {
+            dispatch(setGlobalCheckboxState(true))
+        }
+        if (selectedOptionsValue === 0) {
+            dispatch(setGlobalCheckboxState(false))
+        }
+    }, [selectedOptionsValue]);
 
     const navigate = useNavigate();
     const routeChange = (route) => {
@@ -98,7 +96,7 @@ function WarehousePage() {
                         onClick={() => { navigator.clipboard.writeText('id') }}
                     >
                         <h3 className='warehouse__id'>
-                            ID: {params.warehouseId}
+                            Location: {params.warehouseId}
                         </h3>
                     </div>
                     <div className='warehouse__items-counter-block'>
@@ -116,11 +114,21 @@ function WarehousePage() {
                                 text="Delete selected"
                                 size="md"
                             />
-                            <Button click={() => dispatch(
-                                setModalContent(<img
-                                    src="https://media.discordapp.net/attachments/609515090609438755/1022218378317930587/unknown.png"
-                                    alt="img"
-                                />))
+                            <Button click={() => {
+                                dispatch(
+                                    setModalContent(
+                                        <ConfirmModal
+                                            conformationValue="31212312312313123"
+                                            title="Delete warehouse?"
+                                            noteText="Are you sure that you want to delete warehouse? 
+                                            Place warehouse id to submit 
+                                            (you can copy it by clicking on it)"
+                                            action={() => console.log(123)}
+                                        />
+                                    )
+                                )
+                            }
+
                             }
                                 className="warehouse__delete-warehouse-button"
                                 type="primary"
@@ -202,7 +210,6 @@ function WarehousePage() {
                             minRowsOnPage={itemsOnPage}
                         />
                     </div>
-                    {/* <button type='button' onClick={() => console.log(qwe)}>sd</button> */}
                 </div>
             </div>
         </div >

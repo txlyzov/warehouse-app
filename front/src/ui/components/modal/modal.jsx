@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectModalTitle, setModalContent, setModalTitle } from '../../../redux-store/modal/ModalSlice';
+import { resetModal, selectErrorCase, selectModalTitle } from '../../../redux-store/modal/ModalSlice';
 import Button from '../button/Button';
 import Icon from '../icon/Icon';
 import './modal.scss';
@@ -11,10 +11,10 @@ export default function Modal({
 }) {
   const dispatch = useDispatch();
   const title = useSelector(selectModalTitle);
+  const isErrorCase = useSelector(selectErrorCase);
 
   const closeModal = () => {
-    dispatch(setModalTitle(''));
-    dispatch(setModalContent());
+    dispatch(resetModal())
   };
 
   const escFunction = (event) => {
@@ -49,7 +49,7 @@ export default function Modal({
                 />
               )}
             /> */}
-            <span className="modal__title">{title}</span>
+            <span className={`modal__title ${isErrorCase ? 'error-case' : ''}`}>{title}</span>
             <Button
               click={() => closeModal()}
               className='modal__close-button'

@@ -8,7 +8,9 @@
 
   &:hover,
   &:active {
-    @include text-stroke-05($black-100);
+    &:not(.disabled) {
+      @include text-stroke-05($black-100);
+    }
   }
 }
 
@@ -19,12 +21,17 @@
   background-color: $green-djg-100;
   border: 2px solid $red-en-100;
 
-  &:hover {
+  &:hover &:not(.disabled) {
     background: $green-djg-75;
   }
-  &:active {
+  &:active &:not(.disabled) {
     background: $green-djg-25;
     border: 3px solid $red-en-100;
+  }
+
+  &.disabled {
+    color: $white-100;
+    background-color: $white-25;
   }
 }
 
@@ -33,12 +40,17 @@
   background-color: $green-fgc-100;
   border: 2px solid $red-en-100;
 
-  &:hover {
+  &:hover &:not(.disabled) {
     background: $green-fgc-75;
   }
-  &:active {
+  &:active &:not(.disabled) {
     background: $green-fgc-25;
     border: 3px solid $red-en-100;
+  }
+
+  &.disabled {
+    color: $black-100;
+    background-color: $white-75;
   }
 }
 
