@@ -1,4 +1,5 @@
 import React from "react";
+import ConfirmRemoving from "../ui/pages/confirm-removing/ConfirmRemoving";
 import ForgotPassword from "../ui/pages/forgot-password/ForgotPassword";
 import HomePage from "../ui/pages/home-page/HomePage";
 import MainPage from "../ui/pages/main-page/MainPage";
@@ -21,6 +22,12 @@ const routes = [
     path: "/warehouse/:warehouseId",
     needAuth: true,
     element: <WarehousePage />,
+    exact: true,
+  },
+  {
+    path: "/warehouse/:warehouseId/confirm-removing",
+    needAuth: true,
+    element: <ConfirmRemoving />,
     exact: true,
   },
   //   { path: "/123/:id", element: <123 />, exact: true },

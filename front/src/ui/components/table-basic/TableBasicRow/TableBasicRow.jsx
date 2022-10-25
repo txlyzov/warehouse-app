@@ -32,7 +32,9 @@ function TableBasicRow({ action, item, columnInRow, rowIndex, style }) {
                 style={style}
                 className={`table-basic__cell row-${rowIndex % 2} col-${colIndex % 2}`}
                 onClick={() => {
-                    action(item)
+                    if (action) {
+                        action(item)
+                    }
                 }}
             >
                 {item.data[`${columnItem.value}`]}

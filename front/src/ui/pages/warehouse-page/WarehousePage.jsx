@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/button/Button';
 import TableBasic from '../../components/table-basic/TableBasic';
 import Input from '../../components/input/Input';
-import { selectCheckboxesSelected, selectTableData, setGlobalCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
+import { resetTableStorage, selectCheckboxesSelected, selectTableData, setGlobalCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
 import Pagination from '../../components/pagination/Pagination';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
 import { ConfirmModal } from '../../components/modal/modal-templates/modal-templates';
@@ -31,6 +31,7 @@ function WarehousePage() {
     ]
 
     useEffect(() => {
+        dispatch(resetTableStorage())
         const fetchData = async () => axios('https://jsonplaceholder.typicode.com/users')
             .then((res) => {
                 const dataArray = []
@@ -43,6 +44,7 @@ function WarehousePage() {
             .catch((err) => err)
 
         fetchData();
+
     }, []);
 
     useEffect(() => {
@@ -56,14 +58,14 @@ function WarehousePage() {
         setDisplayedContent(searchResults)
     }, [inputSearch]);
 
-    useEffect(() => {
-        if (selectedOptionsValue === tableData.length) {
-            dispatch(setGlobalCheckboxState(true))
-        }
-        if (selectedOptionsValue === 0) {
-            dispatch(setGlobalCheckboxState(false))
-        }
-    }, [selectedOptionsValue]);
+    // useEffect(() => {
+    //     if (selectedOptionsValue === tableData.length) {
+    //         dispatch(setGlobalCheckboxState(true))
+    //     }
+    //     if (selectedOptionsValue === 0) {
+    //         dispatch(setGlobalCheckboxState(false))
+    //     }
+    // }, [selectedOptionsValue]);
 
     const navigate = useNavigate();
     const routeChange = (route) => {
@@ -74,6 +76,13 @@ function WarehousePage() {
         setItemsOnPage(value)
         setCurrentTablePage(value)
         setDisplayedContent(tableData.slice(0, value))
+    }
+
+    const removeItems = () => {
+        console.log(selectedOptionsValue);
+        const itemsToRemove = tableData.filter(item => item.isSelected).map((item, index) => ({ ...item, index }));
+        dispatch(setTableData(itemsToRemove))
+        routeChange(`/warehouse/${params.warehouseId}/confirm-removing`)
     }
 
     return (
@@ -108,11 +117,12 @@ function WarehousePage() {
                 <div className="warehouse__center-elements">
                     <div className='warehouse__options-buttons-block'>
                         <div className='warehouse__delete-buttons'>
-                            <Button click={() => routeChange('/create-warehouse')}
+                            <Button click={() => removeItems()}
                                 className="warehouse__delete-selected-button"
                                 type="primary"
                                 text="Delete selected"
                                 size="md"
+                                disabled={selectedOptionsValue <= 0}
                             />
                             <Button click={() => {
                                 dispatch(
@@ -200,7 +210,17 @@ function WarehousePage() {
                                 setInputValue={setInputSearch}
                             />
                         </div>
-                        <TableBasic
+                        {tableData.length > 0 ?
+                            <TableBasic
+                                action={(element) => routeChange(`${location.pathname}/item/${element.data.id}`)}
+                                className="warehouse__table"
+                                data={tableDisplayedContent}
+                                column={columnSettings}
+                                cellHeight='46px'
+                                cellWidth='146px'
+                                minRowsOnPage={itemsOnPage}
+                            /> : ''}
+                        {/* <TableBasic
                             action={(element) => routeChange(`${location.pathname}/item/${element.data.id}`)}
                             className="warehouse__table"
                             data={tableDisplayedContent}
@@ -208,7 +228,7 @@ function WarehousePage() {
                             cellHeight='46px'
                             cellWidth='146px'
                             minRowsOnPage={itemsOnPage}
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>

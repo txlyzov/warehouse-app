@@ -3,13 +3,19 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   globalCheckboxState: false,
   checkboxesSelected: 0,
-  tableData: [{ index: 0, data: [], isSelected: false }],
+  // tableData: [{ index: 0, data: [], isSelected: false }],
+  tableData: [],
 };
 
 const basicTableSlice = createSlice({
   name: "basicTable",
   initialState,
   reducers: {
+    resetTableStorage: (state) => {
+      state.globalCheckboxState = false;
+      state.checkboxesSelected = 0;
+      state.tableData = [];
+    },
     setGlobalCheckboxState: (state, action) => {
       state.globalCheckboxState = action.payload;
       state.checkboxesSelected = action.payload ? state.tableData.length : 0;
@@ -35,6 +41,10 @@ export const selectCheckboxesSelected = (state) =>
   state.basicTable.checkboxesSelected;
 export const selectTableData = (state) => state.basicTable.tableData;
 
-export const { setGlobalCheckboxState, setCheckboxesSelected, setTableData } =
-  basicTableSlice.actions;
+export const {
+  resetTableStorage,
+  setGlobalCheckboxState,
+  setCheckboxesSelected,
+  setTableData,
+} = basicTableSlice.actions;
 export default basicTableSlice.reducer;
