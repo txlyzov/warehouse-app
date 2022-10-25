@@ -6,6 +6,7 @@ import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
 import TableBasic from '../../components/table-basic/TableBasic';
 import { selectCheckboxesSelected, selectTableData } from '../../../redux-store/basic-table/BasicTableSlise';
+import Icon from '../../components/icon/Icon';
 
 function ConfirmRemoving() {
 
@@ -14,6 +15,7 @@ function ConfirmRemoving() {
     const selectedOptionsValue = useSelector(selectCheckboxesSelected);
     const [inputSearch, setInputSearch] = useState('');
     const [tableDisplayedContent, setDisplayedContent] = useState([]);
+    const [isDeleteConfirmUnlocked, setIsDeleteConfirmUnlocked] = useState(false);
 
 
     const navigate = useNavigate();
@@ -75,17 +77,24 @@ function ConfirmRemoving() {
                         </h3>
                     </div>
                     <div className='confirm-removing__delete-buttons-block'>
-                        <Button click={() => console.log(tableData)}
+                        <Button click={() => setIsDeleteConfirmUnlocked(true)}
                             className="confirm-removing__delete-button"
                             type="primary"
-                            text="Delete 999+ items"
+                            text={`Delete ${selectedOptionsValue < 999 ? selectedOptionsValue : '999+'} item${selectedOptionsValue === 1 ? '' : 's'}`}
                             size="md"
                         />
                         <Button click={() => routeChange('/create-warehouse')}
                             className="confirm-removing__confirm-delete-button"
                             type="primary"
-                            text="X"
+                            text={
+                                <Icon
+                                    name="checkmark"
+                                    size="20px"
+                                    className="modal__close-icon"
+                                />
+                            }
                             size="smd"
+                            disabled={!isDeleteConfirmUnlocked}
                         />
                     </div>
                 </div>
