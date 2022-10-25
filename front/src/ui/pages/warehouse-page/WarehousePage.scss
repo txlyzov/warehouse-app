@@ -1,0 +1,164 @@
+@import "../../styles/Text";
+@import "../../styles/Colors";
+
+$table-borders: 2px;
+
+.warehouse.wrapper {
+  background: url("../../../assets/images/background-tables.jpg") no-repeat
+    center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .warehouse__elements-block {
+    margin: 20px;
+    width: 1200px;
+    min-height: 690px;
+    height: min-content;
+    border-radius: 50px;
+    background-color: rgba($white-100, 0.75);
+    box-shadow: 0px 0px 10px 10px $black-100;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .warehouse {
+      &__top-elements {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        align-items: center;
+        justify-content: center;
+        color: $white-100;
+        @include text-stroke-05($black-100);
+
+        .warehouse {
+          &__name-block {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 340px;
+            height: 140px;
+            background: $green-pp-100;
+            border-width: 0px 2px 2px 0px;
+            border-style: solid;
+            border-color: $red-en-100;
+            border-radius: 50px 0px 20px;
+          }
+
+          &__id-block,
+          &__items-counter-block {
+            width: 300px;
+            height: 60px;
+            background: $green-pp-100;
+            border: 2px solid $red-en-100;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+      }
+
+      &__center-elements {
+        margin: 15px 0 40px 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+
+        .warehouse {
+          &__options-buttons-block {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            .warehouse {
+              &__delete-buttons {
+                margin-bottom: 90px;
+              }
+
+              &__delete-buttons,
+              &__edit-buttons {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+
+                .warehouse {
+                  &__delete-selected-button,
+                  &__delete-warehouse-button,
+                  &__add-cargo-button,
+                  &__edit-warehouse-button {
+                    margin: 20px;
+                    @include text-h3;
+                  }
+                }
+              }
+
+              &__pagination {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                margin: 20px auto auto auto;
+                height: 100%;
+              }
+            }
+          }
+
+          &__table-block {
+            display: flex;
+            flex-direction: column;
+
+            .warehouse {
+              &__table-options {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                margin: 0px 20px 30px 80px;
+
+                .warehouse {
+                  &__table-sizes {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 160px;
+
+                    .warehouse__size-button {
+                      @include text-h3;
+                      @include text-stroke-075($black-100);
+                    }
+                  }
+                }
+              }
+              &__table {
+                margin: 0 120px auto auto;
+              }
+            }
+          }
+        }
+      }
+
+      &__bottom-elements {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+
+        .warehouse__pagination-element {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 20px auto 40px auto;
+        }
+      }
+    }
+  }
+}

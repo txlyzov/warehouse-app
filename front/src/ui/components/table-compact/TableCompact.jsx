@@ -2,7 +2,7 @@ import './TableCompact.scss';
 import React from 'react';
 
 function TableCompact({
-  content, tableSettings, cellWidth, cellHeight, action,
+  content, tableSettings, cellWidth, cellHeight, action, className
 }) {
   const style = {
     width: cellWidth || '100px',
@@ -49,10 +49,15 @@ function TableCompact({
   };
 
   return (
-    <table className="table-compact wrapper">
+    <table className={`${className || ''} table-compact wrapper`}>
       <thead className="table-compact__thead">
         <tr>
-          <th style={{ height: cellHeight }} className="table-compact__column-name" colSpan={tableSettings.columns}>{tableSettings.header}</th>
+          <th
+            style={{ height: cellHeight }}
+            className="table-compact__column-name"
+            colSpan={tableSettings.columns}>
+            {tableSettings.header}
+          </th>
         </tr>
       </thead>
       <tbody className="table-compact__tbody">

@@ -1,41 +1,91 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, { useEffect } from 'react';
 import './TableBasic.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import TableBasicRow from './TableBasicRow/TableBasicRow';
+import { selectGlobalCheckboxState, selectTableData, setGlobalCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
+import TableBasicEmptyRow from './TableBasicEmptyRow/TableBasicEmptyRow';
 
 function TableBasic({
-  data, column, cellWidth, cellHeight, action,
+  data, column, cellWidth, cellHeight, action, className, minRowsOnPage = 0
 }) {
+
+  const dispatch = useDispatch();
+  const tableData = useSelector(selectTableData);
+  const tableCheckboxState = useSelector(selectGlobalCheckboxState);
+
+  useEffect(() => {
+    dispatch(setGlobalCheckboxState(false))
+  }, []);
+
   const style = {
     width: cellWidth || '100px',
     height: cellHeight || '100px',
   };
+
   function TableHeadItem({ item }) {
-    return <th key={item.heading} className="table-basic__column-name">{item.heading}</th>;
+    return <th
+      key={item.heading}
+      style={style}
+      className="table-basic__column-name">
+      {item.heading}
+    </th>;
   }
-  function TableRow({ item, columnInRow, rowIndex }) {
-    return (
-      <tr className="table-basic__row ">
-        {columnInRow.map((columnItem, colIndex) => <td
-          key={columnItem.value}
+
+  const generateEmptyRows = () => {
+    const tableBasicEmptyRow = [];
+    for (let row = 0; row < (minRowsOnPage - data.length); row += 1) {
+      tableBasicEmptyRow.push(
+        <TableBasicEmptyRow
           style={style}
-          className={`table-basic__cell row-${rowIndex % 2} col-${colIndex % 2} ${action ? 'selectable' : ''}`}>
-          {item[`${columnItem.value}`]}
-        </td>)}
-      </tr>
-    );
+          key={row}
+          columnInRow={column}
+          rowIndex={data.length + row}
+        />
+      )
+    }
+    return tableBasicEmptyRow;
+  };
+
+  function updateCheckboxes() {
+    const updatedTableContent = tableData.map((element) => ({ ...element, isSelected: !tableCheckboxState }))
+    dispatch(setGlobalCheckboxState(!tableCheckboxState))
+    dispatch(setTableData(updatedTableContent))
   }
 
   return (
-    <table className="table-basic wrapper">
+    <table className={`${className || ''} table-basic wrapper`}>
       <thead className="table-basic__thead">
         <tr>
           {column.map((item, index) => <TableHeadItem key={index} item={item} />)}
+          <td style={style}
+            aria-hidden="true"
+            className={`table-basic__column-name selectable ${tableCheckboxState ? 'selected' : ''}`}
+            onClick={() => {
+              updateCheckboxes()
+            }}
+          >
+            {tableCheckboxState ? '>Selected<' : '> Select <'}
+          </td>
         </tr>
       </thead>
       <tbody className="table-basic__tbody">
-        {data.map((item, rowIndex) => <TableRow key={rowIndex} item={item} columnInRow={column} rowIndex={rowIndex} />)}
+        {data.map((item, rowIndex) =>
+          <TableBasicRow
+            action={action}
+            style={style}
+            key={rowIndex}
+            item={item}
+            columnInRow={column}
+            rowIndex={rowIndex}
+          />)}
+        {minRowsOnPage - data.length > 0 ?
+          generateEmptyRows()
+          :
+          ''
+        }
       </tbody>
-    </table>
+    </table >
   );
 }
 

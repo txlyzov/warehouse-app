@@ -1,0 +1,59 @@
+@import "../../../styles/Text";
+@import "../../../styles/Colors";
+
+$table-borders: 1px;
+.table-basic__row {
+  .table-basic__cell {
+    border: $table-borders $black-100 solid;
+
+    .cell-content-1 {
+      @include text-h4();
+    }
+
+    &.selectable:hover {
+      border: $table-borders $red-en-100 solid;
+    }
+  }
+
+  .row-0.col-0,
+  .row-1.col-1 {
+    background: $white-100;
+    color: $black-100;
+    @include text-h4();
+  }
+
+  .row-0.col-1,
+  .row-1.col-0 {
+    background: $green-fgc-100;
+    color: $white-100;
+    @include text-h4();
+  }
+
+  &.selectable:hover {
+    .row-0.col-0,
+    .row-1.col-1 {
+      background: $white-75;
+      @include text-stroke-05($white-100);
+    }
+
+    .row-0.col-1,
+    .row-1.col-0 {
+      background: $green-fgc-75;
+      @include text-stroke-05($black-100);
+    }
+  }
+
+  &.selectable:active {
+    .row-0.col-0,
+    .row-1.col-1 {
+      background: $white-25;
+      @include text-stroke-05($white-100);
+    }
+
+    .row-0.col-1,
+    .row-1.col-0 {
+      background: $green-fgc-25;
+      @include text-stroke-05($black-100);
+    }
+  }
+}

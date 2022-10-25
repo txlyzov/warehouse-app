@@ -54,7 +54,12 @@ function HomePage() {
           />
         </div>
         <div className="home__center-elements">
-          <TableCompact content={tableContent} tableSettings={tableSettings} cellHeight="71px" cellWidth="200px" action={(element) => routeChange(`/warehouse/${element.id}`)} />
+          <TableCompact
+            content={tableContent}
+            tableSettings={tableSettings}
+            cellHeight="71px"
+            cellWidth="200px"
+            action={(element) => routeChange(`/warehouse/${element.id}`)} />
         </div>
         <div className="home__bottom-elements">
           <div className="home__counter">
