@@ -178,7 +178,7 @@ function WarehousePage() {
                                     size='smd'
                                     text='5'
                                     click={() => changeItemsOnPage(5)}
-                                    disabled // should be removed after select counter fix
+                                // disabled // should be removed after select counter fix
                                 />
                                 <Button
                                     className='warehouse__size-button'
@@ -186,7 +186,7 @@ function WarehousePage() {
                                     size='smd'
                                     text='15'
                                     click={() => changeItemsOnPage(15)}
-                                    disabled // should be removed after select counter fix
+                                // disabled // should be removed after select counter fix
                                 />
                                 <Button
                                     className='warehouse__size-button'
@@ -215,7 +215,13 @@ function WarehousePage() {
                                 cellHeight='46px'
                                 cellWidth='146px'
                                 minRowsOnPage={itemsOnPage}
-                            /> : ''}
+                            /> :
+                            <div className='warehouse__empty-note-block'>
+                                <h3 className='warehouse__empty-note'>
+                                    {/* eslint-disable-next-line react/no-unescaped-entities */}
+                                    Warehouse have no registered records for it. You can add some with "Add cargo" option.
+                                </h3>
+                            </div>}
                     </div>
                 </div>
             </div>

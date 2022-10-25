@@ -3,6 +3,15 @@
 
 $blocks-border-width: 2px;
 
+@mixin block-styles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $green-pp-100;
+  border: $blocks-border-width solid $red-en-100;
+  border-radius: 10px;
+}
+
 .confirm-removing.wrapper {
   background: url("../../../assets/images/background-warehouse-changes.jpg")
     no-repeat center center fixed;
@@ -18,21 +27,17 @@ $blocks-border-width: 2px;
 
   .confirm-removing__elements-block {
     margin: 20px;
-    // width: 1200px;
     width: min-content;
-    // min-height: 690px;
     height: min-content;
     border-radius: 50px;
     background-color: rgba($white-100, 0.75);
     box-shadow: 0px 0px 10px 10px $black-100;
     display: flex;
-    // align-items: center;
     flex-direction: row;
 
     .confirm-removing {
       &__left-elements {
         width: 340px;
-        // height: 490px;
         height: min-content;
         display: flex;
         align-items: center;
@@ -41,32 +46,23 @@ $blocks-border-width: 2px;
 
         .confirm-removing {
           &__name-block {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            @include block-styles;
             width: 340px - $blocks-border-width;
             height: 140px - $blocks-border-width;
-            background: $green-pp-100;
             border-width: 0px $blocks-border-width $blocks-border-width 0px;
-            border-style: solid;
-            border-color: $red-en-100;
             border-radius: 50px 0px 20px;
             color: $white-100;
             @include text-stroke-05($black-100);
           }
+
           &__cancel-button {
             margin: 20px 0;
           }
+
           &__info-block {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            @include block-styles;
             width: 300px - $blocks-border-width * 2;
             height: 210px - $blocks-border-width * 2;
-            background: $green-pp-100;
-            border: $blocks-border-width solid $red-en-100;
-            border-radius: 10px;
 
             .confirm-removing__info-text {
               margin: 10px;
@@ -74,9 +70,9 @@ $blocks-border-width: 2px;
               @include text-stroke-05($black-100);
             }
           }
+
           &__delete-buttons-block {
             margin: 20px 0 40px 0;
-
             display: grid;
             grid-template-columns: 40px 1fr 40px;
             width: 100%;
@@ -86,6 +82,7 @@ $blocks-border-width: 2px;
                 grid-column-start: 2;
                 margin: auto;
               }
+
               &__confirm-delete-button {
                 grid-column-start: 3;
               }
@@ -93,6 +90,7 @@ $blocks-border-width: 2px;
           }
         }
       }
+
       &__right-elements {
         min-width: 715px;
         margin: 40px 5px 40px 40px;
@@ -101,6 +99,7 @@ $blocks-border-width: 2px;
           &__table-search {
             justify-content: end;
           }
+
           &__table {
             margin-top: 30px;
           }

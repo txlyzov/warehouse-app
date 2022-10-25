@@ -13,17 +13,11 @@ function TableBasic({
   const dispatch = useDispatch();
   const tableData = useSelector(selectTableData);
   const tableCheckboxState = useSelector(selectGlobalCheckboxState);
-  // const [selectRowStatus, setSelectRowStatus] = useState(starterSelectOption);
   const selectedOptionsValue = useSelector(selectCheckboxesSelected);
 
   useEffect(() => {
     dispatch(setGlobalCheckboxState(starterSelectOption));
   }, []);
-
-  // useEffect(() => {
-  //   console.log('43343434343444334');
-  //   setSelectRowStatus(tableCheckboxState);
-  // }, [tableCheckboxState]);
 
   useEffect(() => {
     if (selectedOptionsValue === tableData.length) {
@@ -66,7 +60,6 @@ function TableBasic({
   function updateCheckboxes() {
     const updatedTableContent = tableData.map((element) => ({ ...element, isSelected: !tableCheckboxState }))
     dispatch(setGlobalCheckboxState(!tableCheckboxState))
-    // setSelectRowStatus(!selectRowStatus)
     dispatch(setTableData(updatedTableContent))
   }
 

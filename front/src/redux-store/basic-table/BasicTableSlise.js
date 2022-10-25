@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   globalCheckboxState: false,
   checkboxesSelected: 0,
-  // tableData: [{ index: 0, data: [], isSelected: false }],
   tableData: [],
 };
 

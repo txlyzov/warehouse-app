@@ -32,10 +32,7 @@ function ConfirmRemoving() {
     useEffect(() => {
         if (tableData.length === 0) {
             routeChange(`/warehouse/${params.warehouseId}`);
-            // return
         }
-        // console.log(tableData);
-        // setDisplayedContent(tableData)
     }, []);
 
     useEffect(() => {
@@ -83,7 +80,7 @@ function ConfirmRemoving() {
                             text={`Delete ${selectedOptionsValue < 999 ? selectedOptionsValue : '999+'} item${selectedOptionsValue === 1 ? '' : 's'}`}
                             size="md"
                         />
-                        <Button click={() => routeChange('/create-warehouse')}
+                        <Button click={() => console.log('removing items')}
                             className="confirm-removing__confirm-delete-button"
                             type="primary"
                             text={
@@ -109,7 +106,6 @@ function ConfirmRemoving() {
                         setInputValue={setInputSearch}
                     />
                     <TableBasic
-                        // action={(element) => routeChange(`${location.pathname}/item/${element.data.id}`)}
                         className="confirm-removing__table"
                         column={columnSettings}
                         data={tableDisplayedContent}
