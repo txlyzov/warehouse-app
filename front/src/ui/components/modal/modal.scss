@@ -45,9 +45,6 @@
           border-radius: 15px;
 
           .modal__header {
-            // align-items: center;
-            // display: flex;
-            // flex-direction: row-reverse;
             display: grid;
             grid-template-columns: 45px 1fr 45px;
             flex-direction: row-reverse;

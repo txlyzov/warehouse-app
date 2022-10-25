@@ -36,19 +36,6 @@ export default function Modal({
       >
         <div className="modal__container">
           <div className="modal__header">
-            {/* <Button
-              size="ssm"
-              type="secondary"
-              className="modal__close-button"
-              click={() => closeModal()}
-              text={(
-                <Icon
-                  name="close"
-                  size="22px"
-                  className="input-block__close-icon close-icon-bs"
-                />
-              )}
-            /> */}
             <span className={`modal__title ${isErrorCase ? 'error-case' : ''}`}>{title}</span>
             <Button
               click={() => closeModal()}

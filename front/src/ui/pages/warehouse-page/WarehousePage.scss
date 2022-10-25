@@ -22,13 +22,12 @@ $table-borders: 2px;
     min-height: 690px;
     height: min-content;
     border-radius: 50px;
-
     background-color: rgba($white-100, 0.75);
     box-shadow: 0px 0px 10px 10px $black-100;
-
     display: flex;
     align-items: center;
     flex-direction: column;
+
     .warehouse {
       &__top-elements {
         width: 100%;
@@ -74,17 +73,18 @@ $table-borders: 2px;
         height: 100%;
         display: grid;
         grid-template-columns: 1fr 2fr;
+
         .warehouse {
           &__options-buttons-block {
             display: flex;
             align-items: center;
-            // justify-content: space-between;
             flex-direction: column;
 
             .warehouse {
               &__delete-buttons {
                 margin-bottom: 90px;
               }
+
               &__delete-buttons,
               &__edit-buttons {
                 display: flex;
@@ -102,6 +102,7 @@ $table-borders: 2px;
                   }
                 }
               }
+
               &__pagination {
                 display: flex;
                 justify-content: center;
@@ -111,6 +112,7 @@ $table-borders: 2px;
               }
             }
           }
+
           &__table-block {
             display: flex;
             flex-direction: column;
@@ -122,19 +124,18 @@ $table-borders: 2px;
                 align-items: center;
                 justify-content: space-between;
                 margin: 0px 20px 30px 80px;
+
                 .warehouse {
                   &__table-sizes {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                     width: 160px;
+
                     .warehouse__size-button {
                       @include text-h3;
                       @include text-stroke-075($black-100);
                     }
-                  }
-                  &__table-search {
-                    // margin: 0px 20px 30px auto;
                   }
                 }
               }
@@ -147,7 +148,6 @@ $table-borders: 2px;
       }
 
       &__bottom-elements {
-        // margin: 0 0 40px 0;
         width: 100%;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -157,13 +157,6 @@ $table-borders: 2px;
           justify-content: center;
           align-items: center;
           margin: 20px auto 40px auto;
-          // width: 300px;
-          // height: 60px;
-          // background-color: $green-pp-100;
-          // border: 1px $red-en-100 solid;
-          // border-radius: 10px;
-          // color: $white-100;
-          // @include text-stroke-05($black-100);
         }
       }
     }

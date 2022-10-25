@@ -17,16 +17,19 @@ $border-width: 1px;
       border-bottom-right-radius: 0px;
       border-right-width: 1px;
     }
+
     &__to-prev {
       border-radius: 0px;
       border-right-width: 1px;
       border-left-width: 1px;
     }
+
     &__to-next {
       border-radius: 0px;
       border-right-width: 1px;
       border-left-width: 1px;
     }
+
     &__to-last {
       border-top-left-radius: 0px;
       border-bottom-left-radius: 0px;
@@ -48,12 +51,13 @@ $border-width: 1px;
       &:active {
         background-color: $green-pp-25;
       }
-      //   @include text-stroke-05($black-100);
+
       .pagination__edit-block {
         display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
+
         .pagination {
           &__input,
           &__page-number {
@@ -89,6 +93,7 @@ $border-width: 1px;
                 margin: 10px 0 10px 10px;
               }
             }
+
             &__page-number {
               @include text-h3;
             }
