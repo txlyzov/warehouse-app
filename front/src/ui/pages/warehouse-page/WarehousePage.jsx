@@ -30,43 +30,6 @@ function WarehousePage() {
         { heading: 'Value', value: 'username' },
     ]
 
-    useEffect(() => {
-        dispatch(resetTableStorage())
-        const fetchData = async () => axios('https://jsonplaceholder.typicode.com/users')
-            .then((res) => {
-                const dataArray = []
-                res.data.forEach((element, index) => {
-                    dataArray.push({ index, data: element, isSelected: false })
-                });
-                dispatch(setTableData(dataArray.slice(0, 9)));
-                setDisplayedContent(dataArray.slice(0, 5))
-            })
-            .catch((err) => err)
-
-        fetchData();
-
-    }, []);
-
-    useEffect(() => {
-        setCurrentTablePage(0)
-        if (inputSearch.length === 0) {
-            setDisplayedContent(tableData.slice(0, itemsOnPage));
-            return;
-        }
-        const regex = new RegExp(inputSearch, 'g');
-        const searchResults = tableData.filter((element) => element.data.name.match(regex));
-        setDisplayedContent(searchResults)
-    }, [inputSearch]);
-
-    // useEffect(() => {
-    //     if (selectedOptionsValue === tableData.length) {
-    //         dispatch(setGlobalCheckboxState(true))
-    //     }
-    //     if (selectedOptionsValue === 0) {
-    //         dispatch(setGlobalCheckboxState(false))
-    //     }
-    // }, [selectedOptionsValue]);
-
     const navigate = useNavigate();
     const routeChange = (route) => {
         navigate(route);
@@ -84,6 +47,37 @@ function WarehousePage() {
         dispatch(setTableData(itemsToRemove))
         routeChange(`/warehouse/${params.warehouseId}/confirm-removing`)
     }
+
+    useEffect(() => {
+        dispatch(resetTableStorage())
+        const fetchData = async () => axios('https://jsonplaceholder.typicode.com/users')
+            .then((res) => {
+                const dataArray = []
+                res.data.forEach((element, index) => {
+                    dataArray.push({ index, data: element, isSelected: false })
+                });
+                dispatch(setTableData(dataArray.slice(0, 9)));
+                setDisplayedContent(dataArray.slice(0, 5))
+
+                // should be removed after select counter fix
+                changeItemsOnPage(tableData.length)
+            })
+            .catch((err) => err)
+
+        fetchData();
+
+    }, []);
+
+    useEffect(() => {
+        setCurrentTablePage(0)
+        if (inputSearch.length === 0) {
+            setDisplayedContent(tableData.slice(0, itemsOnPage));
+            return;
+        }
+        const regex = new RegExp(inputSearch, 'g');
+        const searchResults = tableData.filter((element) => element.data.name.match(regex));
+        setDisplayedContent(searchResults)
+    }, [inputSearch]);
 
     return (
         <div className="warehouse wrapper">
@@ -184,6 +178,7 @@ function WarehousePage() {
                                     size='smd'
                                     text='5'
                                     click={() => changeItemsOnPage(5)}
+                                    disabled // should be removed after select counter fix
                                 />
                                 <Button
                                     className='warehouse__size-button'
@@ -191,6 +186,7 @@ function WarehousePage() {
                                     size='smd'
                                     text='15'
                                     click={() => changeItemsOnPage(15)}
+                                    disabled // should be removed after select counter fix
                                 />
                                 <Button
                                     className='warehouse__size-button'
@@ -220,15 +216,6 @@ function WarehousePage() {
                                 cellWidth='146px'
                                 minRowsOnPage={itemsOnPage}
                             /> : ''}
-                        {/* <TableBasic
-                            action={(element) => routeChange(`${location.pathname}/item/${element.data.id}`)}
-                            className="warehouse__table"
-                            data={tableDisplayedContent}
-                            column={columnSettings}
-                            cellHeight='46px'
-                            cellWidth='146px'
-                            minRowsOnPage={itemsOnPage}
-                        /> */}
                     </div>
                 </div>
             </div>
