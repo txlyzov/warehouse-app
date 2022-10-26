@@ -1,22 +1,32 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './TableBasic.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import TableBasicRow from './TableBasicRow/TableBasicRow';
-import { selectGlobalCheckboxState, selectTableData, setGlobalCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
+import { selectCheckboxesSelected, selectGlobalCheckboxState, selectTableData, setGlobalCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
 import TableBasicEmptyRow from './TableBasicEmptyRow/TableBasicEmptyRow';
 
 function TableBasic({
-  data, column, cellWidth, cellHeight, action, className, minRowsOnPage = 0
+  data, column, cellWidth, cellHeight, action, className, minRowsOnPage = 0, starterSelectOption = false
 }) {
 
   const dispatch = useDispatch();
   const tableData = useSelector(selectTableData);
   const tableCheckboxState = useSelector(selectGlobalCheckboxState);
+  const selectedOptionsValue = useSelector(selectCheckboxesSelected);
 
   useEffect(() => {
-    dispatch(setGlobalCheckboxState(false))
+    dispatch(setGlobalCheckboxState(starterSelectOption));
   }, []);
+
+  useEffect(() => {
+    if (selectedOptionsValue === tableData.length) {
+      dispatch(setGlobalCheckboxState(true))
+    }
+    if (selectedOptionsValue === 0) {
+      dispatch(setGlobalCheckboxState(false))
+    }
+  }, [selectedOptionsValue]);
 
   const style = {
     width: cellWidth || '100px',

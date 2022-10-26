@@ -1,8 +1,6 @@
 @import "../../styles/Text";
 @import "../../styles/Colors";
 
-$table-borders: 2px;
-
 .warehouse.wrapper {
   background: url("../../../assets/images/background-tables.jpg") no-repeat
     center center fixed;
@@ -139,8 +137,26 @@ $table-borders: 2px;
                   }
                 }
               }
+
               &__table {
                 margin: 0 120px auto auto;
+              }
+
+              &__empty-note-block {
+                margin: 50px 120px 50px auto;
+                width: 600px;
+                height: 70px;
+                background: $green-pp-100;
+                border: 2px solid $red-en-100;
+                border-radius: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .warehouse__empty-note {
+                  margin: 10px;
+                  color: $white-100;
+                  @include text-stroke-05($black-100);
+                }
               }
             }
           }
