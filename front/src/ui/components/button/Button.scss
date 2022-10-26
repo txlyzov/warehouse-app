@@ -21,12 +21,16 @@
   background-color: $green-djg-100;
   border: 2px solid $red-en-100;
 
-  &:hover &:not(.disabled) {
-    background: $green-djg-75;
+  &:hover {
+    &:not(.disabled) {
+      background: $green-djg-75;
+    }
   }
-  &:active &:not(.disabled) {
-    background: $green-djg-25;
-    border: 3px solid $red-en-100;
+  &:active {
+    &:not(.disabled) {
+      background: $green-djg-25;
+      border: 3px solid $red-en-100;
+    }
   }
 
   &.disabled {
@@ -40,12 +44,16 @@
   background-color: $green-fgc-100;
   border: 2px solid $red-en-100;
 
-  &:hover &:not(.disabled) {
-    background: $green-fgc-75;
+  &:hover {
+    &:not(.disabled) {
+      background: $green-fgc-75;
+    }
   }
-  &:active &:not(.disabled) {
-    background: $green-fgc-25;
-    border: 3px solid $red-en-100;
+  &:active {
+    &:not(.disabled) {
+      background: $green-fgc-25;
+      border: 3px solid $red-en-100;
+    }
   }
 
   &.disabled {

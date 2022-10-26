@@ -208,7 +208,7 @@ function WarehousePage() {
                         </div>
                         {tableData.length > 0 ?
                             <TableBasic
-                                action={(element) => routeChange(`${location.pathname}/item/${element.data.id}`)}
+                                action={(element) => routeChange(`${location.pathname}/entity/${element.data.id}`)}
                                 className="warehouse__table"
                                 data={tableDisplayedContent}
                                 column={columnSettings}
