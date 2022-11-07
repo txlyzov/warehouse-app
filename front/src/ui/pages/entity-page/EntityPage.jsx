@@ -6,6 +6,7 @@ import Button from '../../components/button/Button';
 import { selectItem, selectType } from '../../../redux-store/data-transfer/DataTransferSlice';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
 import { InputModal, NoteModal } from '../../components/modal/modal-templates/modal-templates';
+import Counter from '../../components/counter/Counter';
 
 
 function EntityPage() {
@@ -14,7 +15,7 @@ function EntityPage() {
     const dispatch = useDispatch();
     const type = useSelector(selectType);
     // const item = useSelector(selectItem);
-    const [entity, setEntity] = useState(useSelector(selectItem));
+    const [entity, setEntity] = useState(null); // useSelector(selectItem)
     const [entityName, setEntityName] = useState('Loading..');
     const [entityLocation, setEntityLocation] = useState('Loading..');
     const [entityAmount, setEntityAmount] = useState('Loading..');
@@ -69,27 +70,23 @@ function EntityPage() {
                 <div className="entity__top-elements">
                     <div className='entity__name-block'
                         aria-hidden="true"
-                        onClick={() => { navigator.clipboard.writeText('name') }}
+                        onDoubleClick={() => {
+                            dispatch(
+                                setModalContent(
+                                    <InputModal
+                                        title="Edit name"
+                                        noteText="You can update the name of cargo. Not empty string."
+                                        setInputValue={setEntityName}
+                                        inputValue={entityName}
+                                        notNull
+                                    />
+                                )
+                            )
+                        }
+                        }
                     >
-                        {/* <h2 className='entity__name'>
-                            {entity ? entity.name : 'Loading..'}
-                        </h2> */}
                         <h2
                             className='entity__name'
-                            onDoubleClick={() => {
-                                dispatch(
-                                    setModalContent(
-                                        <InputModal
-                                            title="Edit name"
-                                            noteText="You can update the name of cargo. Not empty string."
-                                            setInputValue={setEntityName}
-                                            inputValue={entityName}
-                                            notNull
-                                        />
-                                    )
-                                )
-                            }
-                            }
                         >
                             {entityName}
                         </h2>
@@ -98,7 +95,6 @@ function EntityPage() {
                     {entity ?
                         <div className='entity__location-block'
                             aria-hidden="true"
-                        // onClick={() => { navigator.clipboard.writeText('id') }}
                         >
                             <h3 className='entity__text'>
                                 {entityLocation.split(',')[0]}
@@ -148,19 +144,26 @@ function EntityPage() {
                                 </h3>
                             }
                         </div>
-                        <div className='entity__amount-block'>
-                            <div className='entity__amount'>
-                                <h3 className='entity__text'>
-                                    Items left:
-                                </h3>
-                                {/* <h3 className='entity__text'>
-                                    {entity ? entity.amount : 'Loading..'}
-                                </h3> */}
-                                <h3 className='entity__text'>
-                                    {entityAmount}
-                                </h3>
+                        {entity ?
+                            <Counter
+                                className="warehouse__pagination"
+                                size="lg"
+                                inputCurrentValue={entityAmount}
+                                outputCurrentPage={(amount) => {
+                                    setEntityAmount(amount)
+                                }}
+                            /> :
+                            <div className='entity__amount-block'>
+                                <div className='entity__amount'>
+                                    <h3 className='entity__text'>
+                                        Items left:
+                                    </h3>
+                                    <h3 className='entity__text'>
+                                        Loading..
+                                    </h3>
+                                </div>
                             </div>
-                        </div>
+                        }
                     </div>
                     <div className='entity__central-left-elements'>
                         {entity ?
