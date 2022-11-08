@@ -79,3 +79,28 @@
     }
   }
 }
+
+.content.input-modal {
+  width: 470px;
+  .content {
+    &__text {
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    &__value-input {
+      margin: 15px 0;
+    }
+
+    &__issue-block {
+      width: 100%;
+      .content__issue {
+        color: $red-en-100;
+      }
+    }
+
+    &__close-button {
+      margin-top: 15px;
+    }
+  }
+}

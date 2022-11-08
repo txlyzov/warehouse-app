@@ -114,3 +114,68 @@ export function ErrorModal({ title = 'Error', errorText = 'Unknown error' }) {
         noteJSXPattern('error-modal', title, errorText)
     )
 }
+
+export function InputModal({
+    title = 'Input',
+    noteText = 'Unknown error',
+    inputValue,
+    setInputValue,
+    notNull = false,
+    notString = false,
+    regexCheck = null
+}) {
+    const [modalInputValue, setModalInputValue] = useState(inputValue);
+    const [inputIssue, setInputIssue] = useState(false);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(setModalTitle(title))
+        // dispatch(setErrorCase());
+    }, []);
+
+    const closeModal = () => {
+        if (notNull && modalInputValue.length === 0) {
+            setInputIssue(true);
+            return
+        }
+        if (notString && !/^\d+$/g.test(modalInputValue)) {
+            setInputIssue(true);
+            return
+        }
+        if (regexCheck && !regexCheck.test(modalInputValue)) {
+            setInputIssue(true);
+            return
+        }
+        setInputValue(modalInputValue)
+        dispatch(resetModal())
+    }
+
+    return (
+        <div className='content input-modal'>
+            <h4 className='content__text'>{noteText}</h4>
+            <Input
+                className="content__value-input"
+                setInputValue={setModalInputValue}
+                inputValue={modalInputValue}
+                issue={inputIssue}
+            />
+            {inputIssue ?
+                <div className='content__issue-block'>
+                    <h3 className='content__issue'>
+                        Conditions failed
+                    </h3>
+                </div>
+                :
+                ''
+            }
+            <Button
+                click={() => closeModal()}
+                className='content__close-button'
+                text='Apply changes'
+                type="primary"
+                size="md"
+                disabled={inputValue === modalInputValue}
+            />
+        </div>
+    )
+}
