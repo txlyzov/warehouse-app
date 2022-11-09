@@ -5,7 +5,16 @@ const { createToken, verifyToken } = require("../../utils/auth-util");
 module.exports = {
     async signUpUser(req,res) {
         const { email, password } = req.body;
-        console.log(req.body);
+        const userSearch = await usersModel.findOne({
+          where: {
+            email,
+          },
+        });;
+
+        if (userSearch){
+          return res.status(HSC.BAD_REQUEST).send(`Account already exists.`);
+        }
+
         usersModel.create({
             email,
             password,
@@ -23,10 +32,8 @@ module.exports = {
       });;
 
     if (!userByEmail) {
-      return res.status(HSC.BAD_REQUEST).send(`Wrong email.`);;
+      return res.status(HSC.BAD_REQUEST).send(`Wrong email.`);
     }
-
-    console.log(userByEmail);
 
     if(password===userByEmail.password){
         console.log(444);
@@ -39,9 +46,9 @@ module.exports = {
 
     async changePassword(req,res) {
 
-        const { newPassword: password,token } = req.body;
-        const id = verifyToken(token).id;
-        const result = await usersModel.update(
+      const { newPassword: password,token } = req.body;
+      const id = verifyToken(token).id;
+      const result = await usersModel.update(
             {
               password,
             },
@@ -53,8 +60,6 @@ module.exports = {
           );
       
 
-        return res.sendStatus(HSC.OK);
+      return res.sendStatus(HSC.OK);
     }
-
-    
 }

@@ -14,6 +14,11 @@ module.exports = {
           );
     },
     verifyToken(token){
-        return jwt.verify(token, JWT_SECRET);
+        try {
+            const result = jwt.verify(token, JWT_SECRET);
+            return result;
+        } catch (error) {
+            return null;
+        }        
     }
 }

@@ -9,7 +9,8 @@
     "db-migrate": "sequelize-cli db:migrate",
     "db-drop": "sequelize-cli db:migrate:undo:all",
     "db-init": "node -e 'require(\"./utils/db-init.js\").createDb()'",
-    "db-delete": "node -e 'require(\"./utils/db-init.js\").dropDb()'"
+    "db-delete": "node -e 'require(\"./utils/db-init.js\").dropDb()'",
+    "db-reset": "sequelize-cli db:migrate:undo:all && sequelize-cli db:migrate"
   },
   "author": "",
   "license": "ISC",
