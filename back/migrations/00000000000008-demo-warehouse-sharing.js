@@ -5,13 +5,13 @@ module.exports = {
     await queryInterface.bulkInsert(
       'warehouse-sharing',
       [
-        // {
-        //   warehouseId: 1,
-        //   sharedWithUserId: 1,
-        //   role: 'owner',
-        //   createdAt: new Date(),
-        //   updatedAt: new Date(),
-        // },
+        {
+          warehouseId: 1,
+          sharedWithUserId: 1,
+          role: 'owner',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
         {
           warehouseId: 1,
           sharedWithUserId: 2,
@@ -23,6 +23,20 @@ module.exports = {
           warehouseId: 1,
           sharedWithUserId: 3,
           role: 'viewer',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          warehouseId: 3,
+          sharedWithUserId: 1,
+          role: 'owner',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          warehouseId: 2,
+          sharedWithUserId: 2,
+          role: 'owner',
           createdAt: new Date(),
           updatedAt: new Date(),
         },

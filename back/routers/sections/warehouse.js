@@ -8,7 +8,7 @@ module.exports = {
     const { token, name, location } = req.body;
     const verify = verifyToken(token);
     if (!verify) {
-      return res.status(HSC.BAD_REQUEST).send(`Wrong token.`);;
+      return res.status(HSC.FORBIDDEN).send(`Wrong token.`);;
     }
     const ownerId = verify.id;
     const result = await warehousesModel.create({
@@ -27,7 +27,7 @@ module.exports = {
     const { token } = req.body;
     const verify = verifyToken(token);
     if (!verify) {
-      return res.status(HSC.BAD_REQUEST).send(`Wrong token.`);;
+      return res.status(HSC.FORBIDDEN).send(`Wrong token.`);;
     }
     const ownerId = verify.id;
 
@@ -42,16 +42,16 @@ module.exports = {
 
   async getWarehouseByID(req,res) {
     const { token } = req.body;
-    const { id } = req.params;
+    const { warehouseId } = req.params;
     const verify = verifyToken(token);
     if (!verify) {
-      return res.status(HSC.BAD_REQUEST).send(`Wrong token.`);;
+      return res.status(HSC.FORBIDDEN).send(`Wrong token.`);;
     }
     const ownerId = verify.id;
 
     const result = await warehousesModel.findOne({
       where : {
-        id,
+        id: warehouseId,
         ownerId,
       },
     });
@@ -61,10 +61,10 @@ module.exports = {
 
   async updateWarehouseByID(req,res) {
     const { token, name, location } = req.body;
-    const { id } = req.params;
+    const { warehouseId } = req.params;
     const verify = verifyToken(token);
     if (!verify) {
-      return res.status(HSC.BAD_REQUEST).send(`Wrong token.`);
+      return res.status(HSC.FORBIDDEN).send(`Wrong token.`);
     }
     const ownerId = verify.id;
 
@@ -75,7 +75,7 @@ module.exports = {
     },
     {
       where : {
-        id,
+        id: warehouseId,
         ownerId,
       },
     }
@@ -88,17 +88,17 @@ module.exports = {
 
   async deleteWarehouseByID(req,res) {
     const { token } = req.body;
-    const { id } = req.params;
+    const { warehouseId } = req.params;
     const verify = verifyToken(token);
     if (!verify) {
-      return res.status(HSC.BAD_REQUEST).send(`Wrong token.`);
+      return res.status(HSC.FORBIDDEN).send(`Wrong token.`);
     }
     const ownerId = verify.id;
 
     const result = await warehousesModel.destroy(
     {
       where : {
-        id,
+        id: warehouseId,
         ownerId,
       },
     }

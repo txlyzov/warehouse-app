@@ -58,7 +58,6 @@ module.exports = {
               },
             },
           );
-      
 
       return res.sendStatus(HSC.OK);
     }
