@@ -5,11 +5,12 @@ const { verifyToken } = require("../../utils/auth-util");
 
 module.exports = {
   async createWarehouse(req,res) {
-    const { token, name, location } = req.body;
+    const token = req.get('token');
     const verify = verifyToken(token);
     if (!verify) {
       return res.status(HSC.FORBIDDEN).send(`Wrong token.`);;
     }
+    const { name, location } = req.body;
     const ownerId = verify.id;
     const result = await warehousesModel.create({
       name,
@@ -24,7 +25,7 @@ module.exports = {
   },
 
   async getWarehousesByUserID(req,res) {
-    const { token } = req.body;
+    const token = req.get('token');
     const verify = verifyToken(token);
     if (!verify) {
       return res.status(HSC.FORBIDDEN).send(`Wrong token.`);;
@@ -41,12 +42,12 @@ module.exports = {
   },
 
   async getWarehouseByID(req,res) {
-    const { token } = req.body;
-    const { warehouseId } = req.params;
+    const token = req.get('token');
     const verify = verifyToken(token);
     if (!verify) {
       return res.status(HSC.FORBIDDEN).send(`Wrong token.`);;
     }
+    const { warehouseId } = req.params;
     const ownerId = verify.id;
 
     const result = await warehousesModel.findOne({
@@ -60,12 +61,13 @@ module.exports = {
   },
 
   async updateWarehouseByID(req,res) {
-    const { token, name, location } = req.body;
-    const { warehouseId } = req.params;
+    const token = req.get('token');
     const verify = verifyToken(token);
     if (!verify) {
       return res.status(HSC.FORBIDDEN).send(`Wrong token.`);
     }
+    const { name, location } = req.body;
+    const { warehouseId } = req.params;
     const ownerId = verify.id;
 
     const result = await warehousesModel.update(
@@ -87,12 +89,12 @@ module.exports = {
   },
 
   async deleteWarehouseByID(req,res) {
-    const { token } = req.body;
-    const { warehouseId } = req.params;
+    const token = req.get('token');
     const verify = verifyToken(token);
     if (!verify) {
       return res.status(HSC.FORBIDDEN).send(`Wrong token.`);
     }
+    const { warehouseId } = req.params;
     const ownerId = verify.id;
 
     const result = await warehousesModel.destroy(
