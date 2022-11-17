@@ -5,20 +5,19 @@ const { verifyToken } = require("../../utils/auth-util");
 
 module.exports = {
   async createCargo(req,res) {
+    const token = req.get('token');
+    const verify = verifyToken(token);
+    if (!verify) {
+      return res.status(HSC.FORBIDDEN).send(`Wrong token.`);;
+    }
+
     const { 
-      token, 
       name,
       quantity,
       umageUrl,
       notes,
     } = req.body;
     const { warehouseId } = req.params;
-
-    const verify = verifyToken(token);
-    if (!verify) {
-      return res.status(HSC.FORBIDDEN).send(`Wrong token.`);;
-    }
-
     const result = await cargoModel.create({
       name,
       quantity,
@@ -34,12 +33,12 @@ module.exports = {
   },
 
   async getCargosByWarehouseID(req,res) {
-    const { token } = req.body;
-    const { warehouseId } = req.params;
+    const token = req.get('token');
     const verify = verifyToken(token);
     if (!verify) {
       return res.status(HSC.FORBIDDEN).send(`Wrong token.`);;
     }
+    const { warehouseId } = req.params;
     const userId = verify.id;
 
     const warehouse = await warehousesModel.findOne({
@@ -62,12 +61,12 @@ module.exports = {
   },
 
   async getCargoByID(req,res) {
-    const { token } = req.body;
-    const { warehouseId, cargoId } = req.params;
+    const token = req.get('token');
     const verify = verifyToken(token);
     if (!verify) {
       return res.status(HSC.FORBIDDEN).send(`Wrong token.`);;
     }
+    const { warehouseId, cargoId } = req.params;
     const userId = verify.id;
 
     const result = await cargoModel.findOne({
@@ -95,18 +94,18 @@ module.exports = {
   },
 
   async updateCargoByID(req,res) {
-    const { 
-      token, 
+    const token = req.get('token');
+    const verify = verifyToken(token);
+    if (!verify) {
+      return res.status(HSC.FORBIDDEN).send(`Wrong token.`);
+    }
+    const {  
       name,
       quantity,
       umageUrl,
       notes,
     } = req.body;
     const { warehouseId, cargoId } = req.params;
-    const verify = verifyToken(token);
-    if (!verify) {
-      return res.status(HSC.FORBIDDEN).send(`Wrong token.`);
-    }
     const ownerId = verify.id;
 
     const cargo = await cargoModel.findOne({
@@ -148,12 +147,12 @@ module.exports = {
   },
 
   async deleteCargoByID(req,res) {
-    const { token } = req.body;
-    const { warehouseId, cargoId } = req.params;
+    const token = req.get('token');
     const verify = verifyToken(token);
     if (!verify) {
       return res.status(HSC.FORBIDDEN).send(`Wrong token.`);
     }
+    const { warehouseId, cargoId } = req.params;
     const ownerId = verify.id;
 
     const cargo = await cargoModel.findOne({

@@ -18,10 +18,10 @@ export const createWarehouse = async (warehouseName, warehouseLocation) => {
   return response;
 };
 
-export const getWarehousesByUserId = async () => {
+export const getCargosBywarehouseId = async (warehouseId) => {
   const { token } = getLoginData();
   const response = await axios.get(
-    `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/`,
+    `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}/cargos`,
     {
       headers: {
         token,
@@ -56,19 +56,6 @@ export const updateWarehouseById = async (
       name: warehouseName,
       location: warehouseLocation,
     },
-    {
-      headers: {
-        token,
-      },
-    }
-  );
-  return response;
-};
-
-export const deleteWarehouseById = async (warehouseId) => {
-  const { token } = getLoginData();
-  const response = await axios.delete(
-    `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}/delete`,
     {
       headers: {
         token,

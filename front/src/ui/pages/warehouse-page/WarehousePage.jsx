@@ -1,6 +1,5 @@
 import './WarehousePage.scss';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/button/Button';
@@ -10,6 +9,8 @@ import { resetTableStorage, selectCheckboxesSelected, selectTableData, setGlobal
 import Pagination from '../../components/pagination/Pagination';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
 import { ConfirmModal } from '../../components/modal/modal-templates/modal-templates';
+import { getCargosBywarehouseId } from '../../../services/CargoService';
+import { deleteWarehouseById, getWarehouseById } from '../../../services/WarehouseService';
 
 function WarehousePage() {
     const location = useLocation();
@@ -19,6 +20,7 @@ function WarehousePage() {
     const tableData = useSelector(selectTableData);
     const selectedOptionsValue = useSelector(selectCheckboxesSelected);
 
+    const [warehouseData, setWarehouseData] = useState(null);
     const [tableDisplayedContent, setDisplayedContent] = useState([]);
     const [currentTablePage, setCurrentTablePage] = useState(0);
     const [itemsOnPage, setItemsOnPage] = useState(5);
@@ -27,7 +29,7 @@ function WarehousePage() {
     const columnSettings = [
         { heading: 'Item Id', value: 'id' },
         { heading: 'Name', value: 'name' },
-        { heading: 'Value', value: 'username' },
+        { heading: 'Value', value: 'quantity' },
     ]
 
     const navigate = useNavigate();
@@ -42,30 +44,40 @@ function WarehousePage() {
     }
 
     const removeItems = () => {
-        console.log(selectedOptionsValue);
         const itemsToRemove = tableData.filter(item => item.isSelected).map((item, index) => ({ ...item, index }));
-        dispatch(setTableData(itemsToRemove))
-        routeChange(`/warehouse/${params.warehouseId}/confirm-removing`)
+        dispatch(setTableData(itemsToRemove));
+        routeChange(`/warehouse/${params.warehouseId}/confirm-removing`);
     }
 
     useEffect(() => {
-        dispatch(resetTableStorage())
-        const fetchData = async () => axios('https://jsonplaceholder.typicode.com/users')
-            .then((res) => {
-                const dataArray = []
-                res.data.forEach((element, index) => {
-                    dataArray.push({ index, data: element, isSelected: false })
-                });
-                dispatch(setTableData(dataArray.slice(0, 9)));
-                setDisplayedContent(dataArray.slice(0, 5))
+        dispatch(resetTableStorage());
 
-                // should be removed after select counter fix
-                changeItemsOnPage(tableData.length)
-            })
-            .catch((err) => err)
+        const asyncActions = async () => {
+            const warehouseRequestResult = await getWarehouseById(params.warehouseId);
 
-        fetchData();
+            if (warehouseRequestResult.status !== 200) {
+                routeChange('/home');
+            }
 
+            setWarehouseData(warehouseRequestResult.data)
+
+            const cargoRequestResult = await getCargosBywarehouseId(params.warehouseId);
+
+
+            if (cargoRequestResult.status !== 200) {
+                routeChange('/home');
+            }
+
+            const dataArray = []
+            cargoRequestResult.data.rows.forEach((element, index) => {
+                dataArray.push({ index, data: element, isSelected: false })
+            });
+
+            dispatch(setTableData(dataArray.slice(0, 9)));
+            setDisplayedContent(dataArray.slice(0, 5))
+        }
+
+        asyncActions();
     }, []);
 
     useEffect(() => {
@@ -91,20 +103,20 @@ function WarehousePage() {
                             Warehouse
                         </h2>
                         <h2 className='warehouse__name'>
-                            Name
+                            {warehouseData ? warehouseData.name : "Loading"}
                         </h2>
                     </div>
-                    <div className='warehouse__id-block'
+                    <div className='warehouse__location-block'
                         aria-hidden="true"
                         onClick={() => { navigator.clipboard.writeText('id') }}
                     >
                         <h3 className='warehouse__id'>
-                            Location: {params.warehouseId}
+                            Location: {warehouseData ? warehouseData.location : "Loading"}
                         </h3>
                     </div>
                     <div className='warehouse__items-counter-block'>
                         <h3 className='warehouse__items-counter'>
-                            Selected positions: {selectedOptionsValue}/{tableData.length}
+                            Total elements: {tableData.length}
                         </h3>
                     </div>
                 </div>
@@ -122,12 +134,15 @@ function WarehousePage() {
                                 dispatch(
                                     setModalContent(
                                         <ConfirmModal
-                                            conformationValue="31212312312313123"
+                                            conformationValue={warehouseData.id}
                                             title="Delete warehouse?"
                                             noteText="Are you sure that you want to delete warehouse? 
                                             Place warehouse id to submit 
                                             (you can copy it by clicking on it)"
-                                            action={() => console.log(123)}
+                                            action={() => {
+                                                deleteWarehouseById(params.warehouseId)
+                                                navigate("/home")
+                                            }}
                                         />
                                     )
                                 )

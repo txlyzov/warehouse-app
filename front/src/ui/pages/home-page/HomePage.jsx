@@ -31,7 +31,6 @@ function HomePage() {
 
       setWarehouseData(requestResult.data.rows);
       setTableContent(requestResult.data.rows);
-      return requestResult;
     }
 
     asyncActions();

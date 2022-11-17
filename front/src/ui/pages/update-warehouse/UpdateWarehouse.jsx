@@ -75,7 +75,6 @@ function UpdateWarehouse() {
 
             setInputName(requestResult.data.name);
             setInputLocation(requestResult.data.location);
-            return requestResult;
         }
 
         asyncActions()
