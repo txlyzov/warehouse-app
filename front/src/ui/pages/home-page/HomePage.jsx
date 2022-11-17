@@ -5,19 +5,36 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../components/button/Button';
 import TableCompact from '../../components/table-compact/TableCompact';
 import Input from '../../components/input/Input';
+import { getWarehousesByUserId } from '../../../services/WarehouseService';
 
 function HomePage() {
   const [inputSearch, setInputSearch] = useState('');
   const [tableContent, setTableContent] = useState([]);
   const [warehouseData, setWarehouseData] = useState([]);
 
+  const navigate = useNavigate();
+  const routeChange = (route) => {
+    navigate(route);
+  };
+
+  const tableSettings = {
+    header: 'Warehouses', value: ['name', 'id'], columns: 4, rows: 5,
+  };
+
   useEffect(() => {
-    axios('https://jsonplaceholder.typicode.com/users')
-      .then((res) => {
-        setWarehouseData(res.data);
-        setTableContent(res.data);
-      })
-      .catch((err) => console.log(err));
+    const asyncActions = async () => {
+      const requestResult = await getWarehousesByUserId();
+
+      if (requestResult.status !== 200) {
+        routeChange('/');
+      }
+
+      setWarehouseData(requestResult.data.rows);
+      setTableContent(requestResult.data.rows);
+      return requestResult;
+    }
+
+    asyncActions();
   }, []);
 
   useEffect(() => {
@@ -29,15 +46,6 @@ function HomePage() {
     const searchResults = warehouseData.filter((element) => element.name.match(regex));
     setTableContent(searchResults);
   }, [inputSearch]);
-
-  const navigate = useNavigate();
-  const routeChange = (route) => {
-    navigate(route);
-  };
-
-  const tableSettings = {
-    header: 'Warehouses', value: ['name', 'id'], columns: 4, rows: 5,
-  };
 
   return (
     <div className="home wrapper">
