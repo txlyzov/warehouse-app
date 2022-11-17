@@ -147,7 +147,7 @@ function WarehousePage() {
                                 text="Add cargo"
                                 size="md"
                             />
-                            <Button click={() => routeChange('/create-warehouse')}
+                            <Button click={() => routeChange(`/update-warehouse/${params.warehouseId}`)}
                                 className="warehouse__edit-warehouse-button"
                                 type="secondary"
                                 text="Edit warehouse"

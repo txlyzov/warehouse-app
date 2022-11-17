@@ -7,6 +7,7 @@ import HomePage from "../ui/pages/home-page/HomePage";
 import MainPage from "../ui/pages/main-page/MainPage";
 import SignIn from "../ui/pages/sign-in/SignIn";
 import SignUp from "../ui/pages/sign-up/SignUp";
+import UpdateWarehouse from "../ui/pages/update-warehouse/UpdateWarehouse";
 import WarehousePage from "../ui/pages/warehouse-page/WarehousePage";
 
 const routes = [
@@ -30,6 +31,12 @@ const routes = [
     path: "/create-warehouse",
     needAuth: true,
     element: <CreateWarehouse />,
+    exact: true,
+  },
+  {
+    path: "/update-warehouse/:warehouseId",
+    needAuth: true,
+    element: <UpdateWarehouse />,
     exact: true,
   },
   {

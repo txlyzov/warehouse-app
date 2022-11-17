@@ -18,7 +18,7 @@ export const createWarehouse = async (warehouseName, warehouseLocation) => {
   return response;
 };
 
-export const getWarehousesById = async () => {
+export const getWarehousesByUserId = async () => {
   const { token } = getLoginData();
   const response = await axios.get(
     `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/`,
@@ -31,6 +31,36 @@ export const getWarehousesById = async () => {
   return response;
 };
 
-export const getWar1ehousesById = () => {
-  console.log("change password function called");
+export const getWarehouseById = async (warehouseId) => {
+  const { token } = getLoginData();
+  const response = await axios.get(
+    `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}`,
+    {
+      headers: {
+        token,
+      },
+    }
+  );
+  return response;
+};
+
+export const updateWarehouseById = async (
+  warehouseId,
+  warehouseName,
+  warehouseLocation
+) => {
+  const { token } = getLoginData();
+  const response = await axios.put(
+    `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}/update`,
+    {
+      name: warehouseName,
+      location: warehouseLocation,
+    },
+    {
+      headers: {
+        token,
+      },
+    }
+  );
+  return response;
 };
