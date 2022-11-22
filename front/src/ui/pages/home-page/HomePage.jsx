@@ -27,11 +27,11 @@ function HomePage() {
 
       if (requestResult.status !== 200) {
         routeChange('/');
+        return
       }
 
       setWarehouseData(requestResult.data.rows);
       setTableContent(requestResult.data.rows);
-      return requestResult;
     }
 
     asyncActions();

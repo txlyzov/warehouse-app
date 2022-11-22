@@ -75,7 +75,6 @@ function UpdateWarehouse() {
 
             setInputName(requestResult.data.name);
             setInputLocation(requestResult.data.location);
-            return requestResult;
         }
 
         asyncActions()
@@ -84,7 +83,7 @@ function UpdateWarehouse() {
     return (
         <div className="update-warehouse wrapper">
             <div className="update-warehouse__form">
-                <h2 className="update-warehouse__header">Create warehouse</h2>
+                <h2 className="update-warehouse__header">Update warehouse</h2>
                 <hr className="update-warehouse__separator" />
                 <h3 className="update-warehouse__prompt">Type your warehouse name here:</h3>
                 <Input
@@ -132,7 +131,7 @@ function UpdateWarehouse() {
                         size="md"
                     />
                     <Button
-                        click={() => routeChange('/home')}
+                        click={() => routeChange(`/warehouse/${params.warehouseId}`)}
                         className={`update-warehouse__submit-button ${issueText !== -1 ? '' : 'update-warehouse__correct'}`}
                         text="Return"
                         type="secondary"

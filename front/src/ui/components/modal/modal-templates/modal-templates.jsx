@@ -22,7 +22,7 @@ export function ConfirmModal({ title = '', noteText = '', conformationValue = ''
     }, [inputValue]);
 
     const confirmAction = () => {
-        if (conformationValue !== inputValue) {
+        if (conformationValue.toString() !== inputValue) {
             setInputIssue(true);
             return;
         }
