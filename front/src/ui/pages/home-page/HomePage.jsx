@@ -27,6 +27,7 @@ function HomePage() {
 
       if (requestResult.status !== 200) {
         routeChange('/');
+        return
       }
 
       setWarehouseData(requestResult.data.rows);

@@ -16,7 +16,7 @@ function Header() {
     if (getLoginData()) {
       removeLoginData()
     } else {
-      setLoginData('loginData', { 'username': 'Qwerty', 'token': 'anytoken' });
+      setLoginData('loginData', { 'username': 'Qwerty', 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJzZGdnZmhnZ2ZzZEBkaGcuc2EiLCJpYXQiOjE2NjkxMDQxOTV9.Ed2Hm48MGS0IT2ui4ND9awU6ewc5_cmjBftjx83YQ6Q' });
     }
   };
 

@@ -57,6 +57,7 @@ function WarehousePage() {
 
             if (warehouseRequestResult.status !== 200) {
                 routeChange('/home');
+                return
             }
 
             setWarehouseData(warehouseRequestResult.data)
@@ -66,6 +67,7 @@ function WarehousePage() {
 
             if (cargoRequestResult.status !== 200) {
                 routeChange('/home');
+                return
             }
 
             const dataArray = []
@@ -156,7 +158,7 @@ function WarehousePage() {
                             />
                         </div>
                         <div className='warehouse__edit-buttons'>
-                            <Button click={() => routeChange('/create-warehouse')}
+                            <Button click={() => routeChange(`/warehouse/${params.warehouseId}/create-entity`)}
                                 className="warehouse__add-cargo-button"
                                 type="secondary"
                                 text="Add cargo"
