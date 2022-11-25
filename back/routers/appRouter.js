@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { changePassword, signUpUser, signInUser } = require('./sections/auth');
+const { changePassword, signUpUser, signInUser, resetPassword } = require('./sections/auth');
 const { createCargo, getCargosByWarehouseID, getCargoByID, updateCargoByID, deleteCargoByID } = require('./sections/cargo');
 const { createWarehouse, getWarehousesByUserID, getWarehouseByID, updateWarehouseByID, deleteWarehouseByID } = require('./sections/warehouse');
 
@@ -7,6 +7,7 @@ const router = Router();
 
 router.post('/auth/user/create', signUpUser);
 router.post('/auth/user/sign-in', signInUser);
+router.post('/auth/user/reset-password', resetPassword);
 router.post('/auth/user/change-password', changePassword);
 
 router.post('/warehouses/create', createWarehouse);

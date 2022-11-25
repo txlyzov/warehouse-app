@@ -41,7 +41,7 @@ function SignUp() {
     setInputConfirmPasswordIssue(false);
   };
 
-  const submitFunction = () => {
+  const submitFunction = async () => {
     let issue = AUTH.NO_ERROR;
     resetInputsErrors();
 
@@ -77,15 +77,16 @@ function SignUp() {
       setIssueText(AUTH.ERROR_PASSWORD_NOT_EQUAL);
       return;
     }
-    const requestResult = registerNewUser(inputEmail, inputPassword);
-    // if (!requestResult) {
-    //     setIssueText(errorRequest);
-    //     return
-    // }
-    const token = 'anytoken';
-    const username = inputEmail.match(EMAIL_FRONT_REGEX)[0];
-    localStorage.setItem('loginData', JSON.stringify({ username, token }));
-    routeChange('/home');
+    const requestResult = await registerNewUser(inputEmail, inputPassword);
+    if (requestResult.status !== 200) {
+      if (requestResult.response.data === 'Account already exists.') {
+        setIssueText(AUTH.ERROR_EXIST_ACCOUNT);
+        return
+      }
+      setIssueText(AUTH.ERROR_REQUEST);
+      return
+    }
+    routeChange('/sign-in');
   };
 
   return (

@@ -44,6 +44,25 @@ module.exports = {
     return res.status(HSC.BAD_REQUEST).send(`Wrong password.`);
     },
 
+    async resetPassword(req,res) {
+
+      const { email } = req.body;
+      const tempPassword = Math.random().toString(36).slice(-8);
+      const result = await usersModel.update(
+            {
+              password: tempPassword,
+            },
+            {
+              where: {
+                email,
+              },
+            },
+          );
+      console.log(`New password: ${tempPassword}`);
+
+      return res.sendStatus(HSC.OK);
+    },
+
     async changePassword(req,res) {
 
       const { newPassword: password,token } = req.body;
