@@ -15,13 +15,13 @@ function SignIn() {
       <Link className="" to="/sign-up">Registration</Link>
       ]
       {/* eslint-disable-next-line react/jsx-indent */}
-       </h3>,
+    </h3>,
     5: <h3 className="sign-in__issue">
       Wrong password. [
       <Link className="" to="/forgot-password">Reset password</Link>
       ]
       {/* eslint-disable-next-line react/jsx-indent */}
-       </h3>,
+    </h3>,
     6: <h3 className="sign-in__issue">Unknown error</h3>,
   };
 
@@ -41,7 +41,7 @@ function SignIn() {
     setInputPasswordIssue(false);
   };
 
-  const submitFunction = () => {
+  const submitFunction = async () => {
     let issue = AUTH.NO_ERROR;
     resetInputsErrors();
 
@@ -65,14 +65,19 @@ function SignIn() {
       setIssueText(AUTH.ERROR_EMAIL_UNCORRECT);
       return;
     }
-    const requestResult = loginUser(inputEmail, inputPassword);
-    // if (!requestResult) {
-    //     setIssueText(errorRequest);
-    //     return
-    // }
-    const token = 'anytoken';
-    const username = inputEmail.match(EMAIL_FRONT_REGEX)[0];
-    localStorage.setItem('loginData', JSON.stringify({ username, token }));
+    const requestResult = await loginUser(inputEmail, inputPassword);
+    if (requestResult.status !== 200) {
+      if (requestResult.response.data === 'Wrong email.') {
+        setIssueText(AUTH.ERROR_NO_ACCOUNT);
+        return
+      }
+      if (requestResult.response.data === 'Wrong password.') {
+        setIssueText(AUTH.ERROR_PASSWORD);
+        return
+      }
+      setIssueText(AUTH.ERROR_REQUEST);
+      return
+    }
     routeChange('/home');
   };
 

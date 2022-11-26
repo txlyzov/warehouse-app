@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
 import { EMAIL_FRONT_REGEX, EMAIL_REGEX, AUTH } from '../../../utils/Constants';
-import { changeUsersPassword } from '../../../services/AuthService';
+import { resetUserPassword } from '../../../services/AuthService';
 
 function ForgotPassword() {
   const errorTexts = {
@@ -31,7 +31,7 @@ function ForgotPassword() {
     setInputEmailIssue(false);
   };
 
-  const submitFunction = () => {
+  const submitFunction = async () => {
     let issue = AUTH.NO_ERROR;
     resetInputsErrors();
 
@@ -51,16 +51,12 @@ function ForgotPassword() {
       return;
     }
 
-    const requestResult = changeUsersPassword(inputEmail);
-    // if (!requestResult) {
-    //     setInputEmailIssue(true);
-    //     setIssueText(AUTH.ERROR_NO_ACCOUNT);
-    //     return
-    // }
-    const token = 'anytoken';
-    const username = inputEmail.match(EMAIL_FRONT_REGEX)[0];
-    localStorage.setItem('loginData', JSON.stringify({ username, token }));
-    routeChange('/home');
+    const requestResult = await resetUserPassword(inputEmail);
+    if (!requestResult) {
+      setIssueText(AUTH.ERROR_REQUEST);
+      return
+    }
+    routeChange('/sign-in');
   };
 
   return (
