@@ -26,10 +26,10 @@ function Counter({ className, size, inputCurrentValue = 1, outputCurrentPage }) 
     useEffect(() => {
         if (!isEditMode) {
             if (inputValue.length !== 0) {
-                if (inputValue < 1) {
-                    changeValue(1);
+                if (inputValue < 0) {
+                    changeValue(0);
                 }
-                if (inputValue >= 1) {
+                if (inputValue >= 0) {
                     changeValue(parseInt(inputValue, 10));
                 }
             }
@@ -40,7 +40,7 @@ function Counter({ className, size, inputCurrentValue = 1, outputCurrentPage }) 
 
     return (
         <div className={`counter wrapper counter-${size || 'md'} ${className}`}>
-            <Button click={counterValue > 1 ? () => changeValue(counterValue - 1) : null} className='counter__to-prev' type='secondary' size='ssm' text="-" />
+            <Button click={counterValue > 0 ? () => changeValue(counterValue - 1) : null} className='counter__to-prev' type='secondary' size='ssm' text="-" />
             <div className='counter__middle-block' onDoubleClick={() => setIsEditMode(true)}>
                 {isEditMode === true ?
                     <div className='counter__edit-block'>
