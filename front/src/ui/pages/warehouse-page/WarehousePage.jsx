@@ -9,7 +9,7 @@ import { resetTableStorage, selectCheckboxesSelected, selectTableData, setGlobal
 import Pagination from '../../components/pagination/Pagination';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
 import { ConfirmModal } from '../../components/modal/modal-templates/modal-templates';
-import { getCargosBywarehouseId } from '../../../services/CargoService';
+import { getCargosByWarehouseId } from '../../../services/CargoService';
 import { deleteWarehouseById, getWarehouseById } from '../../../services/WarehouseService';
 
 function WarehousePage() {
@@ -62,7 +62,7 @@ function WarehousePage() {
 
             setWarehouseData(warehouseRequestResult.data)
 
-            const cargoRequestResult = await getCargosBywarehouseId(params.warehouseId);
+            const cargoRequestResult = await getCargosByWarehouseId(params.warehouseId);
 
 
             if (cargoRequestResult.status !== 200) {

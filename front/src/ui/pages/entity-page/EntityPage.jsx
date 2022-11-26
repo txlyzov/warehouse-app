@@ -5,22 +5,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/button/Button';
 import { selectItem, selectType } from '../../../redux-store/data-transfer/DataTransferSlice';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
-import { InputModal, NoteModal } from '../../components/modal/modal-templates/modal-templates';
+import { ErrorModal, InputModal, NoteModal } from '../../components/modal/modal-templates/modal-templates';
 import Counter from '../../components/counter/Counter';
+import { getWarehouseById } from '../../../services/WarehouseService';
+import { getCargosById, updateCargoById } from '../../../services/CargoService';
 
 
 function EntityPage() {
-    // const { state: { qwerty } } = useLocation();
     const params = useParams();
     const dispatch = useDispatch();
-    const type = useSelector(selectType);
-    // const item = useSelector(selectItem);
-    const [entity, setEntity] = useState(null); // useSelector(selectItem)
-    const [entityName, setEntityName] = useState('Loading..');
-    const [entityLocation, setEntityLocation] = useState('Loading..');
-    const [entityAmount, setEntityAmount] = useState('Loading..');
-    const [entityNote, setEntityNote] = useState('Loading..');
-    const [entityImage, setEntityImage] = useState('Loading..');
+    const [entity, setEntity] = useState(null);
+    const [entityName, setEntityName] = useState(null);
+    const [entityLocation, setEntityLocation] = useState(null);
+    const [entityQuantity, setEntityQuantity] = useState(null);
+    const [entityNotes, setEntityNotes] = useState(null);
+    const [entityImageUrl, setEntityImageUrl] = useState(null);
     const [isUpdateAvaliable, setIsUpdateAvaliable] = useState(false);
 
     const navigate = useNavigate();
@@ -28,41 +27,95 @@ function EntityPage() {
         navigate(route);
     };
 
+    const errorCase = (title = "Request error", errorText = "Something happend with request. Please,relogin.") => {
+        dispatch(
+            setModalContent(
+                <ErrorModal
+                    title={title}
+                    errorText={errorText}
+                />
+            )
+        )
+        routeChange('/home');
+    }
+
+    const updateFunction = async () => {
+        const cargoRequestResult = await updateCargoById(
+            entityName,
+            entityQuantity,
+            entityImageUrl,
+            entityNotes,
+            params.warehouseId,
+            params.entityId
+        );
+
+        if (cargoRequestResult.status !== 200) {
+            errorCase();
+            return
+        }
+
+        dispatch(
+            setModalContent(
+                <NoteModal
+                    title='Update cargo data'
+                    noteText='Data updated' />
+            )
+        )
+
+        routeChange(`/warehouse/${params.warehouseId}`)
+    }
+
     useEffect(() => {
-        const incommingEntity = {
-            name: 'Tree',
-            location: 'Alpi,Prague',
-            amount: 43,
-            note: 'qweqweqwe qweqweqwe qweqweqwe'
-                + 'qweqweqwe qweqweqwe qweqweqwe qweqweqwe qweqweqwe qweqweqwe'
-                + 'qweqweqwe qweqweqwe qweqweqwe qweqweqwe qweqweqwe qweqweqwe',
-            image: 'https://upload.wikimedia.org/wikipedia/commons/a/a2/1121098-pink-nature-wallpaper-1920x1080-lockscreen.jpg',
-        } // { warehouse: 'Alpi', city: 'Prague' },
-        setEntity(incommingEntity)
-        setEntityName(incommingEntity.name)
-        setEntityLocation(incommingEntity.location)
-        setEntityAmount(incommingEntity.amount)
-        setEntityNote(incommingEntity.note)
-        setEntityImage(incommingEntity.image)
-        // if (type !== 'entity') {
-        //     routeChange(`/warehouse/${params.warehouseId}`);
-        // }
+        const asyncActions = async () => {
+            const warehouseRequestResult = await getWarehouseById(params.warehouseId);
+
+            if (warehouseRequestResult.status !== 200) {
+                errorCase()
+                return
+            }
+
+            if (!warehouseRequestResult.data) {
+                errorCase("Error", "Unexist warehouse")
+                return
+            }
+            setEntityLocation(warehouseRequestResult.data.location);
+
+            const cargosRequestResult = await getCargosById(params.warehouseId, params.entityId);
+
+            if (cargosRequestResult.status !== 200) {
+                errorCase()
+                return
+            }
+
+            if (!cargosRequestResult.data) {
+                errorCase("Error", "Unexist cargo entity")
+                return
+            }
+
+            setEntity(cargosRequestResult.data);
+            setEntityName(cargosRequestResult.data.name);
+            setEntityQuantity(cargosRequestResult.data.quantity);
+            setEntityNotes(cargosRequestResult.data.notes);
+            setEntityImageUrl(cargosRequestResult.data.imageUrl);
+        }
+
+        asyncActions();
     }, []);
 
     useEffect(() => {
         if (entity) {
             if (
                 entityName !== entity.name
-                || entityAmount !== entity.amount
-                || entityNote !== entity.note
-                || entityImage !== entity.image) {
+                || entityQuantity !== entity.quantity
+                || entityNotes !== entity.notes
+                || entityImageUrl !== entity.imageUrl) {
                 setIsUpdateAvaliable(true)
             }
             else {
                 setIsUpdateAvaliable(false)
             }
         }
-    }, [entityName, entityAmount, entityNote, entityImage]);
+    }, [entityName, entityQuantity, entityNotes, entityImageUrl]);
 
     return (
         <div className='entity wrapper'>
@@ -78,6 +131,7 @@ function EntityPage() {
                                         noteText="You can update the name of cargo. Not empty string."
                                         setInputValue={setEntityName}
                                         inputValue={entityName}
+                                        placeholder="Item name"
                                         notNull
                                     />
                                 )
@@ -88,11 +142,11 @@ function EntityPage() {
                         <h2
                             className='entity__name'
                         >
-                            {entityName}
+                            {entityName || "Loading.."}
                         </h2>
                     </div>
 
-                    {entity ?
+                    {entityLocation ?
                         <div className='entity__location-block'
                             aria-hidden="true"
                         >
@@ -109,8 +163,8 @@ function EntityPage() {
                             <h3 className='entity__text'>
                                 Loading..
                             </h3>
-                        </div>}
-
+                        </div>
+                    }
 
                 </div>
 
@@ -126,8 +180,9 @@ function EntityPage() {
                                                 <InputModal
                                                     title="Edit note"
                                                     noteText="You can update cargo note."
-                                                    setInputValue={setEntityNote}
-                                                    inputValue={entityNote}
+                                                    setInputValue={setEntityNotes}
+                                                    inputValue={entityNotes}
+                                                    placeholder="Note text"
                                                 />
                                             )
                                         )
@@ -148,9 +203,9 @@ function EntityPage() {
                             <Counter
                                 className="warehouse__pagination"
                                 size="lg"
-                                inputCurrentValue={entityAmount}
+                                inputCurrentValue={entityQuantity}
                                 outputCurrentPage={(amount) => {
-                                    setEntityAmount(amount)
+                                    setEntityQuantity(amount)
                                 }}
                             /> :
                             <div className='entity__amount-block'>
@@ -175,16 +230,17 @@ function EntityPage() {
                                             <InputModal
                                                 title="Edit image"
                                                 noteText="You can update cargo image."
-                                                setInputValue={setEntityImage}
-                                                inputValue={entityImage}
+                                                setInputValue={setEntityImageUrl}
+                                                inputValue={entityImageUrl}
+                                                placeholder="Image link"
                                             />
                                         )
                                     )
                                 }
                                 }
                             >
-                                {entityImage ?
-                                    <img className='entity__image' alt={entityName} src={entityImage} />
+                                {entityImageUrl ?
+                                    <img className='entity__image' alt={entityName} src={entityImageUrl} />
                                     :
                                     <div className='entity__no-image-background'>
                                         <h2 className='entity__text'>
@@ -213,16 +269,7 @@ function EntityPage() {
                             size="md"
                         />
                         <Button
-                            click={() => {
-                                dispatch(
-                                    setModalContent(
-                                        <NoteModal
-                                            title='Update cargo data'
-                                            noteText='Data updated' />
-                                    )
-                                )
-                            }
-                            }
+                            click={() => updateFunction()}
                             className="entity__update-button"
                             type="secondary"
                             text="Update"
