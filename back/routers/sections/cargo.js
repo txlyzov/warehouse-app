@@ -77,7 +77,7 @@ module.exports = {
     });
 
     if (!result){
-      return res.status(HSC.OK).send({});
+      return res.status(HSC.OK).send(null);
     }
 
     const cargoWarehouse = await warehousesModel.findOne({

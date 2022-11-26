@@ -33,6 +33,15 @@
             height: 140px;
             border-width: 0px 2px 2px 0px;
             border-radius: 50px 0px 20px;
+
+            &:hover {
+              background-color: $green-pp-75;
+            }
+            &:active {
+              &:hover {
+                background-color: $green-pp-25;
+              }
+            }
           }
 
           &__location-block {
@@ -69,8 +78,18 @@
                 margin: 20px;
                 max-height: 210px;
                 padding: 10px;
+                width: 300px-2px * 2 - 10px * 2;
                 @include text-stroke-05($black-100);
                 color: $white-100;
+
+                &:hover {
+                  background-color: $green-pp-75;
+                }
+                &:active {
+                  &:hover {
+                    background-color: $green-pp-25;
+                  }
+                }
 
                 .entity__scroll-area {
                   max-height: 190px;

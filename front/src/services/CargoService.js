@@ -33,7 +33,7 @@ export const createCargo = async (
   }
 };
 
-export const getCargosBywarehouseId = async (warehouseId) => {
+export const getCargosByWarehouseId = async (warehouseId) => {
   const { token } = getLoginData();
   try {
     const response = await axios.get(
@@ -54,11 +54,11 @@ export const getCargosBywarehouseId = async (warehouseId) => {
   }
 };
 
-export const getWarehouseById = async (warehouseId) => {
+export const getCargosById = async (warehouseId, entityId) => {
   const { token } = getLoginData();
   try {
     const response = await axios.get(
-      `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}`,
+      `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}/cargos/${entityId}`,
       {
         headers: {
           token,
@@ -75,18 +75,23 @@ export const getWarehouseById = async (warehouseId) => {
   }
 };
 
-export const updateWarehouseById = async (
+export const updateCargoById = async (
+  name,
+  quantity,
+  imageUrl,
+  notes,
   warehouseId,
-  warehouseName,
-  warehouseLocation
+  entityId
 ) => {
   const { token } = getLoginData();
   try {
     const response = await axios.put(
-      `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}/update`,
+      `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}/cargos/${entityId}/update`,
       {
-        name: warehouseName,
-        location: warehouseLocation,
+        name,
+        quantity,
+        notes,
+        imageUrl,
       },
       {
         headers: {
