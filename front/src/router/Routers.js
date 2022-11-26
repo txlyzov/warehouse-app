@@ -1,5 +1,6 @@
 import React from "react";
 import ConfirmRemoving from "../ui/pages/confirm-removing/ConfirmRemoving";
+import CreateEntity from "../ui/pages/create-entity/CreateEntity";
 import CreateWarehouse from "../ui/pages/create-warehouse/CreateWarehouse";
 import EntityPage from "../ui/pages/entity-page/EntityPage";
 import ForgotPassword from "../ui/pages/forgot-password/ForgotPassword";
@@ -43,6 +44,12 @@ const routes = [
     path: "/warehouse/:warehouseId/confirm-removing",
     needAuth: true,
     element: <ConfirmRemoving />,
+    exact: true,
+  },
+  {
+    path: "/warehouse/:warehouseId/create-entity",
+    needAuth: true,
+    element: <CreateEntity />,
     exact: true,
   },
   {

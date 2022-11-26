@@ -120,12 +120,13 @@ export function InputModal({
     noteText = 'Unknown error',
     inputValue,
     setInputValue,
+    placeholder = null,
     notNull = false,
     notString = false,
     regexCheck = null
 }) {
     const [modalInputValue, setModalInputValue] = useState(inputValue);
-    const [inputIssue, setInputIssue] = useState(false);
+    const [inputIssue, setInputIssue] = useState({ issue: false, text: '' });
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -135,15 +136,15 @@ export function InputModal({
 
     const closeModal = () => {
         if (notNull && modalInputValue.length === 0) {
-            setInputIssue(true);
+            setInputIssue({ issue: true, text: 'Field must be not empty' });
             return
         }
         if (notString && !/^\d+$/g.test(modalInputValue)) {
-            setInputIssue(true);
+            setInputIssue({ issue: true, text: 'Field must be not a string' });
             return
         }
         if (regexCheck && !regexCheck.test(modalInputValue)) {
-            setInputIssue(true);
+            setInputIssue({ issue: true, text: 'Conditions failed' });
             return
         }
         setInputValue(modalInputValue)
@@ -154,15 +155,16 @@ export function InputModal({
         <div className='content input-modal'>
             <h4 className='content__text'>{noteText}</h4>
             <Input
+                placeholder={placeholder}
                 className="content__value-input"
                 setInputValue={setModalInputValue}
                 inputValue={modalInputValue}
                 issue={inputIssue}
             />
-            {inputIssue ?
+            {inputIssue.issue ?
                 <div className='content__issue-block'>
                     <h3 className='content__issue'>
-                        Conditions failed
+                        {inputIssue.text}
                     </h3>
                 </div>
                 :

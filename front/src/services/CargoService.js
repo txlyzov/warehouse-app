@@ -1,14 +1,22 @@
 import axios from "axios";
 import { getLoginData, removeLoginData } from "../utils/LocalStorageUtil";
 
-export const createWarehouse = async (warehouseName, warehouseLocation) => {
+export const createCargo = async (
+  name,
+  quantity,
+  imageUrl,
+  notes,
+  warehouseId
+) => {
   const { token } = getLoginData();
   try {
     const response = await axios.post(
-      `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/create`,
+      `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}/cargos/create`,
       {
-        name: warehouseName,
-        location: warehouseLocation,
+        name,
+        quantity,
+        imageUrl,
+        notes,
       },
       {
         headers: {
