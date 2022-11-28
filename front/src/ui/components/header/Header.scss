@@ -39,12 +39,14 @@
       justify-content: space-between;
     }
 
-    .login-block__username {
-      color: $red-en-100;
+    .login-block__dropdown-menu {
+      .login-block__username {
+        color: $red-en-100;
 
-      @include text-h2();
-      @include text-stroke-05($black-100);
-      text-decoration: none;
+        @include text-h2();
+        @include text-stroke-05($black-100);
+        text-decoration: none;
+      }
     }
   }
 }
