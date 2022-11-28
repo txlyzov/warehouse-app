@@ -11,6 +11,14 @@ export const AUTH = {
   ERROR_REQUEST: 6,
 };
 
+export const SETTINGS = {
+  NO_ERROR: -1,
+  ERROR_EMPTY_FIELS: 0,
+  ERROR_REQUEST: 1,
+  ERROR_WRONG_OLD_PASSWORD: 2,
+  ERROR_PASSWORD_NOT_EQUAL: 3,
+};
+
 export const WAREHOUSE = {
   NO_ERROR: -1,
   ERROR_EMPTY_FIELS: 0,

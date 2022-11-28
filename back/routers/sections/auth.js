@@ -4,28 +4,29 @@ const { createToken, verifyToken } = require("../../utils/auth-util");
 
 module.exports = {
     async signUpUser(req,res) {
-        const { email, password } = req.body;
-        const userSearch = await usersModel.findOne({
-          where: {
-            email,
-          },
-        });;
+      const { email, password } = req.body;
+      const userSearch = await usersModel.findOne({
+        where: {
+          email,
+        },
+      });;
 
-        if (userSearch){
-          return res.status(HSC.BAD_REQUEST).send(`Account already exists.`);
-        }
+      if (userSearch){
+        return res.status(HSC.BAD_REQUEST).send(`Account already exists.`);
+      }
 
-        usersModel.create({
-            email,
-            password,
-          });
+      usersModel.create({
+          email,
+          password,
+        });
 
-        return res.sendStatus(HSC.OK);
+      return res.sendStatus(HSC.OK);
     },
 
     async signInUser(req,res) {
     const { email, password } = req.body;
-    const userByEmail = await usersModel.findOne({
+    try {
+      const userByEmail = await usersModel.findOne({
         where: {
           email,
         },
@@ -36,12 +37,14 @@ module.exports = {
     }
 
     if(password===userByEmail.password){
-        console.log(444);
         const token = createToken({ id: userByEmail.id, email })
         return res.status(HSC.OK).json({ token, email });
     }
 
     return res.status(HSC.BAD_REQUEST).send(`Wrong password.`);
+    } catch (error) {
+      return res.status(HSC.BAD_REQUEST).send(error);
+    }
     },
 
     async resetPassword(req,res) {
@@ -65,8 +68,14 @@ module.exports = {
 
     async changePassword(req,res) {
 
-      const { newPassword: password,token } = req.body;
-      const id = verifyToken(token).id;
+      const token = req.get('token');
+      const verify = verifyToken(token);
+      if (!verify) {
+        return res.status(HSC.FORBIDDEN).send(`Wrong token.`);
+      }
+      const { newPassword: password } = req.body;
+      const id = verify.id;
+      console.log(id);
       const result = await usersModel.update(
             {
               password,
