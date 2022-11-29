@@ -21,13 +21,6 @@ function Header() {
     }
   };
 
-  // eslint-disable-next-line arrow-body-style
-  // const dropdownTrigger = () => {
-  //   return <Link className="login-block__username">{getLoginData().username}</Link>
-  // }
-
-  // const dropdownTrigger = () => <Link className="login-block__username">{getLoginData().username}</Link>
-
   return (
     <div className="header-wrapper">
       <div className="logo-block header-block">
@@ -38,32 +31,25 @@ function Header() {
         <Link className="options-block__option" to="/">Welcome page</Link>
         <Link className={`options-block__option ${getLoginData() ? '' : 'options-block__disabled'}`} to="/home">Home</Link>
         <Link className="options-block__option" to="/help">Help</Link>
-        <Link onClick={LIT} className="options-block__option">[!LIT!]</Link>
+        {/* <Link onClick={LIT} className="options-block__option">[!LIT!]</Link> */}
       </div>
-      {/* <Link className="login-block__username">{getLoginData().username}</Link> */}
       <div className="login-block header-block">
         {getLoginData()
           ?
-          // <Link className="login-block__username">{getLoginData().username}</Link>
           <DropdownMenu
-            // triggerContent={<Link className="login-block__username">{getLoginData().username}</Link>}
-            // triggerContent={function name() {
-            //   return getLoginData().username;
-            // }}
-
             className="login-block__dropdown-menu"
-            width='250px'
+            width='270px'
             position={
               {
-                top: "55px",
-                left: "-20px"
+                top: "70px",
+                left: "-10px"
               }
             }
             triggerContent={<Link className="login-block__username">{getLoginData().username}</Link>}
             dropdownContent={
               <div className='login-block__dropdown-content'>
                 <Link className="login-block__dropdown-option" to="/settings">Settings</Link>
-                <Link onClick={() => { console.log(222) }} className="login-block__dropdown-option">Unlogin</Link>
+                <Link onClick={() => { removeLoginData() }} className="login-block__dropdown-option">Unlogin</Link>
               </div>
             }
           />
