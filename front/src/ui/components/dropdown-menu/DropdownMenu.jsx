@@ -1,5 +1,6 @@
 import "./DropdownMenu.scss"
 import React, { useState } from 'react';
+import DROPDOWN_MENU from "./DropdownMenu.dictionary";
 
 
 function DropdownMenu({ className, triggerContent, dropdownContent, width = "auto", position = {
@@ -26,7 +27,13 @@ function DropdownMenu({ className, triggerContent, dropdownContent, width = "aut
             }
 
             {dropdownVisability ?
-                <div className="dropdown-menu__content" style={{ width, top: position.top, left: position.left }}>
+                <div
+                    data-testid={DROPDOWN_MENU.TEST_ID.DROPDOWN_CONTENT}
+                    aria-hidden="true"
+                    onClick={() => setDropdownVisability(!dropdownVisability)}
+                    className="dropdown-menu__content"
+                    style={{ width, top: position.top, left: position.left }}
+                >
                     {dropdownContent}
                 </div> : null}
         </div>

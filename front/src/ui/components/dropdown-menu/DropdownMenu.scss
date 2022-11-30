@@ -1,37 +1,8 @@
-// .wrapper {
-//   position: relative;
-// }
-
-// .popover {
-//   position: absolute;
-//   z-index: 3;
-//   //   top: 48px;
-//   //   right: 10px;
-// }
-
-// .cover {
-//   position: fixed;
-//   top: 0;
-//   right: 0;
-//   bottom: 0;
-//   left: 0;
-// }
-
-// .wrapper-content {
-//   position: relative;
-//   z-index: 4;
-// }
-
-// .dropdown-menu__content {
-//   background-color: red;
-// }
-
 .dropdown-menu {
   position: relative;
   z-index: 4;
 
   .dropdown-menu__content {
-    background-color: red;
     position: absolute;
     z-index: 3;
 

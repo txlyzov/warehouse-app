@@ -4,23 +4,14 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
-import { SETTINGS } from '../../../utils/Constants';
-import { changeUserPassword, loginUser, registerNewUser } from '../../../services/AuthService';
+import { changeUserPassword } from '../../../services/AuthService';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
 import { NoteModal } from '../../components/modal/modal-templates/modal-templates';
+import SETTINGS from './Settings.dictionary';
 
 function Settings() {
-  // eslint-disable-next-line max-len
-  // let issueText = <h3 className="settings__issue">Account does not exist. [<Link className="" to="/">Registration</Link>]</h3>
-  const errorTexts = {
-    0: <h3 className="settings__issue">Empty fields!</h3>,
-    1: <h3 className="settings__issue">Unknown error(request failed).</h3>,
-    2: <h3 className="settings__issue">Wrong original password</h3>,
-    3: <h3 className="settings__issue">Passwords not confirmed.</h3>,
-  };
-
   const dispatch = useDispatch();
-  const [issueText, setIssueText] = useState(-1);
+  const [issueCode, setIssueCode] = useState(SETTINGS.ERROR.CODE.OK);
   const [inputOldPassword, setInputOldPassword] = useState('');
   const [inputNewPassword, setInputNewPassword] = useState('');
   const [inputConfirmNewPassword, setInputConfirmNewPassword] = useState('');
@@ -33,113 +24,127 @@ function Settings() {
     navigate(route);
   };
 
+  const resetInputsValues = () => {
+    setInputOldPassword('');
+    setInputNewPassword('');
+    setInputConfirmNewPassword('');
+  };
+
   const resetInputsErrors = () => {
     setInputOldPasswordIssue(false);
     setInputNewPasswordIssue(false);
     setInputConfirmNewPasswordIssue(false);
+    setIssueCode(SETTINGS.ERROR.CODE.OK);
   };
 
   const submitFunction = async () => {
-    let issue = SETTINGS.NO_ERROR;
+    let issue = SETTINGS.ERROR.CODE.OK;
     resetInputsErrors();
 
     if (!inputOldPassword) {
       setInputOldPasswordIssue(true);
-      issue = SETTINGS.ERROR_EMPTY_FIELS;
+      issue = SETTINGS.ERROR.CODE.EMPTY_FIELDS;
     }
 
     if (!inputNewPassword) {
       setInputNewPasswordIssue(true);
-      issue = SETTINGS.ERROR_EMPTY_FIELS;
+      issue = SETTINGS.ERROR.CODE.EMPTY_FIELDS;
     }
 
     if (!inputConfirmNewPassword) {
       setInputConfirmNewPasswordIssue(true);
-      issue = SETTINGS.ERROR_EMPTY_FIELS;
+      issue = SETTINGS.ERROR.CODE.EMPTY_FIELDS;
     }
 
-    if (issue !== SETTINGS.NO_ERROR) {
-      setIssueText(issue);
+    if (issue !== SETTINGS.ERROR.CODE.OK) {
+      setIssueCode(issue);
       return;
     }
 
     if (inputNewPassword !== inputConfirmNewPassword) {
       setInputNewPasswordIssue(true);
       setInputConfirmNewPasswordIssue(true);
-      setIssueText(SETTINGS.ERROR_PASSWORD_NOT_EQUAL);
+      setIssueCode(SETTINGS.ERROR.CODE.NOT_EQUAL_CONFIRM_FIELD);
       return;
     }
     const requestResult = await changeUserPassword(inputOldPassword, inputNewPassword);
     if (requestResult.status !== 200) {
-      if (requestResult.response.status === 400) {
-        setIssueText(SETTINGS.ERROR_WRONG_OLD_PASSWORD);
+      if ((requestResult.response) && (requestResult.response.status === 400)) {
+        setIssueCode(SETTINGS.ERROR.CODE.WRONG_ORIGINAL_PASSWORD);
         return
       }
-      setIssueText(SETTINGS.ERROR_REQUEST);
+      setIssueCode(SETTINGS.ERROR.CODE.UNKNOWN);
       return
     }
 
     dispatch(
       setModalContent(
         <NoteModal
-          title="Success!"
-          noteText="Now you can use your new password."
+          title={SETTINGS.MODAL.TITLE_NOTE}
+          noteText={SETTINGS.MODAL.TEXT_NOTE}
         />
       )
     )
+    resetInputsErrors();
+    resetInputsValues();
   };
 
   return (
     <div className="settings wrapper">
       <div className="settings__form">
-        <h2 className="settings__header">Settings</h2>
+        <h2 className="settings__header">{SETTINGS.TEXTS.MAIN_TITLE}</h2>
         <hr className="settings__separator" />
-        <h3 className="settings__prompt">Change password:</h3>
+        <h3 className="settings__prompt">{SETTINGS.TEXTS.PROMT_1}</h3>
         <Input
+          data-testid={SETTINGS.INPUT.TEST_ID[0]}
           type="password"
           issue={inputOldPasswordIssue}
           closable
           className="settings__input-old-password"
-          placeholder="Enter your old password"
+          placeholder={SETTINGS.INPUT.PLACEHOLDER[0]}
           width="390px"
           inputValue={inputOldPassword}
           setInputValue={setInputOldPassword}
         />
         <Input
+          data-testid={SETTINGS.INPUT.TEST_ID[1]}
           type="password"
           issue={inputNewPasswordIssue}
           closable
           className="settings__input-new-password"
-          placeholder="Enter your new password"
+          placeholder={SETTINGS.INPUT.PLACEHOLDER[1]}
           width="390px"
           inputValue={inputNewPassword}
           setInputValue={setInputNewPassword}
         />
         <Input
+          data-testid={SETTINGS.INPUT.TEST_ID[2]}
           type="password"
           issue={inputConfirmNewPasswordIssue}
           closable
           className="settings__input-confirm"
-          placeholder="Confirm your new password"
+          placeholder={SETTINGS.INPUT.PLACEHOLDER[2]}
           width="390px"
           inputValue={inputConfirmNewPassword}
           setInputValue={setInputConfirmNewPassword}
         />
-        {issueText !== -1
-          ? errorTexts[issueText]
+        {issueCode !== -1
+          ? <h3 className="settings__issue">{SETTINGS.ERROR.CONTENT[issueCode]}</h3>
           : ''}
-        <div className={`settings__buttons-block ${issueText !== -1 ? '' : 'settings__correct'}`}>
+        <div className={`settings__buttons-block ${issueCode !== -1 ? '' : 'settings__correct'}`}>
           <Button
+            data-testid={SETTINGS.BUTTON.TEST_ID[0]}
             click={() => routeChange('/home')}
             className="settings__forgot-password-button"
-            text="Return"
+            text={SETTINGS.BUTTON.TEXT[0]}
             type="secondary"
             size="md"
           />
           <Button
+            data-testid={SETTINGS.BUTTON.TEST_ID[1]}
             click={() => submitFunction()}
             className="settings__submit-button "
-            text="Update"
+            text={SETTINGS.BUTTON.TEXT[1]}
             type="primary"
             size="md"
           />
