@@ -1,0 +1,62 @@
+@import "../../styles/Text";
+@import "../../styles/Colors";
+@import "../../styles/Panes.scss";
+
+.help.wrapper {
+  @include background-image-styles("background-tables.jpg");
+  padding: 2%;
+
+  .help_list {
+    @include flex-center-styles();
+    flex-direction: column;
+
+    .help__block {
+      margin: 20px;
+      width: 560px;
+      height: min-content;
+      border-radius: 50px;
+
+      background-color: rgba($white-100, 0.75);
+      box-shadow: 0px 0px 10px 10px $black-100;
+
+      &.left-position {
+        margin-right: auto;
+        margin-left: 10%;
+      }
+
+      &.right-position {
+        margin-left: auto;
+        margin-right: 10%;
+      }
+
+      &:hover {
+        background-color: rgba($white-100, 0.95);
+        box-shadow: 0px 0px 10px 10px $green-pp-75;
+      }
+
+      .help {
+        &__header {
+          height: 50px;
+          margin: 25px 130px;
+        }
+
+        &__separator {
+          margin: 0;
+          background-color: $black-100;
+          border: none;
+          height: 1px;
+        }
+
+        &__prompt-wrapper {
+          @include flex-center-styles();
+          margin: 20px 30px;
+          min-height: 200px;
+
+          .help__prompt {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}

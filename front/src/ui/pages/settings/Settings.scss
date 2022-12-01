@@ -1,18 +1,10 @@
 @import "../../styles/Text";
 @import "../../styles/Colors";
+@import "../../styles/Panes.scss";
 
 .settings.wrapper {
-  background: url("../../../assets/images/background-sign.jpg") no-repeat center
-    center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include background-image-styles("background-sign.jpg");
+  @include flex-center-styles();
 
   .settings__form {
     margin: 20px;
