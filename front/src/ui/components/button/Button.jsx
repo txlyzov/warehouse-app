@@ -2,10 +2,11 @@ import './Button.scss';
 import React from 'react';
 
 function Button({
-  click, type, size, text: children, className, disabled = false
+  click, type, size, text: children, className, disabled = false, ...props
 }) {
   return (
     <button
+      {...props}
       disabled={disabled}
       type='button'
       onClick={click}

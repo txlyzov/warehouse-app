@@ -6,6 +6,7 @@ import EntityPage from "../ui/pages/entity-page/EntityPage";
 import ForgotPassword from "../ui/pages/forgot-password/ForgotPassword";
 import HomePage from "../ui/pages/home-page/HomePage";
 import MainPage from "../ui/pages/main-page/MainPage";
+import Settings from "../ui/pages/settings/Settings";
 import SignIn from "../ui/pages/sign-in/SignIn";
 import SignUp from "../ui/pages/sign-up/SignUp";
 import UpdateWarehouse from "../ui/pages/update-warehouse/UpdateWarehouse";
@@ -22,6 +23,7 @@ const routes = [
     exact: true,
   },
   { path: "/home", needAuth: true, element: <HomePage />, exact: true },
+  { path: "/settings", needAuth: true, element: <Settings />, exact: true },
   {
     path: "/warehouse/:warehouseId",
     needAuth: true,

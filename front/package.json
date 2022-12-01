@@ -22,7 +22,7 @@
     "dev": "react-scripts start",
     "lint": "eslint --fix --ext .js,.jsx .",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

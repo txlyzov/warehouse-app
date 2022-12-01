@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Icon from '../icon/Icon';
 import Button from '../button/Button';
 import { getLoginData, removeLoginData, setLoginData } from '../../../utils/LocalStorageUtil';
+import DropdownMenu from '../dropdown-menu/DropdownMenu';
 
 function Header() {
   const navigate = useNavigate();
@@ -30,12 +31,28 @@ function Header() {
         <Link className="options-block__option" to="/">Welcome page</Link>
         <Link className={`options-block__option ${getLoginData() ? '' : 'options-block__disabled'}`} to="/home">Home</Link>
         <Link className="options-block__option" to="/help">Help</Link>
-        <Link onClick={LIT} className="options-block__option">[!LIT!]</Link>
+        {/* <Link onClick={LIT} className="options-block__option">[!LIT!]</Link> */}
       </div>
-
       <div className="login-block header-block">
         {getLoginData()
-          ? <Link className="login-block__username">{getLoginData().username}</Link>
+          ?
+          <DropdownMenu
+            className="login-block__dropdown-menu"
+            width='270px'
+            position={
+              {
+                top: "70px",
+                left: "-10px"
+              }
+            }
+            triggerContent={<Link className="login-block__username">{getLoginData().username}</Link>}
+            dropdownContent={
+              <div className='login-block__dropdown-content'>
+                <Link className="login-block__dropdown-option" to="/settings">Settings</Link>
+                <Link onClick={() => { removeLoginData() }} className="login-block__dropdown-option">Unlogin</Link>
+              </div>
+            }
+          />
           : (
             <div className="login-block__unlogin">
               <Button click={() => routeChange('sign-in')} text="Sign in" type="primary" size="sm" />
