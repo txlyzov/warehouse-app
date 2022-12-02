@@ -4,6 +4,7 @@ import CreateEntity from "../ui/pages/create-entity/CreateEntity";
 import CreateWarehouse from "../ui/pages/create-warehouse/CreateWarehouse";
 import EntityPage from "../ui/pages/entity-page/EntityPage";
 import ForgotPassword from "../ui/pages/forgot-password/ForgotPassword";
+import Help from "../ui/pages/help/Help";
 import HomePage from "../ui/pages/home-page/HomePage";
 import MainPage from "../ui/pages/main-page/MainPage";
 import Settings from "../ui/pages/settings/Settings";
@@ -14,6 +15,7 @@ import WarehousePage from "../ui/pages/warehouse-page/WarehousePage";
 
 const routes = [
   { path: "/", element: <MainPage />, exact: true },
+  { path: "/help", element: <Help />, exact: true },
   { path: "/sign-in", needAuth: false, element: <SignIn />, exact: true },
   { path: "/sign-up", needAuth: false, element: <SignUp />, exact: true },
   {
@@ -60,7 +62,6 @@ const routes = [
     element: <EntityPage />,
     exact: true,
   },
-  //   { path: "/123/:id", element: <123 />, exact: true },
 ];
 
 export default routes;

@@ -128,7 +128,7 @@ function Settings() {
           inputValue={inputConfirmNewPassword}
           setInputValue={setInputConfirmNewPassword}
         />
-        {issueCode !== -1
+        {issueCode !== SETTINGS.ERROR.CODE.OK
           ? <h3 className="settings__issue">{SETTINGS.ERROR.CONTENT[issueCode]}</h3>
           : ''}
         <div className={`settings__buttons-block ${issueCode !== -1 ? '' : 'settings__correct'}`}>
