@@ -7,7 +7,7 @@ import { selectCheckboxesSelected, selectGlobalCheckboxState, selectTableData, s
 import TableBasicEmptyRow from './TableBasicEmptyRow/TableBasicEmptyRow';
 
 function TableBasic({
-  data, column, cellWidth, cellHeight, action, className, minRowsOnPage = 0, starterSelectOption = false
+  data = [], column, cellWidth, cellHeight, action, className, minRowsOnPage = 0, starterSelectOption = false
 }) {
 
   const dispatch = useDispatch();

@@ -33,8 +33,8 @@ function WarehousePage() {
     ]
 
     const navigate = useNavigate();
-    const routeChange = (route) => {
-        navigate(route);
+    const routeChange = (route, options = {}) => {
+        navigate(route, options);
     };
 
     const changeItemsOnPage = (value) => {
@@ -45,8 +45,10 @@ function WarehousePage() {
 
     const removeItems = () => {
         const itemsToRemove = tableData.filter(item => item.isSelected).map((item, index) => ({ ...item, index }));
-        dispatch(setTableData(itemsToRemove));
-        routeChange(`/warehouse/${params.warehouseId}/confirm-removing`);
+        routeChange(
+            `/warehouse/${params.warehouseId}/confirm-removing`,
+            { state: { selectedOptionsValue: itemsToRemove } }
+        );
     }
 
     useEffect(() => {

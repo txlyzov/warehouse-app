@@ -14,14 +14,14 @@ module.exports = {
     const { 
       name,
       quantity,
-      umageUrl,
+      imageUrl,
       notes,
     } = req.body;
     const { warehouseId } = req.params;
     const result = await cargoModel.create({
       name,
       quantity,
-      umageUrl,
+      imageUrl,
       notes,
       warehouseId,
     });
@@ -102,7 +102,7 @@ module.exports = {
     const {  
       name,
       quantity,
-      umageUrl,
+      imageUrl,
       notes,
     } = req.body;
     const { warehouseId, cargoId } = req.params;
@@ -128,7 +128,7 @@ module.exports = {
         {
           name,
           quantity,
-          umageUrl,
+          imageUrl,
           notes,
         },
         {
@@ -187,8 +187,57 @@ module.exports = {
         return res.status(HSC.BAD_REQUEST).send(`Delete issue.`);
     }
 
-    
-
     return res.status(HSC.FORBIDDEN).send(`No access.`);
+  },
+
+  async deleteCargoGroup(req,res) {
+    const token = req.get('token');
+    const verify = verifyToken(token);
+    if (!verify) {
+      return res.status(HSC.FORBIDDEN).send(`Wrong token.`);
+    }
+    const { warehouseId } = req.params;
+    const ownerId = verify.id;
+    const cargoArray = (req.query.cargoArray).split(',');
+
+    cargoArray.forEach(async (cargoId,index) => {
+      const cargo = await cargoModel.findOne({
+        where : {
+          id: cargoId,
+          warehouseId
+        },
+      });
+
+      if (!cargo){
+        return res.status(HSC.BAD_REQUEST).send(`Delete issue.`);
+      }
+  
+      const cargoWarehouse = await warehousesModel.findOne({
+        where : {
+          id: cargo.warehouseId,
+        },
+      });
+  
+      if(cargoWarehouse.ownerId === ownerId){
+        const result = await cargoModel.destroy(
+          {
+            where : {
+              id: cargoId,
+              warehouseId,
+            },
+          }
+          );
+          if(result !== 1){
+            return res.status(HSC.BAD_REQUEST).send(`Delete issue.`);
+          }
+
+          if (index === cargoArray.length-1){
+            return res.sendStatus(HSC.OK);
+          }
+      }
+      else {
+        return res.status(HSC.FORBIDDEN).send(`No access.`);
+      }
+    });
   }
 }

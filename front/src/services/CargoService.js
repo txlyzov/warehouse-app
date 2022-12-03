@@ -107,3 +107,45 @@ export const updateCargoById = async (
     return error;
   }
 };
+
+export const deleteCargoById = async (warehouseId, entityId) => {
+  const { token } = getLoginData();
+  try {
+    const response = await axios.delete(
+      `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}/cargos/${entityId}/delete`,
+      {
+        headers: {
+          token,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    if (error.response.status === 403) {
+      removeLoginData();
+    }
+    return error;
+  }
+};
+
+export const deleteCargoGroup = async (warehouseId, entityIdArray) => {
+  const { token } = getLoginData();
+  try {
+    const response = await axios.delete(
+      `http://${
+        process.env.REACT_APP_SERVER_URL
+      }/api/warehouses/${warehouseId}/cargos/delete?&cargoArray=${entityIdArray.toString()}`,
+      {
+        headers: {
+          token,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    if (error.response.status === 403) {
+      removeLoginData();
+    }
+    return error;
+  }
+};
