@@ -47,7 +47,12 @@ function WarehousePage() {
         const itemsToRemove = tableData.filter(item => item.isSelected).map((item, index) => ({ ...item, index }));
         routeChange(
             `/warehouse/${params.warehouseId}/confirm-removing`,
-            { state: { selectedOptionsValue: itemsToRemove } }
+            {
+                state: {
+                    selectedOptionsValue: itemsToRemove,
+                    warehouseData,
+                }
+            }
         );
     }
 
