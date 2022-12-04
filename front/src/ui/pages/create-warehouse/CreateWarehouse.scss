@@ -1,18 +1,10 @@
 @import "../../styles/Text";
 @import "../../styles/Colors";
+@import "../../styles/Panes";
 
 .create-warehouse.wrapper {
-  background: url("../../../assets/images/background-warehouse-changes.jpg")
-    no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include background-image-styles("background-warehouse-changes.jpg");
+  @include flex-center-styles;
 
   .create-warehouse__form {
     margin: 20px;
@@ -51,9 +43,8 @@
         color: $red-en-100;
       }
       &__buttons-block {
-        display: flex;
+        @include flex-center-styles;
         justify-content: space-between;
-        align-items: center;
         flex-direction: row;
         margin: 0 50px 25px 50px;
       }

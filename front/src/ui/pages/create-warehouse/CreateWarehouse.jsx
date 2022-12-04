@@ -1,20 +1,13 @@
 import './CreateWarehouse.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
-import { WAREHOUSE } from '../../../utils/Constants';
 import { createWarehouse, getWarehousesByUserId } from '../../../services/WarehouseService';
+import CREATE_WAREHOUSE from './CreateWarehouse.dictionary';
 
 function CreateWarehouse() {
-    const errorTexts = {
-        0: <h3 className="create-warehouse__issue">Empty fields!</h3>,
-        1: <h3 className="create-warehouse__issue">Warehouse limit reached! (20/20)</h3>,
-        2: <h3 className="create-warehouse__issue">Auth error.</h3>,
-        3: <h3 className="create-warehouse__issue">Unknown error(request failed).</h3>,
-    };
-
-    const [issueText, setIssueText] = useState(-1);
+    const [issueCode, setIssueCode] = useState(CREATE_WAREHOUSE.ERROR.CODE.OK);
     const [inputName, setInputName] = useState('');
     const [inputNameIssue, setInputNameIssue] = useState(false);
     const [inputLocation, setInputLocation] = useState('');
@@ -34,45 +27,45 @@ function CreateWarehouse() {
     };
 
     const submitFunction = async () => {
-        let issue = WAREHOUSE.NO_ERROR;
+        let issue = CREATE_WAREHOUSE.ERROR.CODE.OK;
         resetInputsErrors();
 
         if (!inputName) {
             setInputNameIssue(true);
-            issue = WAREHOUSE.ERROR_EMPTY_FIELS;
+            issue = CREATE_WAREHOUSE.ERROR.CODE.EMPTY_FIELDS;
         }
 
         if (!inputLocation) {
             setInputLocationIssue(true);
-            issue = WAREHOUSE.ERROR_EMPTY_FIELS;
+            issue = CREATE_WAREHOUSE.ERROR.CODE.EMPTY_FIELDS;
         }
 
-        setIssueText(issue);
-        if (issue !== WAREHOUSE.NO_ERROR) {
+        setIssueCode(issue);
+        if (issue !== CREATE_WAREHOUSE.ERROR.CODE.OK) {
             return;
         }
 
         const requestCountResult = await getWarehousesByUserId();
         if (requestCountResult.status === 403) {
-            setIssueText(WAREHOUSE.ERROR_AUTH);
+            setIssueCode(CREATE_WAREHOUSE.ERROR.CODE.AUTH_ERROR);
             return;
         }
         if (requestCountResult.status !== 200) {
-            setIssueText(WAREHOUSE.ERROR_REQUEST);
+            setIssueCode(CREATE_WAREHOUSE.ERROR.CODE.UNKNOWN);
             return;
         }
         if (requestCountResult.data.count >= 20) {
-            setIssueText(WAREHOUSE.ERROR_LIMIT_REACHED);
+            setIssueCode(CREATE_WAREHOUSE.ERROR.CODE.LIMIT_REACHED);
             return;
         }
 
         const requestCreateResult = await createWarehouse(inputName, inputLocation);
         if (requestCreateResult.status === 403) {
-            setIssueText(WAREHOUSE.ERROR_AUTH);
+            setIssueCode(CREATE_WAREHOUSE.ERROR.CODE.AUTH_ERROR);
             return;
         }
         if (requestCreateResult.status !== 200) {
-            setIssueText(WAREHOUSE.ERROR_REQUEST);
+            setIssueCode(CREATE_WAREHOUSE.ERROR.CODE.UNKNOWN);
             return;
         }
         routeChange('/home');
@@ -81,57 +74,62 @@ function CreateWarehouse() {
     return (
         <div className="create-warehouse wrapper">
             <div className="create-warehouse__form">
-                <h2 className="create-warehouse__header">Create warehouse</h2>
+                <h2 className="create-warehouse__header">{CREATE_WAREHOUSE.TEXTS.MAIN_TITLE}</h2>
                 <hr className="create-warehouse__separator" />
-                <h3 className="create-warehouse__prompt">Type your warehouse name here:</h3>
+                <h3 className="create-warehouse__prompt">{CREATE_WAREHOUSE.TEXTS.PROMT_1}</h3>
                 <Input
+                    data-testid={CREATE_WAREHOUSE.INPUT.TEST_ID[0]}
+                    placeholder={CREATE_WAREHOUSE.INPUT.PLACEHOLDER[0]}
                     type="email"
                     issue={inputNameIssue}
                     closable
                     className="create-warehouse__input-email"
-                    placeholder="Enter warehouse name"
                     width="390px"
                     inputValue={inputName}
                     setInputValue={setInputName}
                 />
-                <h3 className="create-warehouse__prompt">Type warehouse location:</h3>
+                <h3 className="create-warehouse__prompt">{CREATE_WAREHOUSE.TEXTS.PROMT_2}</h3>
                 <Input
+                    data-testid={CREATE_WAREHOUSE.INPUT.TEST_ID[1]}
+                    placeholder={CREATE_WAREHOUSE.INPUT.PLACEHOLDER[1]}
                     type="email"
                     issue={inputLocationIssue}
                     closable
                     className="create-warehouse__input-email"
-                    placeholder="Enter warehouse location city"
                     width="390px"
                     inputValue={inputLocation}
                     setInputValue={setInputLocation}
                 />
-                <h3 className="create-warehouse__prompt">Type collaborators email:</h3>
+                <h3 className="create-warehouse__prompt">{CREATE_WAREHOUSE.TEXTS.PROMT_3}</h3>
                 <Input
+                    data-testid={CREATE_WAREHOUSE.INPUT.TEST_ID[2]}
+                    placeholder={CREATE_WAREHOUSE.INPUT.PLACEHOLDER[2]}
                     type="email"
                     issue={inputCollaboratorsIssue}
                     closable
                     disabled
                     className="create-warehouse__input-email"
-                    placeholder="Disabled functionality"
                     width="390px"
                     inputValue={inputCollaborators}
                     setInputValue={setInputCollaborators}
                 />
-                {issueText !== -1
-                    ? errorTexts[issueText]
+                {issueCode !== CREATE_WAREHOUSE.ERROR.CODE.OK
+                    ? CREATE_WAREHOUSE.ERROR.CONTENT[issueCode]
                     : ''}
                 <div className='create-warehouse__buttons-block'>
                     <Button
+                        data-testid={CREATE_WAREHOUSE.BUTTON.TEST_ID[0]}
+                        text={CREATE_WAREHOUSE.BUTTON.TEXT[0]}
                         click={() => routeChange('/home')}
-                        className={`create-warehouse__submit-button ${issueText !== -1 ? '' : 'create-warehouse__correct'}`}
-                        text="Return"
+                        className={`create-warehouse__submit-button ${issueCode !== CREATE_WAREHOUSE.ERROR.CODE.OK ? '' : 'create-warehouse__correct'}`}
                         type="secondary"
                         size="md"
                     />
                     <Button
+                        data-testid={CREATE_WAREHOUSE.BUTTON.TEST_ID[1]}
+                        text={CREATE_WAREHOUSE.BUTTON.TEXT[1]}
                         click={() => submitFunction()}
-                        className={`create-warehouse__submit-button ${issueText !== -1 ? '' : 'create-warehouse__correct'}`}
-                        text="Create"
+                        className={`create-warehouse__submit-button ${issueCode !== CREATE_WAREHOUSE.ERROR.CODE.OK ? '' : 'create-warehouse__correct'}`}
                         type="primary"
                         size="md"
                     />
