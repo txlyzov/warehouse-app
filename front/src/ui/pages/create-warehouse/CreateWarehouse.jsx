@@ -122,17 +122,17 @@ function CreateWarehouse() {
                     : ''}
                 <div className='create-warehouse__buttons-block'>
                     <Button
-                        click={() => submitFunction()}
-                        className={`create-warehouse__submit-button ${issueText !== -1 ? '' : 'create-warehouse__correct'}`}
-                        text="Create"
-                        type="primary"
-                        size="md"
-                    />
-                    <Button
                         click={() => routeChange('/home')}
                         className={`create-warehouse__submit-button ${issueText !== -1 ? '' : 'create-warehouse__correct'}`}
                         text="Return"
                         type="secondary"
+                        size="md"
+                    />
+                    <Button
+                        click={() => submitFunction()}
+                        className={`create-warehouse__submit-button ${issueText !== -1 ? '' : 'create-warehouse__correct'}`}
+                        text="Create"
+                        type="primary"
                         size="md"
                     />
                 </div>

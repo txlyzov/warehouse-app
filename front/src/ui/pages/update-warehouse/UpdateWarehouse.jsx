@@ -124,17 +124,17 @@ function UpdateWarehouse() {
                     : ''}
                 <div className='update-warehouse__buttons-block'>
                     <Button
-                        click={() => submitFunction()}
-                        className={`update-warehouse__submit-button ${issueText !== -1 ? '' : 'update-warehouse__correct'}`}
-                        text="Update"
-                        type="primary"
-                        size="md"
-                    />
-                    <Button
                         click={() => routeChange(`/warehouse/${params.warehouseId}`)}
                         className={`update-warehouse__submit-button ${issueText !== -1 ? '' : 'update-warehouse__correct'}`}
                         text="Return"
                         type="secondary"
+                        size="md"
+                    />
+                    <Button
+                        click={() => submitFunction()}
+                        className={`update-warehouse__submit-button ${issueText !== -1 ? '' : 'update-warehouse__correct'}`}
+                        text="Update"
+                        type="primary"
                         size="md"
                     />
                 </div>
