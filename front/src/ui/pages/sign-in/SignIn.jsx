@@ -1,31 +1,14 @@
 import './SignIn.scss';
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
 import { loginUser } from '../../../services/AuthService';
-import { EMAIL_FRONT_REGEX, EMAIL_REGEX, AUTH } from '../../../utils/Constants';
+import { EMAIL_REGEX } from '../../../utils/Constants';
+import SIGN_IN from './SignIn.dictionary';
 
 function SignIn() {
-  const errorTexts = {
-    0: <h3 className="sign-in__issue">Empty fields!</h3>,
-    1: <h3 className="sign-in__issue">Email should be like example@email.com</h3>,
-    3: <h3 className="sign-in__issue">
-      Account does not exist. [
-      <Link className="" to="/sign-up">Registration</Link>
-      ]
-      {/* eslint-disable-next-line react/jsx-indent */}
-    </h3>,
-    5: <h3 className="sign-in__issue">
-      Wrong password. [
-      <Link className="" to="/forgot-password">Reset password</Link>
-      ]
-      {/* eslint-disable-next-line react/jsx-indent */}
-    </h3>,
-    6: <h3 className="sign-in__issue">Unknown error</h3>,
-  };
-
-  const [issueText, setIssueText] = useState(-1);
+  const [issueCode, setIssueCode] = useState(SIGN_IN.ERROR.CODE.OK);
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const [inputEmailIssue, setInputEmailIssue] = useState(false);
@@ -42,40 +25,40 @@ function SignIn() {
   };
 
   const submitFunction = async () => {
-    let issue = AUTH.NO_ERROR;
+    let issue = SIGN_IN.ERROR.CODE.OK;
     resetInputsErrors();
 
     if (!inputEmail) {
       setInputEmailIssue(true);
-      issue = AUTH.ERROR_EMPTY_FIELS;
+      issue = SIGN_IN.ERROR.CODE.EMPTY_FIELDS;
     }
 
     if (!inputPassword) {
       setInputPasswordIssue(true);
-      issue = AUTH.ERROR_EMPTY_FIELS;
+      issue = SIGN_IN.ERROR.CODE.EMPTY_FIELDS;
     }
 
-    if (issue !== AUTH.NO_ERROR) {
-      setIssueText(issue);
+    if (issue !== SIGN_IN.ERROR.CODE.OK) {
+      setIssueCode(issue);
       return;
     }
 
     if (!EMAIL_REGEX.test(inputEmail)) {
       setInputEmailIssue(true);
-      setIssueText(AUTH.ERROR_EMAIL_UNCORRECT);
+      setIssueCode(SIGN_IN.ERROR.CODE.EMAIL_VALIDATION);
       return;
     }
     const requestResult = await loginUser(inputEmail, inputPassword);
     if (requestResult.status !== 200) {
       if (requestResult.response.data === 'Wrong email.') {
-        setIssueText(AUTH.ERROR_NO_ACCOUNT);
+        setIssueCode(SIGN_IN.ERROR.CODE.UNEXIST_ACCOUNT);
         return
       }
       if (requestResult.response.data === 'Wrong password.') {
-        setIssueText(AUTH.ERROR_PASSWORD);
+        setIssueCode(SIGN_IN.ERROR.CODE.WRONG_PASSWORD);
         return
       }
-      setIssueText(AUTH.ERROR_REQUEST);
+      setIssueCode(SIGN_IN.ERROR.CODE.UNKNOWN);
       return
     }
     routeChange('/home');
@@ -84,46 +67,50 @@ function SignIn() {
   return (
     <div className="sign-in wrapper">
       <div className="sign-in__form">
-        <h2 className="sign-in__header">Sign in</h2>
+        <h2 className="sign-in__header">{SIGN_IN.TEXTS.MAIN_TITLE}</h2>
         <hr className="sign-in__separator" />
-        <h3 className="sign-in__prompt">Type your account email here:</h3>
+        <h3 className="sign-in__prompt">{SIGN_IN.TEXTS.PROMT_1}</h3>
         <Input
+          data-testid={SIGN_IN.INPUT.TEST_ID[0]}
+          placeholder={SIGN_IN.INPUT.PLACEHOLDER[0]}
           type="email"
           issue={inputEmailIssue}
           closable
           className="sign-in__input-email"
-          placeholder="Enter your email"
           width="390px"
           inputValue={inputEmail}
           setInputValue={setInputEmail}
         />
-        <h3 className="sign-in__prompt">Type your password here:</h3>
+        <h3 className="sign-in__prompt">{SIGN_IN.TEXTS.PROMT_2}</h3>
         <Input
+          data-testid={SIGN_IN.INPUT.TEST_ID[1]}
+          placeholder={SIGN_IN.INPUT.PLACEHOLDER[1]}
           type="password"
           issue={inputPasswordIssue}
           closable
           className="sign-in__input-password"
-          placeholder="Enter your password"
           width="390px"
           inputValue={inputPassword}
           setInputValue={setInputPassword}
         />
-        {issueText !== -1
-          ? errorTexts[issueText]
+        {issueCode !== SIGN_IN.ERROR.CODE.OK
+          ? SIGN_IN.ERROR.CONTENT[issueCode]
           : ''}
-        <div className={`sign-in__buttons-block ${issueText !== -1 ? '' : 'sign-in__correct'}`}>
+        <div className={`sign-in__buttons-block ${issueCode !== SIGN_IN.ERROR.CODE.OK ? '' : 'sign-in__correct'}`}>
           <Button
-            click={() => submitFunction()}
-            className="sign-in__submit-button "
-            text="Sign in"
-            type="primary"
+            data-testid={SIGN_IN.BUTTON.TEST_ID[0]}
+            text={SIGN_IN.BUTTON.TEXT[0]}
+            click={() => routeChange('/forgot-password')}
+            className="sign-in__forgot-password-button"
+            type="secondary"
             size="md"
           />
           <Button
-            click={() => routeChange('/forgot-password')}
-            className="sign-in__forgot-password-button"
-            text="Forgot password"
-            type="secondary"
+            data-testid={SIGN_IN.BUTTON.TEST_ID[1]}
+            text={SIGN_IN.BUTTON.TEXT[1]}
+            click={() => submitFunction()}
+            className="sign-in__submit-button "
+            type="primary"
             size="md"
           />
         </div>

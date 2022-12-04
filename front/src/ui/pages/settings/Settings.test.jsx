@@ -67,6 +67,7 @@ describe('Settings component', () => {
 
         try {
             const error = screen.getByText(SETTINGS.ERROR.CONTENT[SETTINGS.ERROR.CODE.EMPTY_FIELDS]);
+
             expect(error).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
         const updateButton = screen.getByTestId(SETTINGS.BUTTON.TEST_ID[1]);
@@ -81,6 +82,7 @@ describe('Settings component', () => {
 
         try {
             const error = screen.getByText(SETTINGS.ERROR.CONTENT[SETTINGS.ERROR.CODE.NOT_EQUAL_CONFIRM_FIELD]);
+
             expect(error).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
 
@@ -90,7 +92,6 @@ describe('Settings component', () => {
         userEvent.type(input1, 'q'.repeat(22));
         const input2 = screen.getByTestId(SETTINGS.INPUT.TEST_ID[2]);
         userEvent.type(input2, 'q'.repeat(23));
-
         const updateButton = screen.getByTestId(SETTINGS.BUTTON.TEST_ID[1]);
         userEvent.click(updateButton);
         const error = screen.getByText(SETTINGS.ERROR.CONTENT[SETTINGS.ERROR.CODE.NOT_EQUAL_CONFIRM_FIELD]);
@@ -107,24 +108,27 @@ describe('Settings component', () => {
         userEvent.type(input1, 'q'.repeat(22));
         const input2 = screen.getByTestId(SETTINGS.INPUT.TEST_ID[2]);
         userEvent.type(input2, 'q'.repeat(22));
-
         const updateButton = screen.getByTestId(SETTINGS.BUTTON.TEST_ID[1]);
         userEvent.click(updateButton);
 
         try {
             const error1 = await screen.findByText(SETTINGS.ERROR.CODE.EMPTY_FIELDS);
+
             expect(error1).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
         try {
             const error2 = await screen.findByText(SETTINGS.ERROR.CODE.NOT_EQUAL_CONFIRM_FIELD);
+
             expect(error2).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
         try {
             const error3 = await screen.findByText(SETTINGS.ERROR.CODE.UNKNOWN);
+
             expect(error3).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
         try {
             const error4 = await screen.findByText(SETTINGS.ERROR.CODE.WRONG_ORIGINAL_PASSWORD);
+
             expect(error4).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
 

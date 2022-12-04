@@ -1,24 +1,14 @@
 import './ForgotPassword.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
-import { EMAIL_FRONT_REGEX, EMAIL_REGEX, AUTH } from '../../../utils/Constants';
+import { EMAIL_REGEX } from '../../../utils/Constants';
 import { resetUserPassword } from '../../../services/AuthService';
+import FORGOT_PASSWORD from './ForgotPassword.dictionary';
 
 function ForgotPassword() {
-  const errorTexts = {
-    0: <h3 className="forgot-password__issue">Empty fields!</h3>,
-    1: <h3 className="forgot-password__issue">Email should be like example@email.com</h3>,
-    3: <h3 className="forgot-password__issue">
-      Account does not exist. [
-      <Link className="" to="/sign-up">Registration</Link>
-      ]
-    </h3>,
-    6: <h3 className="forgot-password__issue">Unknown error(request failed).</h3>,
-  };
-
-  const [issueText, setIssueText] = useState(-1);
+  const [issueCode, setIssueCode] = useState(FORGOT_PASSWORD.ERROR.CODE.OK);
   const [inputEmail, setInputEmail] = useState('');
   const [inputEmailIssue, setInputEmailIssue] = useState(false);
 
@@ -32,28 +22,28 @@ function ForgotPassword() {
   };
 
   const submitFunction = async () => {
-    let issue = AUTH.NO_ERROR;
+    let issue = FORGOT_PASSWORD.ERROR.CODE.OK;
     resetInputsErrors();
 
     if (!inputEmail) {
       setInputEmailIssue(true);
-      issue = AUTH.ERROR_EMPTY_FIELS;
+      issue = FORGOT_PASSWORD.ERROR.CODE.EMPTY_FIELDS;
     }
 
-    if (issue !== AUTH.NO_ERROR) {
-      setIssueText(issue);
+    if (issue !== FORGOT_PASSWORD.ERROR.CODE.OK) {
+      setIssueCode(issue);
       return;
     }
 
     if (!EMAIL_REGEX.test(inputEmail)) {
       setInputEmailIssue(true);
-      setIssueText(AUTH.ERROR_EMAIL_UNCORRECT);
+      setIssueCode(FORGOT_PASSWORD.ERROR.CODE.EMAIL_VALIDATION);
       return;
     }
 
     const requestResult = await resetUserPassword(inputEmail);
     if (!requestResult) {
-      setIssueText(AUTH.ERROR_REQUEST);
+      setIssueCode(FORGOT_PASSWORD.ERROR.CODE.UNKNOWN);
       return
     }
     routeChange('/sign-in');
@@ -62,26 +52,28 @@ function ForgotPassword() {
   return (
     <div className="forgot-password wrapper">
       <div className="forgot-password__form">
-        <h2 className="forgot-password__header">Forgot password?</h2>
+        <h2 className="forgot-password__header">{FORGOT_PASSWORD.TEXTS.MAIN_TITLE}</h2>
         <hr className="forgot-password__separator" />
-        <h3 className="forgot-password__prompt">Type your account email here:</h3>
+        <h3 className="forgot-password__prompt">{FORGOT_PASSWORD.TEXTS.PROMT_1}</h3>
         <Input
+          data-testid={FORGOT_PASSWORD.INPUT.TEST_ID[0]}
+          placeholder={FORGOT_PASSWORD.INPUT.PLACEHOLDER[0]}
           type="email"
           issue={inputEmailIssue}
           closable
           className="forgot-password__input-email"
-          placeholder="Enter your email"
           width="390px"
           inputValue={inputEmail}
           setInputValue={setInputEmail}
         />
-        {issueText !== -1
-          ? errorTexts[issueText]
+        {issueCode !== FORGOT_PASSWORD.ERROR.CODE.OK
+          ? FORGOT_PASSWORD.ERROR.CONTENT[issueCode]
           : ''}
         <Button
+          data-testid={FORGOT_PASSWORD.BUTTON.TEST_ID[0]}
+          text={FORGOT_PASSWORD.BUTTON.TEXT[0]}
           click={() => submitFunction()}
-          className={`forgot-password__submit-button ${issueText !== -1 ? '' : 'forgot-password__correct'}`}
-          text="Reset password"
+          className={`forgot-password__submit-button ${issueCode !== FORGOT_PASSWORD.ERROR.CODE.OK ? '' : 'forgot-password__correct'}`}
           type="primary"
           size="md"
         />

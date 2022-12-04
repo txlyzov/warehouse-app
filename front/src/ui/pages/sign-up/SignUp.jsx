@@ -1,28 +1,14 @@
 import './SignUp.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
-import { EMAIL_FRONT_REGEX, EMAIL_REGEX, AUTH } from '../../../utils/Constants';
-import { loginUser, registerNewUser } from '../../../services/AuthService';
+import { EMAIL_REGEX } from '../../../utils/Constants';
+import { registerNewUser } from '../../../services/AuthService';
+import SIGN_UP from './SignUp.dictionary';
 
 function SignUp() {
-  // eslint-disable-next-line max-len
-  // let issueText = <h3 className="sign-up__issue">Account does not exist. [<Link className="" to="/">Registration</Link>]</h3>
-  const errorTexts = {
-    0: <h3 className="sign-up__issue">Empty fields!</h3>,
-    1: <h3 className="sign-up__issue">Email should be like example@email.com</h3>,
-    2: <h3 className="sign-up__issue">Passwords not confirmed.</h3>,
-    4: <h3 className="sign-up__issue">
-      Account already exist. [
-      <Link className="" to="/sign-in">Sign in</Link>
-      ]
-      {/* eslint-disable-next-line react/jsx-indent */}
-    </h3>,
-    6: <h3 className="sign-up__issue">Unknown error(request failed).</h3>,
-  };
-
-  const [issueText, setIssueText] = useState(-1);
+  const [issueCode, setIssueCode] = useState(SIGN_UP.ERROR.CODE.OK);
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const [inputConfirmPassword, setInputConfirmPassword] = useState('');
@@ -42,48 +28,48 @@ function SignUp() {
   };
 
   const submitFunction = async () => {
-    let issue = AUTH.NO_ERROR;
+    let issue = SIGN_UP.ERROR.CODE.OK;
     resetInputsErrors();
 
     if (!inputEmail) {
       setInputEmailIssue(true);
-      issue = AUTH.ERROR_EMPTY_FIELS;
+      issue = SIGN_UP.ERROR.CODE.EMPTY_FIELDS;
     }
 
     if (!inputPassword) {
       setInputPasswordIssue(true);
-      issue = AUTH.ERROR_EMPTY_FIELS;
+      issue = SIGN_UP.ERROR.CODE.EMPTY_FIELDS;
     }
 
     if (!inputConfirmPassword) {
       setInputConfirmPasswordIssue(true);
-      issue = AUTH.ERROR_EMPTY_FIELS;
+      issue = SIGN_UP.ERROR.CODE.EMPTY_FIELDS;
     }
 
-    if (issue !== AUTH.NO_ERROR) {
-      setIssueText(issue);
+    if (issue !== SIGN_UP.ERROR.CODE.OK) {
+      setIssueCode(issue);
       return;
     }
 
     if (!EMAIL_REGEX.test(inputEmail)) {
       setInputEmailIssue(true);
-      setIssueText(AUTH.ERROR_EMAIL_UNCORRECT);
+      setIssueCode(SIGN_UP.ERROR.CODE.EMAIL_VALIDATION);
       return;
     }
 
     if (inputPassword !== inputConfirmPassword) {
       setInputPasswordIssue(true);
       setInputConfirmPasswordIssue(true);
-      setIssueText(AUTH.ERROR_PASSWORD_NOT_EQUAL);
+      setIssueCode(SIGN_UP.ERROR.CODE.PASSWORD_CONFIRM_FAILED);
       return;
     }
     const requestResult = await registerNewUser(inputEmail, inputPassword);
     if (requestResult.status !== 200) {
       if (requestResult.response.data === 'Account already exists.') {
-        setIssueText(AUTH.ERROR_EXIST_ACCOUNT);
+        setIssueCode(SIGN_UP.ERROR.CODE.EXIST_ACCOUNT);
         return
       }
-      setIssueText(AUTH.ERROR_REQUEST);
+      setIssueCode(SIGN_UP.ERROR.CODE.UNKNOWN);
       return
     }
     routeChange('/sign-in');
@@ -92,56 +78,61 @@ function SignUp() {
   return (
     <div className="sign-up wrapper">
       <div className="sign-up__form">
-        <h2 className="sign-up__header">Sign up</h2>
+        <h2 className="sign-up__header">{SIGN_UP.TEXTS.MAIN_TITLE}</h2>
         <hr className="sign-up__separator" />
-        <h3 className="sign-up__prompt">Type your account email here:</h3>
+        <h3 className="sign-up__prompt">{SIGN_UP.TEXTS.PROMT_1}</h3>
         <Input
+          data-testid={SIGN_UP.INPUT.TEST_ID[0]}
+          placeholder={SIGN_UP.INPUT.PLACEHOLDER[0]}
           type="email"
           issue={inputEmailIssue}
           closable
           className="sign-up__input-email"
-          placeholder="Enter your email"
           width="390px"
           inputValue={inputEmail}
           setInputValue={setInputEmail}
         />
-        <h3 className="sign-up__prompt">Type your password here:</h3>
+        <h3 className="sign-up__prompt">{SIGN_UP.TEXTS.PROMT_2}</h3>
         <Input
+          data-testid={SIGN_UP.INPUT.TEST_ID[1]}
+          placeholder={SIGN_UP.INPUT.PLACEHOLDER[1]}
           type="password"
           issue={inputPasswordIssue}
           closable
           className="sign-up__input-password"
-          placeholder="Enter your password"
           width="390px"
           inputValue={inputPassword}
           setInputValue={setInputPassword}
         />
         <Input
+          data-testid={SIGN_UP.INPUT.TEST_ID[2]}
+          placeholder={SIGN_UP.INPUT.PLACEHOLDER[2]}
           type="password"
           issue={inputConfirmPasswordIssue}
           closable
           className="sign-up__input-confirm"
-          placeholder="Confirm your password"
           width="390px"
           inputValue={inputConfirmPassword}
           setInputValue={setInputConfirmPassword}
         />
-        {issueText !== -1
-          ? errorTexts[issueText]
+        {issueCode !== SIGN_UP.ERROR.CODE.OK
+          ? SIGN_UP.ERROR.CONTENT[issueCode]
           : ''}
-        <div className={`sign-up__buttons-block ${issueText !== -1 ? '' : 'sign-up__correct'}`}>
+        <div className={`sign-up__buttons-block ${issueCode !== SIGN_UP.ERROR.CODE.OK ? '' : 'sign-up__correct'}`}>
           <Button
-            click={() => submitFunction()}
-            className="sign-up__submit-button "
-            text="Sign up"
-            type="primary"
+            data-testid={SIGN_UP.BUTTON.TEST_ID[0]}
+            text={SIGN_UP.BUTTON.TEXT[0]}
+            click={() => routeChange('/forgot-password')}
+            className="sign-up__forgot-password-button"
+            type="secondary"
             size="md"
           />
           <Button
-            click={() => routeChange('/forgot-password')}
-            className="sign-up__forgot-password-button"
-            text="Forgot password"
-            type="secondary"
+            data-testid={SIGN_UP.BUTTON.TEST_ID[1]}
+            text={SIGN_UP.BUTTON.TEXT[1]}
+            click={() => submitFunction()}
+            className="sign-up__submit-button "
+            type="primary"
             size="md"
           />
         </div>
