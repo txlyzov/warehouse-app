@@ -31,11 +31,12 @@
         margin: 20px 50px;
         text-align: left;
       }
+      &__input-name,
+      &__input-location,
       &__input-email {
         margin: 0 50px;
         height: 30px;
       }
-
       &__issue {
         height: 40px;
         margin: 20px 50px;

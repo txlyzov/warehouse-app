@@ -80,10 +80,9 @@ function CreateWarehouse() {
                 <Input
                     data-testid={CREATE_WAREHOUSE.INPUT.TEST_ID[0]}
                     placeholder={CREATE_WAREHOUSE.INPUT.PLACEHOLDER[0]}
-                    type="email"
                     issue={inputNameIssue}
                     closable
-                    className="create-warehouse__input-email"
+                    className="create-warehouse__input-name"
                     width="390px"
                     inputValue={inputName}
                     setInputValue={setInputName}
@@ -92,10 +91,9 @@ function CreateWarehouse() {
                 <Input
                     data-testid={CREATE_WAREHOUSE.INPUT.TEST_ID[1]}
                     placeholder={CREATE_WAREHOUSE.INPUT.PLACEHOLDER[1]}
-                    type="email"
                     issue={inputLocationIssue}
                     closable
-                    className="create-warehouse__input-email"
+                    className="create-warehouse__input-location"
                     width="390px"
                     inputValue={inputLocation}
                     setInputValue={setInputLocation}
