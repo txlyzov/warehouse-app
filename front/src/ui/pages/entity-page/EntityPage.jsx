@@ -1,14 +1,13 @@
 import './EntityPage.scss'
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Button from '../../components/button/Button';
-import { selectItem, selectType } from '../../../redux-store/data-transfer/DataTransferSlice';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
 import { ErrorModal, InputModal, NoteModal } from '../../components/modal/modal-templates/modal-templates';
 import Counter from '../../components/counter/Counter';
 import { getWarehouseById } from '../../../services/WarehouseService';
-import { getCargosById, updateCargoById } from '../../../services/CargoService';
+import { deleteCargoById, getCargosById, updateCargoById } from '../../../services/CargoService';
 
 
 function EntityPage() {
@@ -59,6 +58,28 @@ function EntityPage() {
                 <NoteModal
                     title='Update cargo data'
                     noteText='Data updated' />
+            )
+        )
+
+        routeChange(`/warehouse/${params.warehouseId}`)
+    }
+
+    const deleteFunction = async () => {
+        const cargoRequestResult = await deleteCargoById(
+            params.warehouseId,
+            params.entityId
+        );
+
+        if (cargoRequestResult.status !== 200) {
+            errorCase();
+            return
+        }
+
+        dispatch(
+            setModalContent(
+                <NoteModal
+                    title='Delete cargo data'
+                    noteText='Data deleted' />
             )
         )
 
@@ -276,7 +297,7 @@ function EntityPage() {
                             size="md"
                             disabled={!isUpdateAvaliable}
                         />
-                        <Button click={() => routeChange('/create-warehouse')}
+                        <Button click={() => deleteFunction()}
                             className="entity__delete-button"
                             type="primary"
                             text="Delete"

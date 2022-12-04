@@ -7,7 +7,7 @@ import reduxStore from "../../../redux-store/index";
 import HELP from './Help.dictionary';
 import Help from './Help';
 
-describe('Sign in stuff component', () => {
+describe('Help component', () => {
     beforeAll(() => {
         const filters = ['async-validator:'];
         jest.spyOn(console, 'warn').mockImplementation(

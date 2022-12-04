@@ -44,12 +44,12 @@ const content2 = (
     </div>
 )
 
-describe('Sign in stuff component', () => {
+describe('Dropdown Menu component', () => {
     beforeAll(() => {
         const filters = ['async-validator:'];
         jest.spyOn(console, 'warn').mockImplementation(
             (msg, ...args) => {
-                // eslint-disable-next-line no-unused-expressions
+                // eslint-disable-next-line no-unused-expressions, no-console
                 filters.some((filter) => msg.includes(filter)) ? jest.fn() : console.warn(msg, ...args);
             },
         );
@@ -79,7 +79,7 @@ describe('Sign in stuff component', () => {
         </Provider>,
     );
 
-    window.matchMedia = window.matchMedia || function () {
+    window.matchMedia = window.matchMedia || function noName() {
         return {
             matches: false,
             addListener() { },

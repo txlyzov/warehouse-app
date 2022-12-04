@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { changePassword, signUpUser, signInUser, resetPassword } = require('./sections/auth');
-const { createCargo, getCargosByWarehouseID, getCargoByID, updateCargoByID, deleteCargoByID } = require('./sections/cargo');
+const { createCargo, getCargosByWarehouseID, getCargoByID, updateCargoByID, deleteCargoByID, deleteCargoGroup } = require('./sections/cargo');
 const { createWarehouse, getWarehousesByUserID, getWarehouseByID, updateWarehouseByID, deleteWarehouseByID } = require('./sections/warehouse');
 
 const router = Router();
@@ -21,5 +21,6 @@ router.get('/warehouses/:warehouseId/cargos', getCargosByWarehouseID);
 router.get('/warehouses/:warehouseId/cargos/:cargoId', getCargoByID);
 router.put('/warehouses/:warehouseId/cargos/:cargoId/update', updateCargoByID);
 router.delete('/warehouses/:warehouseId/cargos/:cargoId/delete', deleteCargoByID);
+router.delete('/warehouses/:warehouseId/cargos/delete', deleteCargoGroup);
 
 module.exports = router;

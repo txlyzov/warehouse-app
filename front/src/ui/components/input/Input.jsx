@@ -14,7 +14,7 @@ function Input({
     <div className={`input-block ${className}`}>
       <input
         // style={{ width }}
-        value={inputValue}
+        value={inputValue || ''}
         {...props}
         onChange={(e) => setInputValue(e.target.value)}
         className={`input-block__input input-${size || 'bs'} 

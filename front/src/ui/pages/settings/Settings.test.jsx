@@ -8,7 +8,7 @@ import Settings from './Settings';
 import reduxStore from "../../../redux-store/index";
 import SETTINGS from './Settings.dictionary';
 
-describe('Sign in stuff component', () => {
+describe('Settings component', () => {
     beforeAll(() => {
         const filters = ['async-validator:'];
         jest.spyOn(console, 'warn').mockImplementation(
