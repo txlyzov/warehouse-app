@@ -1,4 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
+const TEST_NAME = "settings";
 
 const SETTINGS = {
   ERROR: {
@@ -17,7 +18,11 @@ const SETTINGS = {
     ],
   },
   INPUT: {
-    TEST_ID: ["settings-input-1", "settings-input-2", "settings-input-3"],
+    TEST_ID: [
+      `${TEST_NAME}-input-0`,
+      `${TEST_NAME}-input-1`,
+      `${TEST_NAME}-input-2`,
+    ],
     PLACEHOLDER: [
       "Enter your old password",
       "Enter your new password",
@@ -25,7 +30,7 @@ const SETTINGS = {
     ],
   },
   BUTTON: {
-    TEST_ID: ["settings-button-1", "settings-button-2"],
+    TEST_ID: [`${TEST_NAME}-button-0`, `${TEST_NAME}-button-1`],
     TEXT: ["Return", "Update"],
   },
   TEXTS: {

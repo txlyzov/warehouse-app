@@ -19,7 +19,7 @@ describe('Sign up component', () => {
         );
     });
 
-    const renderForgotPasswordWithProvider = () => render(
+    const renderSignUpWithProvider = () => render(
         <Provider store={reduxStore}>
             <BrowserRouter>
                 <SignUp />
@@ -36,7 +36,7 @@ describe('Sign up component', () => {
     };
 
     test(`should have ${SIGN_UP.BUTTON.TEXT[0]} and ${SIGN_UP.BUTTON.TEXT[1]} button`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignUpWithProvider();
 
         const button0 = screen.getByTestId(SIGN_UP.BUTTON.TEST_ID[0]);
         const button1 = screen.getByTestId(SIGN_UP.BUTTON.TEST_ID[1]);
@@ -46,7 +46,7 @@ describe('Sign up component', () => {
     });
 
     test(`should have ${SIGN_UP.TEXTS.PROMT_1} block`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignUpWithProvider();
 
         const promt0 = screen.getByText(SIGN_UP.TEXTS.PROMT_1);
         const input0 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[0]);
@@ -56,7 +56,7 @@ describe('Sign up component', () => {
     });
 
     test(`should have ${SIGN_UP.TEXTS.PROMT_2} block`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignUpWithProvider();
 
         const promt0 = screen.getByText(SIGN_UP.TEXTS.PROMT_2);
         const input0 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[1]);
@@ -68,7 +68,7 @@ describe('Sign up component', () => {
     });
 
     test(`should have error with code ${SIGN_UP.ERROR.CODE.EMPTY_FIELDS} after click`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignUpWithProvider();
 
         try {
             const error = screen.getByTestId(`sign-up-issue-${SIGN_UP.ERROR.CODE.EMPTY_FIELDS}`);
@@ -82,7 +82,7 @@ describe('Sign up component', () => {
     });
 
     test(`should have error with code ${SIGN_UP.ERROR.CODE.EMAIL_VALIDATION} after click`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignUpWithProvider();
 
         try {
             const error = screen.getByTestId(`sign-up-issue-${SIGN_UP.ERROR.CODE.EMAIL_VALIDATION}`);
@@ -103,7 +103,7 @@ describe('Sign up component', () => {
     });
 
     test(`should have error with code ${SIGN_UP.ERROR.CODE.PASSWORD_CONFIRM_FAILED} after click`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignUpWithProvider();
 
         try {
             const error = screen.getByTestId(`sign-up-issue-${SIGN_UP.ERROR.CODE.PASSWORD_CONFIRM_FAILED}`);
@@ -125,7 +125,7 @@ describe('Sign up component', () => {
     });
 
     test(`should NOT have any errors after click`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignUpWithProvider();
 
         const input0 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[0]);
         userEvent.type(input0, 'q@q.q');

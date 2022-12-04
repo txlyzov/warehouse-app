@@ -97,33 +97,33 @@ function Settings() {
         <h3 className="settings__prompt">{SETTINGS.TEXTS.PROMT_1}</h3>
         <Input
           data-testid={SETTINGS.INPUT.TEST_ID[0]}
+          placeholder={SETTINGS.INPUT.PLACEHOLDER[0]}
           type="password"
           issue={inputOldPasswordIssue}
           closable
           className="settings__input-old-password"
-          placeholder={SETTINGS.INPUT.PLACEHOLDER[0]}
           width="390px"
           inputValue={inputOldPassword}
           setInputValue={setInputOldPassword}
         />
         <Input
           data-testid={SETTINGS.INPUT.TEST_ID[1]}
+          placeholder={SETTINGS.INPUT.PLACEHOLDER[1]}
           type="password"
           issue={inputNewPasswordIssue}
           closable
           className="settings__input-new-password"
-          placeholder={SETTINGS.INPUT.PLACEHOLDER[1]}
           width="390px"
           inputValue={inputNewPassword}
           setInputValue={setInputNewPassword}
         />
         <Input
           data-testid={SETTINGS.INPUT.TEST_ID[2]}
+          placeholder={SETTINGS.INPUT.PLACEHOLDER[2]}
           type="password"
           issue={inputConfirmNewPasswordIssue}
           closable
           className="settings__input-confirm"
-          placeholder={SETTINGS.INPUT.PLACEHOLDER[2]}
           width="390px"
           inputValue={inputConfirmNewPassword}
           setInputValue={setInputConfirmNewPassword}
@@ -134,17 +134,17 @@ function Settings() {
         <div className={`settings__buttons-block ${issueCode !== -1 ? '' : 'settings__correct'}`}>
           <Button
             data-testid={SETTINGS.BUTTON.TEST_ID[0]}
+            text={SETTINGS.BUTTON.TEXT[0]}
             click={() => routeChange('/home')}
             className="settings__forgot-password-button"
-            text={SETTINGS.BUTTON.TEXT[0]}
             type="secondary"
             size="md"
           />
           <Button
             data-testid={SETTINGS.BUTTON.TEST_ID[1]}
+            text={SETTINGS.BUTTON.TEXT[1]}
             click={() => submitFunction()}
             className="settings__submit-button "
-            text={SETTINGS.BUTTON.TEXT[1]}
             type="primary"
             size="md"
           />
