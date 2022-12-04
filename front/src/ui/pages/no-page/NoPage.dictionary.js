@@ -1,6 +1,8 @@
+const TEST_NAME = "no-page";
+
 const NO_PAGE = {
   BUTTON: {
-    TEST_ID: ["settings-button-1"],
+    TEST_ID: [`${TEST_NAME}-button-0`],
     TEXT: ["Return"],
   },
   TEXTS: {
