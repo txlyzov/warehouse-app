@@ -19,7 +19,7 @@ describe('Sign in component', () => {
         );
     });
 
-    const renderForgotPasswordWithProvider = () => render(
+    const renderSignInWithProvider = () => render(
         <Provider store={reduxStore}>
             <BrowserRouter>
                 <SignIn />
@@ -36,7 +36,7 @@ describe('Sign in component', () => {
     };
 
     test(`should have ${SIGN_IN.BUTTON.TEXT[0]} and ${SIGN_IN.BUTTON.TEXT[1]} button`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignInWithProvider();
 
         const button0 = screen.getByTestId(SIGN_IN.BUTTON.TEST_ID[0]);
         const button1 = screen.getByTestId(SIGN_IN.BUTTON.TEST_ID[1]);
@@ -46,7 +46,7 @@ describe('Sign in component', () => {
     });
 
     test(`should have ${SIGN_IN.TEXTS.PROMT_1} block`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignInWithProvider();
 
         const promt0 = screen.getByText(SIGN_IN.TEXTS.PROMT_1);
         const input0 = screen.getByTestId(SIGN_IN.INPUT.TEST_ID[0]);
@@ -56,7 +56,7 @@ describe('Sign in component', () => {
     });
 
     test(`should have ${SIGN_IN.TEXTS.PROMT_2} block`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignInWithProvider();
 
         const promt0 = screen.getByText(SIGN_IN.TEXTS.PROMT_2);
         const input0 = screen.getByTestId(SIGN_IN.INPUT.TEST_ID[1]);
@@ -66,7 +66,7 @@ describe('Sign in component', () => {
     });
 
     test(`should have error with code ${SIGN_IN.ERROR.CODE.EMPTY_FIELDS} after click`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignInWithProvider();
 
         try {
             const error = screen.getByTestId(`sign-in-issue-${SIGN_IN.ERROR.CODE.EMPTY_FIELDS}`);
@@ -81,7 +81,7 @@ describe('Sign in component', () => {
     });
 
     test(`should have error with code ${SIGN_IN.ERROR.CODE.EMAIL_VALIDATION} after click`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignInWithProvider();
 
         try {
             const error = screen.getByTestId(`sign-in-issue-${SIGN_IN.ERROR.CODE.EMAIL_VALIDATION}`);
@@ -102,7 +102,7 @@ describe('Sign in component', () => {
     });
 
     test(`should NOT have any errors after click`, async () => {
-        renderForgotPasswordWithProvider();
+        renderSignInWithProvider();
 
         const input0 = screen.getByTestId(SIGN_IN.INPUT.TEST_ID[0]);
         userEvent.type(input0, 'q@q.q');
