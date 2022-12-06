@@ -3,10 +3,11 @@ const router = require("./routers/appRouter");
 const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require('cors');
+const APPLICATION_PORT = process.env.APPLICATION_PORT;
 
 
 const app = express();
-const port = 4000;
+const port = APPLICATION_PORT || '4000';
 
 app.use(cors());
 app.use(helmet());

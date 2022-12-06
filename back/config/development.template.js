@@ -1,7 +1,7 @@
 const database = {
-  username: 'root',
-  password: '1111',
-  database: 'the_crawler',
+  username: '',
+  password: '',
+  database: '',
   host: '127.0.0.1',
   dialect: 'mysql',
 };
@@ -11,4 +11,4 @@ const connection = {
   port: '3000',
 };
 
-module.exports.production = { database, connection };
+module.exports.development = { database, connection };
