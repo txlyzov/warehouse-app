@@ -4,15 +4,9 @@
 
 ---
 
-## Technical documentation:
-
-[[Link to Technical documentation]](./documentation/Technical%20Design.md)
-
----
-
 ## Requirements:
 
-- Front end and back end parts of the app;
+- [Front end](https://git.syberry.com/t.khlyzov/aqua-playground/front);
 
 - Software: MySQL.
 
@@ -39,15 +33,6 @@
     You also can: 
     - drop wigrations with db-drop;
     - drop database with db-delete.
-
-- then for front end application: 
-    - Open the FE project in your IDE;
-    - run `npm i` to install all packages;
-    - fill [.env values](./front/) 
-    
-    (.env.template -> copy - > .env.template copy -> rename -> .env -> fill empty fields inside)
-
-    - run `npm run dev` to start FE application
 
 ---
 
