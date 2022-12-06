@@ -6,7 +6,7 @@
 
 ## Technical documentation:
 
-[[Link to Technical documentation]](./documentation/Technical%20Design.md)
+[[Link to Technical documentation]](./documentation/Technical_documentation.md)
 
 ---
 
