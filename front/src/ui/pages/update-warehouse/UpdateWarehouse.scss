@@ -1,63 +1,60 @@
 @import "../../styles/Text";
 @import "../../styles/Colors";
+@import "../../styles/Panes.scss";
 
 .update-warehouse.wrapper {
-  background: url("../../../assets/images/background-warehouse-changes.jpg")
-    no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include background-image-styles("background-warehouse-changes.jpg");
+  @include flex-center-styles();
 
   .update-warehouse__form {
+    background-color: rgba($white-100, 0.75);
+    border-radius: 50px;
+    box-shadow: 0px 0px 10px 10px $black-100;
+    height: min-content;
     margin: 20px;
     width: 600px;
-    height: min-content;
-    border-radius: 50px;
-
-    background-color: rgba($white-100, 0.75);
-    box-shadow: 0px 0px 10px 10px $black-100;
 
     .update-warehouse {
       &__header {
         height: 50px;
         margin: 25px auto;
       }
+
       &__separator {
-        margin: 0;
         background-color: $black-100;
         border: none;
         height: 1px;
+        margin: 0;
       }
+
       &__prompt {
         height: 30px;
         margin: 20px 50px;
         text-align: left;
       }
+
       &__input-name,
       &__input-location,
       &__input-email {
-        margin: 0 50px;
         height: 30px;
+        margin: 0 50px;
       }
+
       &__issue {
+        color: $red-en-100;
         height: 40px;
         margin: 20px 50px;
         text-align: left;
-        color: $red-en-100;
       }
+
       &__buttons-block {
-        display: flex;
-        justify-content: space-between;
         align-items: center;
+        display: flex;
         flex-direction: row;
+        justify-content: space-between;
         margin: 0 50px 25px 50px;
       }
+
       &__correct {
         margin-top: 80px;
       }

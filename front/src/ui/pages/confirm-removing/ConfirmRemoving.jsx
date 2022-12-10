@@ -2,6 +2,7 @@ import './ConfirmRemoving.scss'
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { StatusCodes } from 'http-status-codes';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
 import TableBasic from '../../components/table-basic/TableBasic';
@@ -11,6 +12,7 @@ import { deleteCargoGroup } from '../../../services/CargoService';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
 import { ErrorModal, NoteModal } from '../../components/modal/modal-templates/modal-templates';
 import CONFIRM_REMOVING from './ConfirmRemoving.dictionary';
+import { PATH_VARIBLES } from '../../../utils/Constants';
 
 function ConfirmRemoving() {
     const dispatch = useDispatch();
@@ -42,17 +44,18 @@ function ConfirmRemoving() {
                 />
             )
         )
-        routeChange('/home');
+        routeChange(PATH_VARIBLES.HOME);
     }
 
     const deleteFunction = async () => {
         const cargoRequestResult = await deleteCargoGroup(
-            params.warehouseId,
+            params[PATH_VARIBLES.WAREHOUSE_ID],
             tableData.filter((element) => element.isSelected === true).map((element) => element.data.id),
         );
 
-        if (cargoRequestResult.status !== 200) {
+        if (cargoRequestResult.status !== StatusCodes.OK) {
             errorCase();
+
             return
         }
 
@@ -64,12 +67,13 @@ function ConfirmRemoving() {
             )
         )
 
-        routeChange(`/warehouse/${params.warehouseId}`)
+        routeChange(`${PATH_VARIBLES.WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}`)
     }
 
     useEffect(() => {
         if (!state) {
-            routeChange(`/warehouse/${params.warehouseId}`);
+            routeChange(`${PATH_VARIBLES.WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}`);
+
             return
         }
         dispatch(setTableData(state.selectedOptionsValue));
@@ -78,8 +82,10 @@ function ConfirmRemoving() {
     useEffect(() => {
         if (state && inputSearch.length === 0) {
             setDisplayedContent(state.selectedOptionsValue);
+
             return;
         }
+
         const regex = new RegExp(inputSearch, 'g');
         const searchResults = tableData.filter((element) => element.data.name.match(regex));
         setDisplayedContent(searchResults)
@@ -101,9 +107,9 @@ function ConfirmRemoving() {
                             {state.warehouseData.name || 'Loading..'}
                         </h2>
                     </div>
-                    <Button click={() => routeChange(`/warehouse/${params.warehouseId}`)}
-                        data-testid={CONFIRM_REMOVING.BUTTON[0].TEST_ID}
-                        text={CONFIRM_REMOVING.BUTTON[0].TEXT}
+                    <Button click={() => routeChange(`${PATH_VARIBLES.WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}`)}
+                        data-testid={CONFIRM_REMOVING.BUTTON.CANCEL.TEST_ID}
+                        text={CONFIRM_REMOVING.BUTTON.CANCEL.TEXT}
                         className="confirm-removing__cancel-button"
                         type="secondary"
                         size="md"
@@ -115,7 +121,7 @@ function ConfirmRemoving() {
                     </div>
                     <div className='confirm-removing__delete-buttons-block'>
                         <Button click={() => setIsDeleteConfirmUnlocked(true)}
-                            data-testid={CONFIRM_REMOVING.BUTTON[1].TEST_ID}
+                            data-testid={CONFIRM_REMOVING.BUTTON.DELETE.TEST_ID}
                             text={`Delete ${selectedOptionsValue < 999 ? selectedOptionsValue : '999+'} item${selectedOptionsValue === 1 ? '' : 's'}`}
                             className="confirm-removing__delete-button"
                             type="primary"
@@ -123,7 +129,7 @@ function ConfirmRemoving() {
                             disabled={selectedOptionsValue < 1}
                         />
                         <Button click={() => deleteFunction()}
-                            data-testid={CONFIRM_REMOVING.BUTTON[2].TEST_ID}
+                            data-testid={CONFIRM_REMOVING.BUTTON.DELETE.TEST_ID}
                             className="confirm-removing__confirm-delete-button"
                             type="primary"
                             text={
@@ -141,8 +147,8 @@ function ConfirmRemoving() {
 
                 <div className='confirm-removing__right-elements'>
                     <Input
-                        data-testid={CONFIRM_REMOVING.INPUT[0].TEST_ID}
-                        placeholder={CONFIRM_REMOVING.INPUT[0].PLACEHOLDER}
+                        data-testid={CONFIRM_REMOVING.INPUT.SEARCH.TEST_ID}
+                        placeholder={CONFIRM_REMOVING.INPUT.SEARCH.PLACEHOLDER}
                         closable
                         className="confirm-removing__table-search"
                         width="390px"

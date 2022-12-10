@@ -27,19 +27,17 @@ describe('Sign up component', () => {
         </Provider>,
     );
 
-    window.matchMedia = window.matchMedia || function noName() {
-        return {
-            matches: false,
-            addListener() { },
-            removeListener() { },
-        };
-    };
+    window.matchMedia = window.matchMedia || (() => ({
+        matches: false,
+        addListener() { },
+        removeListener() { },
+    }))
 
-    test(`should have ${SIGN_UP.BUTTON.TEXT[0]} and ${SIGN_UP.BUTTON.TEXT[1]} button`, async () => {
+    test(`should have ${SIGN_UP.BUTTON.FORGOT_PASSWORD.TEXT} and ${SIGN_UP.BUTTON.SIGN_UP.TEXT} button`, async () => {
         renderSignUpWithProvider();
 
-        const button0 = screen.getByTestId(SIGN_UP.BUTTON.TEST_ID[0]);
-        const button1 = screen.getByTestId(SIGN_UP.BUTTON.TEST_ID[1]);
+        const button0 = screen.getByTestId(SIGN_UP.BUTTON.FORGOT_PASSWORD.TEST_ID);
+        const button1 = screen.getByTestId(SIGN_UP.BUTTON.SIGN_UP.TEST_ID);
 
         expect(button0).toBeInTheDocument();
         expect(button1).toBeInTheDocument();
@@ -49,7 +47,7 @@ describe('Sign up component', () => {
         renderSignUpWithProvider();
 
         const promt0 = screen.getByText(SIGN_UP.TEXTS.PROMT_1);
-        const input0 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(SIGN_UP.INPUT.EMAIL.TEST_ID);
 
         expect(promt0).toBeInTheDocument();
         expect(input0).toBeInTheDocument();
@@ -59,8 +57,8 @@ describe('Sign up component', () => {
         renderSignUpWithProvider();
 
         const promt0 = screen.getByText(SIGN_UP.TEXTS.PROMT_2);
-        const input0 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[1]);
-        const input1 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[2]);
+        const input0 = screen.getByTestId(SIGN_UP.INPUT.PASSWORD.TEST_ID);
+        const input1 = screen.getByTestId(SIGN_UP.INPUT.CONFIRM_PASSWORD.TEST_ID);
 
         expect(promt0).toBeInTheDocument();
         expect(input0).toBeInTheDocument();
@@ -74,7 +72,8 @@ describe('Sign up component', () => {
             const error = screen.getByTestId(`sign-up-issue-${SIGN_UP.ERROR.CODE.EMPTY_FIELDS}`);
             expect(error).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
-        const confirmButton = screen.getByTestId(SIGN_UP.BUTTON.TEST_ID[1]);
+
+        const confirmButton = screen.getByTestId(SIGN_UP.BUTTON.SIGN_UP.TEST_ID);
         userEvent.click(confirmButton);
         const error = screen.getByTestId(`sign-up-issue-${SIGN_UP.ERROR.CODE.EMPTY_FIELDS}`);
 
@@ -89,13 +88,13 @@ describe('Sign up component', () => {
             expect(error).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
 
-        const input0 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(SIGN_UP.INPUT.EMAIL.TEST_ID);
         userEvent.type(input0, 'q'.repeat(22));
-        const input1 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[1]);
+        const input1 = screen.getByTestId(SIGN_UP.INPUT.PASSWORD.TEST_ID);
         userEvent.type(input1, 'q'.repeat(22));
-        const input2 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[2]);
+        const input2 = screen.getByTestId(SIGN_UP.INPUT.CONFIRM_PASSWORD.TEST_ID);
         userEvent.type(input2, 'q'.repeat(22));
-        const confirmButton = screen.getByTestId(SIGN_UP.BUTTON.TEST_ID[1]);
+        const confirmButton = screen.getByTestId(SIGN_UP.BUTTON.SIGN_UP.TEST_ID);
         userEvent.click(confirmButton);
         const error = screen.getByTestId(`sign-up-issue-${SIGN_UP.ERROR.CODE.EMAIL_VALIDATION}`);
 
@@ -110,14 +109,13 @@ describe('Sign up component', () => {
             expect(error).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
 
-        const input0 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(SIGN_UP.INPUT.EMAIL.TEST_ID);
         userEvent.type(input0, 'q@q.q');
-        const input1 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[1]);
+        const input1 = screen.getByTestId(SIGN_UP.INPUT.PASSWORD.TEST_ID);
         userEvent.type(input1, 'q'.repeat(22));
-        const input2 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[2]);
+        const input2 = screen.getByTestId(SIGN_UP.INPUT.CONFIRM_PASSWORD.TEST_ID);
         userEvent.type(input2, 'w'.repeat(22));
-
-        const confirmButton = screen.getByTestId(SIGN_UP.BUTTON.TEST_ID[1]);
+        const confirmButton = screen.getByTestId(SIGN_UP.BUTTON.SIGN_UP.TEST_ID);
         userEvent.click(confirmButton);
         const error = screen.getByTestId(`sign-up-issue-${SIGN_UP.ERROR.CODE.PASSWORD_CONFIRM_FAILED}`);
 
@@ -127,14 +125,13 @@ describe('Sign up component', () => {
     test(`should NOT have any errors after click`, async () => {
         renderSignUpWithProvider();
 
-        const input0 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(SIGN_UP.INPUT.EMAIL.TEST_ID);
         userEvent.type(input0, 'q@q.q');
-        const input1 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[1]);
+        const input1 = screen.getByTestId(SIGN_UP.INPUT.PASSWORD.TEST_ID);
         userEvent.type(input1, 'q@q.q');
-        const input2 = screen.getByTestId(SIGN_UP.INPUT.TEST_ID[2]);
+        const input2 = screen.getByTestId(SIGN_UP.INPUT.CONFIRM_PASSWORD.TEST_ID);
         userEvent.type(input2, 'q@q.q');
-
-        const updateButton = screen.getByTestId(SIGN_UP.BUTTON.TEST_ID[1]);
+        const updateButton = screen.getByTestId(SIGN_UP.BUTTON.SIGN_UP.TEST_ID);
         userEvent.click(updateButton);
 
         try {
@@ -142,26 +139,29 @@ describe('Sign up component', () => {
 
             expect(error1).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
+
         try {
             const error2 = await screen.getByTestId(`sign-up-issue-${SIGN_UP.ERROR.CODE.EMAIL_VALIDATION}`);
 
             expect(error2).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
+
         try {
             const error3 = await screen.getByTestId(`sign-up-issue-${SIGN_UP.ERROR.CODE.UNKNOWN}`);
 
             expect(error3).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
+
         try {
             const error4 = await screen.getByTestId(`sign-up-issue-${SIGN_UP.ERROR.CODE.EXIST_ACCOUNT}`);
 
             expect(error4).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
+
         try {
             const error5 = await screen.getByTestId(`sign-up-issue-${SIGN_UP.ERROR.CODE.PASSWORD_CONFIRM_FAILED}`);
 
             expect(error5).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
-
     });
 });

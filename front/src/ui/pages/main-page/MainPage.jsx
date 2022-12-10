@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { PATH_VARIBLES } from '../../../utils/Constants';
 import { getLoginData } from '../../../utils/LocalStorageUtil';
 import Button from '../../components/button/Button';
 import MAIN_PAGE from './MainPage.dictionary';
@@ -25,17 +26,17 @@ function MainPage() {
                     <h2 className='main-page__note'>{MAIN_PAGE.TEXTS.PROMT_1}</h2>
                     <div className='main-page__buttons-block'>
                         <Button
-                            data-testid={MAIN_PAGE.BUTTON.TEST_ID[0]}
-                            text={isAutorised ? MAIN_PAGE.BUTTON.TEXT[0][0] : MAIN_PAGE.BUTTON.TEXT[0][1]}
+                            data-testid={MAIN_PAGE.BUTTON.NEXT.TEST_ID}
+                            text={isAutorised ? MAIN_PAGE.BUTTON.NEXT.TEXT[0] : MAIN_PAGE.BUTTON.NEXT.TEXT[1]}
                             className="main-page__next-button"
-                            click={() => routeChange(isAutorised ? '/home' : '/sign-up')}
+                            click={() => routeChange(isAutorised ? PATH_VARIBLES.HOME : PATH_VARIBLES.SIGN_UP)}
                             size="lg" type="primary"
                         />
                         <Button
-                            data-testid={MAIN_PAGE.BUTTON.TEST_ID[1]}
-                            text={MAIN_PAGE.BUTTON.TEXT[1]}
+                            data-testid={MAIN_PAGE.BUTTON.HELP.TEST_ID}
+                            text={MAIN_PAGE.BUTTON.HELP.TEXT}
                             className="main-page__help-button"
-                            click={() => routeChange('/help')}
+                            click={() => routeChange(PATH_VARIBLES.HELP)}
                             size="lg"
                             type="secondary"
                         />

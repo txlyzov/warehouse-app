@@ -1,9 +1,10 @@
 import './SignUp.scss';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import { StatusCodes } from 'http-status-codes';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
-import { EMAIL_REGEX } from '../../../utils/Constants';
+import { EMAIL_REGEX, PATH_VARIBLES } from '../../../utils/Constants';
 import { registerNewUser } from '../../../services/AuthService';
 import SIGN_UP from './SignUp.dictionary';
 
@@ -64,7 +65,7 @@ function SignUp() {
       return;
     }
     const requestResult = await registerNewUser(inputEmail, inputPassword);
-    if (requestResult.status !== 200) {
+    if (requestResult.status !== StatusCodes.OK) {
       if (requestResult.response.data === 'Account already exists.') {
         setIssueCode(SIGN_UP.ERROR.CODE.EXIST_ACCOUNT);
         return
@@ -72,7 +73,7 @@ function SignUp() {
       setIssueCode(SIGN_UP.ERROR.CODE.UNKNOWN);
       return
     }
-    routeChange('/sign-in');
+    routeChange(PATH_VARIBLES.SIGN_IN);
   };
 
   return (
@@ -82,8 +83,8 @@ function SignUp() {
         <hr className="sign-up__separator" />
         <h3 className="sign-up__prompt">{SIGN_UP.TEXTS.PROMT_1}</h3>
         <Input
-          data-testid={SIGN_UP.INPUT.TEST_ID[0]}
-          placeholder={SIGN_UP.INPUT.PLACEHOLDER[0]}
+          data-testid={SIGN_UP.INPUT.EMAIL.TEST_ID}
+          placeholder={SIGN_UP.INPUT.EMAIL.PLACEHOLDER}
           type="email"
           issue={inputEmailIssue}
           closable
@@ -94,8 +95,8 @@ function SignUp() {
         />
         <h3 className="sign-up__prompt">{SIGN_UP.TEXTS.PROMT_2}</h3>
         <Input
-          data-testid={SIGN_UP.INPUT.TEST_ID[1]}
-          placeholder={SIGN_UP.INPUT.PLACEHOLDER[1]}
+          data-testid={SIGN_UP.INPUT.PASSWORD.TEST_ID}
+          placeholder={SIGN_UP.INPUT.PASSWORD.PLACEHOLDER}
           type="password"
           issue={inputPasswordIssue}
           closable
@@ -105,8 +106,8 @@ function SignUp() {
           setInputValue={setInputPassword}
         />
         <Input
-          data-testid={SIGN_UP.INPUT.TEST_ID[2]}
-          placeholder={SIGN_UP.INPUT.PLACEHOLDER[2]}
+          data-testid={SIGN_UP.INPUT.CONFIRM_PASSWORD.TEST_ID}
+          placeholder={SIGN_UP.INPUT.CONFIRM_PASSWORD.PLACEHOLDER}
           type="password"
           issue={inputConfirmPasswordIssue}
           closable
@@ -120,16 +121,16 @@ function SignUp() {
           : ''}
         <div className={`sign-up__buttons-block ${issueCode !== SIGN_UP.ERROR.CODE.OK ? '' : 'sign-up__correct'}`}>
           <Button
-            data-testid={SIGN_UP.BUTTON.TEST_ID[0]}
-            text={SIGN_UP.BUTTON.TEXT[0]}
-            click={() => routeChange('/forgot-password')}
+            data-testid={SIGN_UP.BUTTON.FORGOT_PASSWORD.TEST_ID}
+            text={SIGN_UP.BUTTON.FORGOT_PASSWORD.TEXT}
+            click={() => routeChange(PATH_VARIBLES.FORGOT_PASSWORD)}
             className="sign-up__forgot-password-button"
             type="secondary"
             size="md"
           />
           <Button
-            data-testid={SIGN_UP.BUTTON.TEST_ID[1]}
-            text={SIGN_UP.BUTTON.TEXT[1]}
+            data-testid={SIGN_UP.BUTTON.SIGN_UP.TEST_ID}
+            text={SIGN_UP.BUTTON.SIGN_UP.TEXT}
             click={() => submitFunction()}
             className="sign-up__submit-button "
             type="primary"

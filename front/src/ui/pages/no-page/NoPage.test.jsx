@@ -26,20 +26,18 @@ describe('No page component', () => {
         </Provider>,
     );
 
-    window.matchMedia = window.matchMedia || function noName() {
-        return {
-            matches: false,
-            addListener() { },
-            removeListener() { },
-        };
-    };
+    window.matchMedia = window.matchMedia || (() => ({
+        matches: false,
+        addListener() { },
+        removeListener() { },
+    }))
 
     test(`should have ${NO_PAGE.TEXTS.MAIN_TITLE} block`, async () => {
         renderNoPageWithProvider();
 
         const title0 = screen.getByText(NO_PAGE.TEXTS.PROMT_1);
         const promt0 = screen.getByText(NO_PAGE.TEXTS.PROMT_1);
-        const button0 = screen.getByTestId(NO_PAGE.BUTTON.TEST_ID[0]);
+        const button0 = screen.getByTestId(NO_PAGE.BUTTON.RETURN.TEST_ID);
 
         expect(title0).toBeInTheDocument();
         expect(promt0).toBeInTheDocument();

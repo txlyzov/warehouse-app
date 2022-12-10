@@ -1,5 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Link } from "react-router-dom";
+import { PATH_VARIBLES } from "../../../utils/Constants";
 
 const TEST_NAME = "forgot-password";
 
@@ -36,7 +37,7 @@ const FORGOT_PASSWORD = {
         className="forgot-password__issue"
       >
         Account does not exist. [
-        <Link className="" to="/sign-up">
+        <Link className="" to={PATH_VARIBLES.SIGN_UP}>
           Registration
         </Link>
         ]
@@ -44,12 +45,10 @@ const FORGOT_PASSWORD = {
     ],
   },
   INPUT: {
-    TEST_ID: [`${TEST_NAME}-input-0`],
-    PLACEHOLDER: ["Enter your email"],
+    EMAIL: { TEST_ID: `${TEST_NAME}-input-0`, PLACEHOLDER: "Enter your email" },
   },
   BUTTON: {
-    TEST_ID: [`${TEST_NAME}-button-0`],
-    TEXT: ["Reset password"],
+    SUBMIT: { TEST_ID: `${TEST_NAME}-button-0`, TEXT: "Reset password" },
   },
   TEXTS: {
     MAIN_TITLE: "Forgot password?",

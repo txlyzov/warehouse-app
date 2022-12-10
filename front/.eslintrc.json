@@ -20,7 +20,6 @@
     ],
     "rules": {
         "no-unused-vars": "warn",
-        "react/no-array-index-key": "warn",
         "react/jsx-props-no-spreading": "off",
         "react/prop-types": "off",
         "react/jsx-filename-extension": [

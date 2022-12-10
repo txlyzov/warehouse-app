@@ -1,41 +1,36 @@
 @import "../../styles/Text";
 @import "../../styles/Colors";
+@import "../../styles/Panes";
 
 .main-page.wrapper {
-  background: url("../../../assets/images/background-main.jpg") no-repeat center
-    center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  width: 100%;
-  display: grid;
+  @include background-image-styles("background-main.jpg");
+  @include flex-center-styles;
 
   .main-page__content-block {
-    width: 660px;
     height: 235px;
     margin: auto 7.5vw 7.5vh auto;
+    width: 660px;
     .main-page__content {
-      height: 100%;
+      @include flex-center-styles;
       color: $white-100;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
+      height: 100%;
 
       .main-page {
         &__title {
           margin: 30px;
           text-shadow: 0px 5px 5px rgba($black-100, 0.25);
         }
+
         &__note {
           text-shadow: 0px 5px 5px rgba($black-100, 0.25);
         }
+
         &__buttons-block {
           display: flex;
           justify-content: space-between;
-          width: 100%;
           margin-top: 30px;
+          width: 100%;
         }
       }
     }

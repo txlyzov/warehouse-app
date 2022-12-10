@@ -1,4 +1,5 @@
 import axios from "axios";
+import { StatusCodes } from "http-status-codes";
 import { getLoginData, removeLoginData } from "../utils/LocalStorageUtil";
 
 export const createCargo = async (
@@ -24,17 +25,20 @@ export const createCargo = async (
         },
       }
     );
+
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error.response.status === StatusCodes.FORBIDDEN) {
       removeLoginData();
     }
+
     return error;
   }
 };
 
 export const getCargosByWarehouseId = async (warehouseId) => {
   const { token } = getLoginData();
+
   try {
     const response = await axios.get(
       `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}/cargos`,
@@ -47,15 +51,17 @@ export const getCargosByWarehouseId = async (warehouseId) => {
 
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error.response.status === StatusCodes.FORBIDDEN) {
       removeLoginData();
     }
+
     return error;
   }
 };
 
 export const getCargosById = async (warehouseId, entityId) => {
   const { token } = getLoginData();
+
   try {
     const response = await axios.get(
       `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}/cargos/${entityId}`,
@@ -68,9 +74,10 @@ export const getCargosById = async (warehouseId, entityId) => {
 
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error.response.status === StatusCodes.FORBIDDEN) {
       removeLoginData();
     }
+
     return error;
   }
 };
@@ -99,17 +106,20 @@ export const updateCargoById = async (
         },
       }
     );
+
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error.response.status === StatusCodes.FORBIDDEN) {
       removeLoginData();
     }
+
     return error;
   }
 };
 
 export const deleteCargoById = async (warehouseId, entityId) => {
   const { token } = getLoginData();
+
   try {
     const response = await axios.delete(
       `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}/cargos/${entityId}/delete`,
@@ -119,17 +129,20 @@ export const deleteCargoById = async (warehouseId, entityId) => {
         },
       }
     );
+
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error.response.status === StatusCodes.FORBIDDEN) {
       removeLoginData();
     }
+
     return error;
   }
 };
 
 export const deleteCargoGroup = async (warehouseId, entityIdArray) => {
   const { token } = getLoginData();
+
   try {
     const response = await axios.delete(
       `http://${
@@ -141,11 +154,13 @@ export const deleteCargoGroup = async (warehouseId, entityIdArray) => {
         },
       }
     );
+
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error.response.status === StatusCodes.FORBIDDEN) {
       removeLoginData();
     }
+
     return error;
   }
 };

@@ -40,7 +40,13 @@ function Counter({ className, size, inputCurrentValue = 1, outputCurrentPage }) 
 
     return (
         <div className={`counter wrapper counter-${size || 'md'} ${className}`}>
-            <Button click={counterValue > 0 ? () => changeValue(counterValue - 1) : null} className='counter__to-prev' type='secondary' size='ssm' text="-" />
+            <Button
+                click={counterValue > 0 ? () => changeValue(counterValue - 1) : null}
+                className='counter__to-prev'
+                type='secondary'
+                size='ssm'
+                text="-"
+            />
             <div className='counter__middle-block' onDoubleClick={() => setIsEditMode(true)}>
                 {isEditMode === true ?
                     <div className='counter__edit-block'>
@@ -54,7 +60,13 @@ function Counter({ className, size, inputCurrentValue = 1, outputCurrentPage }) 
                         <h4 className='counter__text'>{counterValue}</h4>
                     </div>}
             </div>
-            <Button click={() => changeValue(counterValue + 1)} className='counter__to-next' type='secondary' size='ssm' text="+" />
+            <Button
+                click={() => changeValue(counterValue + 1)}
+                className='counter__to-next'
+                type='secondary'
+                size='ssm'
+                text="+"
+            />
         </div>
     );
 }

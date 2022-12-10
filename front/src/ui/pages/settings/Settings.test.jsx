@@ -27,19 +27,17 @@ describe('Settings component', () => {
         </Provider>,
     );
 
-    window.matchMedia = window.matchMedia || function noName() {
-        return {
-            matches: false,
-            addListener() { },
-            removeListener() { },
-        };
-    };
+    window.matchMedia = window.matchMedia || (() => ({
+        matches: false,
+        addListener() { },
+        removeListener() { },
+    }))
 
-    test(`should have ${SETTINGS.BUTTON.TEXT[0]} and ${SETTINGS.BUTTON.TEXT[0]} buttons`, async () => {
+    test(`should have ${SETTINGS.BUTTON.RETURN.TEXT} and ${SETTINGS.BUTTON.UPDATE.TEXT} buttons`, async () => {
         renderSettingsWithProvider();
 
-        const button0 = screen.getByTestId(SETTINGS.BUTTON.TEST_ID[0]);
-        const button1 = screen.getByTestId(SETTINGS.BUTTON.TEST_ID[1]);
+        const button0 = screen.getByTestId(SETTINGS.BUTTON.RETURN.TEST_ID);
+        const button1 = screen.getByTestId(SETTINGS.BUTTON.UPDATE.TEST_ID);
 
         expect(button0).toBeInTheDocument();
         expect(button1).toBeInTheDocument();
@@ -49,9 +47,9 @@ describe('Settings component', () => {
         renderSettingsWithProvider();
 
         const promt0 = screen.getByText(SETTINGS.TEXTS.PROMT_1);
-        const input0 = screen.getByTestId(SETTINGS.INPUT.TEST_ID[0]);
-        const input1 = screen.getByTestId(SETTINGS.INPUT.TEST_ID[1]);
-        const input2 = screen.getByTestId(SETTINGS.INPUT.TEST_ID[2]);
+        const input0 = screen.getByTestId(SETTINGS.INPUT.OLD_PASSWORD.TEST_ID);
+        const input1 = screen.getByTestId(SETTINGS.INPUT.NEW_PASSWORD.TEST_ID);
+        const input2 = screen.getByTestId(SETTINGS.INPUT.CONFIRM_NEW_PASSWORD.TEST_ID);
 
         expect(promt0).toBeInTheDocument();
         expect(input0).toBeInTheDocument();
@@ -70,7 +68,7 @@ describe('Settings component', () => {
 
             expect(error).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
-        const updateButton = screen.getByTestId(SETTINGS.BUTTON.TEST_ID[1]);
+        const updateButton = screen.getByTestId(SETTINGS.BUTTON.UPDATE.TEST_ID);
         userEvent.click(updateButton);
         const error = screen.getByText(SETTINGS.ERROR.CONTENT[SETTINGS.ERROR.CODE.EMPTY_FIELDS]);
 
@@ -86,13 +84,13 @@ describe('Settings component', () => {
             expect(error).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
 
-        const input0 = screen.getByTestId(SETTINGS.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(SETTINGS.INPUT.OLD_PASSWORD.TEST_ID);
         userEvent.type(input0, 'q'.repeat(22));
-        const input1 = screen.getByTestId(SETTINGS.INPUT.TEST_ID[1]);
+        const input1 = screen.getByTestId(SETTINGS.INPUT.NEW_PASSWORD.TEST_ID);
         userEvent.type(input1, 'q'.repeat(22));
-        const input2 = screen.getByTestId(SETTINGS.INPUT.TEST_ID[2]);
+        const input2 = screen.getByTestId(SETTINGS.INPUT.CONFIRM_NEW_PASSWORD.TEST_ID);
         userEvent.type(input2, 'q'.repeat(23));
-        const updateButton = screen.getByTestId(SETTINGS.BUTTON.TEST_ID[1]);
+        const updateButton = screen.getByTestId(SETTINGS.BUTTON.UPDATE.TEST_ID);
         userEvent.click(updateButton);
         const error = screen.getByText(SETTINGS.ERROR.CONTENT[SETTINGS.ERROR.CODE.NOT_EQUAL_CONFIRM_FIELD]);
 
@@ -102,13 +100,13 @@ describe('Settings component', () => {
     test(`should NOT have any errors after click`, async () => {
         renderSettingsWithProvider();
 
-        const input0 = screen.getByTestId(SETTINGS.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(SETTINGS.INPUT.OLD_PASSWORD.TEST_ID);
         userEvent.type(input0, 'q'.repeat(22));
-        const input1 = screen.getByTestId(SETTINGS.INPUT.TEST_ID[1]);
+        const input1 = screen.getByTestId(SETTINGS.INPUT.NEW_PASSWORD.TEST_ID);
         userEvent.type(input1, 'q'.repeat(22));
-        const input2 = screen.getByTestId(SETTINGS.INPUT.TEST_ID[2]);
+        const input2 = screen.getByTestId(SETTINGS.INPUT.CONFIRM_NEW_PASSWORD.TEST_ID);
         userEvent.type(input2, 'q'.repeat(22));
-        const updateButton = screen.getByTestId(SETTINGS.BUTTON.TEST_ID[1]);
+        const updateButton = screen.getByTestId(SETTINGS.BUTTON.UPDATE.TEST_ID);
         userEvent.click(updateButton);
 
         try {

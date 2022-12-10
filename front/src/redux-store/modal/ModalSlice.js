@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  title: "32424",
+  title: "",
   JSX: null,
   errorCase: false,
 };
@@ -15,12 +15,15 @@ const modalSlice = createSlice({
       state.JSX = null;
       state.errorCase = false;
     },
+
     setModalTitle: (state, action) => {
       state.title = action.payload;
     },
+
     setModalContent: (state, action) => {
       state.JSX = action.payload;
     },
+
     setErrorCase: (state) => {
       state.errorCase = true;
     },

@@ -2,8 +2,8 @@
 
 @mixin flex-center-styles {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 @mixin background-image-styles($image-link) {
@@ -17,10 +17,10 @@
 }
 
 @mixin content-block-styles {
-  height: min-content;
-  border-radius: 50px;
   background-color: rgba($white-100, 0.75);
+  border-radius: 50px;
   box-shadow: 0px 0px 10px 10px $black-100;
+  height: min-content;
 }
 
 @mixin text-block-styles {

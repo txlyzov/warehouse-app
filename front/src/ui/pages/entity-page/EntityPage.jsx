@@ -2,12 +2,15 @@ import './EntityPage.scss'
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { StatusCodes } from 'http-status-codes';
 import Button from '../../components/button/Button';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
 import { ErrorModal, InputModal, NoteModal } from '../../components/modal/modal-templates/modal-templates';
 import Counter from '../../components/counter/Counter';
 import { getWarehouseById } from '../../../services/WarehouseService';
 import { deleteCargoById, getCargosById, updateCargoById } from '../../../services/CargoService';
+import { PATH_VARIBLES } from '../../../utils/Constants';
+import ENTITY_PAGE from './EntityPage.dictionary';
 
 
 function EntityPage() {
@@ -26,7 +29,7 @@ function EntityPage() {
         navigate(route);
     };
 
-    const errorCase = (title = "Request error", errorText = "Something happend with request. Please,relogin.") => {
+    const errorCase = (title = ENTITY_PAGE.MODAL.TITLE_ERROR, errorText = ENTITY_PAGE.MODAL.TEXT_ERROR) => {
         dispatch(
             setModalContent(
                 <ErrorModal
@@ -35,7 +38,7 @@ function EntityPage() {
                 />
             )
         )
-        routeChange('/home');
+        routeChange(PATH_VARIBLES.HOME);
     }
 
     const updateFunction = async () => {
@@ -44,33 +47,34 @@ function EntityPage() {
             entityQuantity,
             entityImageUrl,
             entityNotes,
-            params.warehouseId,
-            params.entityId
+            params[PATH_VARIBLES.WAREHOUSE_ID],
+            params[PATH_VARIBLES.ENTITY_ID]
         );
 
-        if (cargoRequestResult.status !== 200) {
+        if (cargoRequestResult.status !== StatusCodes.OK) {
             errorCase();
+
             return
         }
 
         dispatch(
             setModalContent(
                 <NoteModal
-                    title='Update cargo data'
-                    noteText='Data updated' />
+                    title={ENTITY_PAGE.MODAL.TITLE_UPDATE_NOTE}
+                    noteText={ENTITY_PAGE.MODAL.TEXT_UPDATE_NOTE} />
             )
         )
 
-        routeChange(`/warehouse/${params.warehouseId}`)
+        routeChange(`${PATH_VARIBLES.WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}`)
     }
 
     const deleteFunction = async () => {
         const cargoRequestResult = await deleteCargoById(
-            params.warehouseId,
-            params.entityId
+            params[PATH_VARIBLES.WAREHOUSE_ID],
+            params[PATH_VARIBLES.ENTITY_ID]
         );
 
-        if (cargoRequestResult.status !== 200) {
+        if (cargoRequestResult.status !== StatusCodes.OK) {
             errorCase();
             return
         }
@@ -78,38 +82,41 @@ function EntityPage() {
         dispatch(
             setModalContent(
                 <NoteModal
-                    title='Delete cargo data'
-                    noteText='Data deleted' />
+                    title={ENTITY_PAGE.MODAL.TITLE_DELETE_NOTE}
+                    noteText={ENTITY_PAGE.MODAL.TEXT_DELETE_NOTE} />
             )
         )
 
-        routeChange(`/warehouse/${params.warehouseId}`)
+        routeChange(`${PATH_VARIBLES.WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}`)
     }
 
     useEffect(() => {
         const asyncActions = async () => {
-            const warehouseRequestResult = await getWarehouseById(params.warehouseId);
+            const warehouseRequestResult = await getWarehouseById(params[PATH_VARIBLES.WAREHOUSE_ID]);
 
-            if (warehouseRequestResult.status !== 200) {
+            if (warehouseRequestResult.status !== StatusCodes.OK) {
                 errorCase()
                 return
             }
 
             if (!warehouseRequestResult.data) {
-                errorCase("Error", "Unexist warehouse")
+                errorCase(ENTITY_PAGE.MODAL.TITLE_ERROR, ENTITY_PAGE.MODAL.UNEXIST_WAREHOUSE_ERROR)
                 return
             }
+
             setEntityLocation(warehouseRequestResult.data.location);
+            const cargosRequestResult = await getCargosById(
+                params[PATH_VARIBLES.WAREHOUSE_ID],
+                params[PATH_VARIBLES.ENTITY_ID]
+            );
 
-            const cargosRequestResult = await getCargosById(params.warehouseId, params.entityId);
-
-            if (cargosRequestResult.status !== 200) {
+            if (cargosRequestResult.status !== StatusCodes.OK) {
                 errorCase()
                 return
             }
 
             if (!cargosRequestResult.data) {
-                errorCase("Error", "Unexist cargo entity")
+                errorCase(ENTITY_PAGE.MODAL.TITLE_ERROR, ENTITY_PAGE.MODAL.UNEXIST_CARGO_ENTITY_ERROR)
                 return
             }
 
@@ -148,11 +155,11 @@ function EntityPage() {
                             dispatch(
                                 setModalContent(
                                     <InputModal
-                                        title="Edit name"
-                                        noteText="You can update the name of cargo. Not empty string."
+                                        title={ENTITY_PAGE.MODAL.TITLE_INPUT_NAME}
+                                        noteText={ENTITY_PAGE.MODAL.TEXT_INPUT_NAME}
                                         setInputValue={setEntityName}
                                         inputValue={entityName}
-                                        placeholder="Item name"
+                                        placeholder={ENTITY_PAGE.INPUT.MODAL_INPUT_NAME.PLACEHOLDER}
                                         notNull
                                     />
                                 )
@@ -163,7 +170,7 @@ function EntityPage() {
                         <h2
                             className='entity__name'
                         >
-                            {entityName || "Loading.."}
+                            {entityName || ENTITY_PAGE.TEXTS.LOADING}
                         </h2>
                     </div>
 
@@ -182,7 +189,7 @@ function EntityPage() {
                         :
                         <div className='entity__location-block'>
                             <h3 className='entity__text'>
-                                Loading..
+                                {ENTITY_PAGE.TEXTS.LOADING}
                             </h3>
                         </div>
                     }
@@ -199,11 +206,11 @@ function EntityPage() {
                                         dispatch(
                                             setModalContent(
                                                 <InputModal
-                                                    title="Edit note"
-                                                    noteText="You can update cargo note."
+                                                    title={ENTITY_PAGE.MODAL.TITLE_INPUT_NOTE}
+                                                    noteText={ENTITY_PAGE.MODAL.TEXT_INPUT_NOTE}
                                                     setInputValue={setEntityNotes}
                                                     inputValue={entityNotes}
-                                                    placeholder="Note text"
+                                                    placeholder={ENTITY_PAGE.INPUT.MODAL_INPUT_NOTE.PLACEHOLDER}
                                                 />
                                             )
                                         )
@@ -211,12 +218,12 @@ function EntityPage() {
                                     }
                                 >
                                     <h3 className='entity__note'>
-                                        {entity.note ? entity.note : 'No notes privided.'}
+                                        {entity.note ? entity.note : ENTITY_PAGE.TEXTS.EMPTY_NOTE}
                                     </h3>
                                 </div>
                                 :
                                 <h3 className='entity__note'>
-                                    Loading..
+                                    {ENTITY_PAGE.TEXTS.LOADING}
                                 </h3>
                             }
                         </div>
@@ -235,7 +242,7 @@ function EntityPage() {
                                         Items left:
                                     </h3>
                                     <h3 className='entity__text'>
-                                        Loading..
+                                        {ENTITY_PAGE.TEXTS.LOADING}
                                     </h3>
                                 </div>
                             </div>
@@ -249,11 +256,11 @@ function EntityPage() {
                                     dispatch(
                                         setModalContent(
                                             <InputModal
-                                                title="Edit image"
-                                                noteText="You can update cargo image."
+                                                title={ENTITY_PAGE.MODAL.TITLE_INPUT_IMAGE}
+                                                noteText={ENTITY_PAGE.MODAL.TEXT_INPUT_IMAGE}
                                                 setInputValue={setEntityImageUrl}
                                                 inputValue={entityImageUrl}
-                                                placeholder="Image link"
+                                                placeholder={ENTITY_PAGE.INPUT.MODAL_INPUT_IMAGE.PLACEHOLDER}
                                             />
                                         )
                                     )
@@ -265,7 +272,7 @@ function EntityPage() {
                                     :
                                     <div className='entity__no-image-background'>
                                         <h2 className='entity__text'>
-                                            No image for this item
+                                            {ENTITY_PAGE.TEXTS.EMPTY_IMAGE}
                                         </h2>
                                     </div>}
                             </div>
@@ -273,7 +280,7 @@ function EntityPage() {
                             <div className='entity__image-background'>
                                 <div className='entity__no-image-background'>
                                     <h2 className='entity__text'>
-                                        Loading..
+                                        {ENTITY_PAGE.TEXTS.LOADING}
                                     </h2>
                                 </div>
                             </div>
@@ -283,24 +290,28 @@ function EntityPage() {
 
                 <div className="entity__bottom-elements">
                     <div className='entity__buttons-block'>
-                        <Button click={() => routeChange(`/warehouse/${params.warehouseId}`)}
+                        <Button
+                            data-testid={ENTITY_PAGE.BUTTON.RETURN.TEST_ID}
+                            text={ENTITY_PAGE.BUTTON.RETURN.TEXT}
+                            click={() => routeChange(`${PATH_VARIBLES.WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}`)}
                             className="entity__return-button"
                             type="secondary"
-                            text="Return"
                             size="md"
                         />
                         <Button
+                            data-testid={ENTITY_PAGE.BUTTON.UPDATE.TEST_ID}
+                            text={ENTITY_PAGE.BUTTON.UPDATE.TEXT}
                             click={() => updateFunction()}
                             className="entity__update-button"
                             type="secondary"
-                            text="Update"
                             size="md"
                             disabled={!isUpdateAvaliable}
                         />
                         <Button click={() => deleteFunction()}
+                            data-testid={ENTITY_PAGE.BUTTON.DELETE.TEST_ID}
+                            text={ENTITY_PAGE.BUTTON.DELETE.TEXT}
                             className="entity__delete-button"
                             type="primary"
-                            text="Delete"
                             size="md"
                         />
                     </div>

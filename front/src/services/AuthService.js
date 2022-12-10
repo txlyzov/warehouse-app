@@ -18,6 +18,7 @@ export const loginUser = async (email, password) => {
       email: response.data.email,
       token: response.data.token,
     });
+
     return response;
   } catch (error) {
     return error;
@@ -33,6 +34,7 @@ export const registerNewUser = async (email, password) => {
         password,
       }
     );
+
     return response;
   } catch (error) {
     return error;
@@ -47,6 +49,7 @@ export const resetUserPassword = async (email) => {
         email,
       }
     );
+
     return response;
   } catch (error) {
     return error;
@@ -79,6 +82,7 @@ export const changeUserPassword = async (oldPassword, newPassword) => {
         },
       }
     );
+
     return responsePassword;
   } catch (error) {
     return error;

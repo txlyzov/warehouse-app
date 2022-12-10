@@ -1,6 +1,7 @@
 import './Settings.scss';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import { StatusCodes } from 'http-status-codes';
 import { useDispatch } from 'react-redux';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
@@ -8,6 +9,7 @@ import { changeUserPassword } from '../../../services/AuthService';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
 import { NoteModal } from '../../components/modal/modal-templates/modal-templates';
 import SETTINGS from './Settings.dictionary';
+import { PATH_VARIBLES } from '../../../utils/Constants';
 
 function Settings() {
   const dispatch = useDispatch();
@@ -58,6 +60,7 @@ function Settings() {
 
     if (issue !== SETTINGS.ERROR.CODE.OK) {
       setIssueCode(issue);
+
       return;
     }
 
@@ -65,15 +68,19 @@ function Settings() {
       setInputNewPasswordIssue(true);
       setInputConfirmNewPasswordIssue(true);
       setIssueCode(SETTINGS.ERROR.CODE.NOT_EQUAL_CONFIRM_FIELD);
+
       return;
     }
     const requestResult = await changeUserPassword(inputOldPassword, inputNewPassword);
-    if (requestResult.status !== 200) {
-      if ((requestResult.response) && (requestResult.response.status === 400)) {
+    if (requestResult.status !== StatusCodes.OK) {
+      if ((requestResult.response) && (requestResult.response.status === StatusCodes.BAD_REQUEST)) {
         setIssueCode(SETTINGS.ERROR.CODE.WRONG_ORIGINAL_PASSWORD);
+
         return
       }
+
       setIssueCode(SETTINGS.ERROR.CODE.UNKNOWN);
+
       return
     }
 
@@ -96,8 +103,8 @@ function Settings() {
         <hr className="settings__separator" />
         <h3 className="settings__prompt">{SETTINGS.TEXTS.PROMT_1}</h3>
         <Input
-          data-testid={SETTINGS.INPUT.TEST_ID[0]}
-          placeholder={SETTINGS.INPUT.PLACEHOLDER[0]}
+          data-testid={SETTINGS.INPUT.OLD_PASSWORD.TEST_ID}
+          placeholder={SETTINGS.INPUT.OLD_PASSWORD.PLACEHOLDER}
           type="password"
           issue={inputOldPasswordIssue}
           closable
@@ -107,8 +114,8 @@ function Settings() {
           setInputValue={setInputOldPassword}
         />
         <Input
-          data-testid={SETTINGS.INPUT.TEST_ID[1]}
-          placeholder={SETTINGS.INPUT.PLACEHOLDER[1]}
+          data-testid={SETTINGS.INPUT.NEW_PASSWORD.TEST_ID}
+          placeholder={SETTINGS.INPUT.NEW_PASSWORD.PLACEHOLDER}
           type="password"
           issue={inputNewPasswordIssue}
           closable
@@ -118,8 +125,8 @@ function Settings() {
           setInputValue={setInputNewPassword}
         />
         <Input
-          data-testid={SETTINGS.INPUT.TEST_ID[2]}
-          placeholder={SETTINGS.INPUT.PLACEHOLDER[2]}
+          data-testid={SETTINGS.INPUT.CONFIRM_NEW_PASSWORD.TEST_ID}
+          placeholder={SETTINGS.INPUT.CONFIRM_NEW_PASSWORD.PLACEHOLDER}
           type="password"
           issue={inputConfirmNewPasswordIssue}
           closable
@@ -131,18 +138,18 @@ function Settings() {
         {issueCode !== SETTINGS.ERROR.CODE.OK
           ? <h3 className="settings__issue">{SETTINGS.ERROR.CONTENT[issueCode]}</h3>
           : ''}
-        <div className={`settings__buttons-block ${issueCode !== -1 ? '' : 'settings__correct'}`}>
+        <div className={`settings__buttons-block ${issueCode !== SETTINGS.ERROR.CODE.OK ? '' : 'settings__correct'}`}>
           <Button
-            data-testid={SETTINGS.BUTTON.TEST_ID[0]}
-            text={SETTINGS.BUTTON.TEXT[0]}
-            click={() => routeChange('/home')}
-            className="settings__forgot-password-button"
+            data-testid={SETTINGS.BUTTON.RETURN.TEST_ID}
+            text={SETTINGS.BUTTON.RETURN.TEXT}
+            click={() => routeChange(PATH_VARIBLES.HOME)}
+            className="settings__return-button"
             type="secondary"
             size="md"
           />
           <Button
-            data-testid={SETTINGS.BUTTON.TEST_ID[1]}
-            text={SETTINGS.BUTTON.TEXT[1]}
+            data-testid={SETTINGS.BUTTON.UPDATE.TEST_ID}
+            text={SETTINGS.BUTTON.UPDATE.TEXT}
             click={() => submitFunction()}
             className="settings__submit-button "
             type="primary"

@@ -25,6 +25,7 @@ module.exports = {
 
     async signInUser(req,res) {
     const { email, password } = req.body;
+
     try {
       const userByEmail = await usersModel.findOne({
         where: {
@@ -70,9 +71,11 @@ module.exports = {
 
       const token = req.get('token');
       const verify = verifyToken(token);
+
       if (!verify) {
         return res.status(HSC.FORBIDDEN).send(`Wrong token.`);
       }
+
       const { newPassword: password } = req.body;
       const id = verify.id;
       console.log(id);

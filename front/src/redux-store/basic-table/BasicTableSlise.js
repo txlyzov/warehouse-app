@@ -15,13 +15,16 @@ const basicTableSlice = createSlice({
       state.checkboxesSelected = 0;
       state.tableData = [];
     },
+
     setGlobalCheckboxState: (state, action) => {
       state.globalCheckboxState = action.payload;
       state.checkboxesSelected = action.payload ? state.tableData.length : 0;
     },
+
     setTableData: (state, action) => {
       state.tableData = action.payload;
     },
+
     setCheckboxesSelected: (state, action) => {
       state.checkboxesSelected += action.payload ? 1 : -1;
       state.checkboxesSelected =
@@ -46,4 +49,5 @@ export const {
   setCheckboxesSelected,
   setTableData,
 } = basicTableSlice.actions;
+
 export default basicTableSlice.reducer;

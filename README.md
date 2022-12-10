@@ -10,6 +10,19 @@
 
 ---
 
+## App demo video
+
+<details>
+<summary>Spoiler (App demo).</summary>
+<pre>
+
+![video](./documentation/The_Crawler_demo(t.khlyzov).mp4)
+</pre>
+
+</details>
+
+---
+
 ## Requirements:
 
 - Front end and back end parts of the app;

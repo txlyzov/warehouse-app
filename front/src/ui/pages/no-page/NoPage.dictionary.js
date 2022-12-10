@@ -2,8 +2,7 @@ const TEST_NAME = "no-page";
 
 const NO_PAGE = {
   BUTTON: {
-    TEST_ID: [`${TEST_NAME}-button-0`],
-    TEXT: ["Return"],
+    RETURN: { TEST_ID: `${TEST_NAME}-button-0`, TEXT: "Return" },
   },
   TEXTS: {
     MAIN_TITLE: "Nothing here!",

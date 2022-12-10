@@ -4,17 +4,19 @@
 $table-borders: 1px;
 
 .table-compact {
-  border-spacing: 0px;
   border-collapse: no-collapse;
+  border-spacing: 0px;
+
   &__thead {
     .table-compact__column-name {
-      border: $table-borders $black-100 solid;
       background: $green-djg-100;
+      border: $table-borders $black-100 solid;
       color: $white-100;
       @include text-h2();
       @include text-stroke-05($black-100);
     }
   }
+
   &__tbody {
     .table-compact__row {
       .table-compact__cell {
@@ -23,32 +25,34 @@ $table-borders: 1px;
           @include text-h4();
         }
       }
+
       .row-0.col-0,
       .row-1.col-1 {
+        @include text-h3();
         background: $white-100;
         color: $black-100;
-        @include text-h3();
         &.selectable:hover {
-          background: $white-75;
           @include text-stroke-05($white-100);
+          background: $white-75;
         }
         &.selectable:active {
-          background: $white-25;
           @include text-stroke-05($white-100);
+          background: $white-25;
         }
       }
+
       .row-0.col-1,
       .row-1.col-0 {
+        @include text-h3();
         background: $green-fgc-100;
         color: $white-100;
-        @include text-h3();
         &.selectable:hover {
-          background: $green-fgc-75;
           @include text-stroke-05($black-100);
+          background: $green-fgc-75;
         }
         &.selectable:active {
-          background: $green-fgc-25;
           @include text-stroke-05($black-100);
+          background: $green-fgc-25;
         }
       }
     }

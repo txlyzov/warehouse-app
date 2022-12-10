@@ -40,19 +40,17 @@
 
         .modal__container {
           background-color: $white-100;
+          border-radius: 15px;
           display: flex;
           flex-direction: column;
-          border-radius: 15px;
 
           .modal__header {
             display: grid;
-            grid-template-columns: 45px 1fr 45px;
             flex-direction: row-reverse;
+            grid-template-columns: 45px 1fr 45px;
             margin: 15px;
 
             .modal__title {
-              margin: auto;
-              grid-column-start: 2;
               align-items: center;
               color: $black-100;
               display: flex;
@@ -60,7 +58,9 @@
               font-size: 26px;
               font-style: normal;
               font-weight: 700;
+              grid-column-start: 2;
               line-height: 32px;
+              margin: auto;
               text-align: center;
 
               &.error-case {

@@ -1,10 +1,8 @@
+const TEST_NAME = "settings-input";
+
 const DROPDOWN_MENU = {
   TEST_ID: {
-    DROPDOWN_CONTENT: [
-      "settings-input-1",
-      "settings-input-2",
-      "settings-input-3",
-    ],
+    DROPDOWN_CONTENT: `${TEST_NAME}-0`,
   },
 };
 

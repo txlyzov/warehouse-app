@@ -5,10 +5,5 @@
   .dropdown-menu__content {
     position: absolute;
     z-index: 3;
-
-    .login-block__dropdown-content {
-      display: flex;
-      flex-direction: column;
-    }
   }
 }

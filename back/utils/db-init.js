@@ -1,5 +1,3 @@
-const { exec } = require('child_process');
-// const config = require('../../config/sequelize-config.js');
 const config = require('../config/sequelize-config.js');
 const mysql = require('mysql2');
 
@@ -13,9 +11,11 @@ const configuration = mysql.createConnection({
 module.exports.createDb = function () {
     if (config[pattern].password) {
     configuration.connect(function(err) {
+
         if (err) throw err;
         console.log("Connection established");
-        configuration.query(`CREATE DATABASE ${config[pattern].database}`, function (err, result) {
+        configuration.query(`CREATE DATABASE ${config[pattern].database}`, function (err) {
+
           if (err) throw err;
           console.log("Database created");
           process.exit(1);
@@ -27,9 +27,11 @@ module.exports.createDb = function () {
 module.exports.dropDb = function () {
     if (config[pattern].password) {
     configuration.connect(function(err) {
+
         if (err) throw err;
         console.log("Connection established");
-        configuration.query(`DROP DATABASE ${config[pattern].database}`, function (err, result) {
+        configuration.query(`DROP DATABASE ${config[pattern].database}`, function (err) {
+
           if (err) throw err;
           console.log("Database dropped");
           process.exit(1);

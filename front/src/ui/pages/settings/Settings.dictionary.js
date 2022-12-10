@@ -18,20 +18,22 @@ const SETTINGS = {
     ],
   },
   INPUT: {
-    TEST_ID: [
-      `${TEST_NAME}-input-0`,
-      `${TEST_NAME}-input-1`,
-      `${TEST_NAME}-input-2`,
-    ],
-    PLACEHOLDER: [
-      "Enter your old password",
-      "Enter your new password",
-      "Confirm your new password",
-    ],
+    OLD_PASSWORD: {
+      TEST_ID: `${TEST_NAME}-input-0`,
+      PLACEHOLDER: "Enter your old password",
+    },
+    NEW_PASSWORD: {
+      TEST_ID: `${TEST_NAME}-input-1`,
+      PLACEHOLDER: "Enter your new password",
+    },
+    CONFIRM_NEW_PASSWORD: {
+      TEST_ID: `${TEST_NAME}-input-2`,
+      PLACEHOLDER: "Confirm your new password",
+    },
   },
   BUTTON: {
-    TEST_ID: [`${TEST_NAME}-button-0`, `${TEST_NAME}-button-1`],
-    TEXT: ["Return", "Update"],
+    RETURN: { TEST_ID: `${TEST_NAME}-button-0`, TEXT: "Return" },
+    UPDATE: { TEST_ID: `${TEST_NAME}-button-1`, TEXT: "Update" },
   },
   TEXTS: {
     MAIN_TITLE: "Settings",
