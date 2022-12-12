@@ -79,13 +79,11 @@ describe('Dropdown Menu component', () => {
         </Provider>,
     );
 
-    window.matchMedia = window.matchMedia || function noName() {
-        return {
-            matches: false,
-            addListener() { },
-            removeListener() { },
-        };
-    };
+    window.matchMedia = window.matchMedia || (() => ({
+        matches: false,
+        addListener() { },
+        removeListener() { },
+    }))
 
     test(`should have ${TRIGGER_NAMES.length} buttons before trigger click`, async () => {
         renderDropdownMenuWithProvider(trigger, content1);

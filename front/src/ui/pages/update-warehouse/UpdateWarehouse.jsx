@@ -1,10 +1,12 @@
 import './UpdateWarehouse.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+import { StatusCodes } from 'http-status-codes';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
 import { getWarehouseById, updateWarehouseById } from '../../../services/WarehouseService';
 import UPDATE_WAREHOUSE from './UpdateWarehouse.dictionary';
+import { PATH_VARIBLES } from '../../../utils/Constants';
 
 function UpdateWarehouse() {
     const [issueCode, setIssueCode] = useState(UPDATE_WAREHOUSE.ERROR.CODE.OK);
@@ -46,25 +48,25 @@ function UpdateWarehouse() {
             return;
         }
 
-        const requestCreateResult = await updateWarehouseById(params.warehouseId, inputName, inputLocation);
-        if (requestCreateResult.status === 403) {
+        const requestCreateResult = await updateWarehouseById(params[PATH_VARIBLES.WAREHOUSE_ID], inputName, inputLocation);
+        if (requestCreateResult.status === StatusCodes.FORBIDDEN) {
             setIssueCode(UPDATE_WAREHOUSE.ERROR.CODE.AUTH_ERROR);
             return;
         }
-        if (requestCreateResult.status !== 200) {
+        if (requestCreateResult.status !== StatusCodes.OK) {
             setIssueCode(UPDATE_WAREHOUSE.ERROR.CODE.UNKNOWN);
             return;
         }
 
-        routeChange(`/warehouse/${params.warehouseId}`);
+        routeChange(`${PATH_VARIBLES.WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}`);
     };
 
     useEffect(() => {
         const asyncActions = async () => {
-            const requestResult = await getWarehouseById(params.warehouseId);
+            const requestResult = await getWarehouseById(params[PATH_VARIBLES.WAREHOUSE_ID]);
 
-            if (requestResult.status !== 200) {
-                routeChange('/home');
+            if (requestResult.status !== StatusCodes.OK) {
+                routeChange(PATH_VARIBLES.HOME);
             }
 
             setInputName(requestResult.data.name);
@@ -81,8 +83,8 @@ function UpdateWarehouse() {
                 <hr className="update-warehouse__separator" />
                 <h3 className="update-warehouse__prompt">{UPDATE_WAREHOUSE.TEXTS.PROMT_1}</h3>
                 <Input
-                    data-testid={UPDATE_WAREHOUSE.INPUT.TEST_ID[0]}
-                    placeholder={UPDATE_WAREHOUSE.INPUT.PLACEHOLDER[0]}
+                    data-testid={UPDATE_WAREHOUSE.INPUT.NAME.TEST_ID}
+                    placeholder={UPDATE_WAREHOUSE.INPUT.NAME.PLACEHOLDER}
                     issue={inputNameIssue}
                     closable
                     className="update-warehouse__input-name"
@@ -92,8 +94,8 @@ function UpdateWarehouse() {
                 />
                 <h3 className="update-warehouse__prompt">{UPDATE_WAREHOUSE.TEXTS.PROMT_2}</h3>
                 <Input
-                    data-testid={UPDATE_WAREHOUSE.INPUT.TEST_ID[1]}
-                    placeholder={UPDATE_WAREHOUSE.INPUT.PLACEHOLDER[1]}
+                    data-testid={UPDATE_WAREHOUSE.INPUT.LOCATION.TEST_ID}
+                    placeholder={UPDATE_WAREHOUSE.INPUT.LOCATION.PLACEHOLDER}
                     issue={inputLocationIssue}
                     closable
                     className="update-warehouse__input-location"
@@ -103,8 +105,8 @@ function UpdateWarehouse() {
                 />
                 <h3 className="update-warehouse__prompt">{UPDATE_WAREHOUSE.TEXTS.PROMT_3}</h3>
                 <Input
-                    data-testid={UPDATE_WAREHOUSE.INPUT.TEST_ID[2]}
-                    placeholder={UPDATE_WAREHOUSE.INPUT.PLACEHOLDER[2]}
+                    data-testid={UPDATE_WAREHOUSE.INPUT.DISABLED.TEST_ID}
+                    placeholder={UPDATE_WAREHOUSE.INPUT.DISABLED.PLACEHOLDER}
                     type="email"
                     issue={inputCollaboratorsIssue}
                     closable
@@ -119,16 +121,16 @@ function UpdateWarehouse() {
                     : ''}
                 <div className='update-warehouse__buttons-block'>
                     <Button
-                        data-testid={UPDATE_WAREHOUSE.BUTTON.TEST_ID[0]}
-                        text={UPDATE_WAREHOUSE.BUTTON.TEXT[0]}
-                        click={() => routeChange(`/warehouse/${params.warehouseId}`)}
-                        className={`update-warehouse__submit-button ${issueCode !== UPDATE_WAREHOUSE.ERROR.CODE.OK ? '' : 'update-warehouse__correct'}`}
+                        data-testid={UPDATE_WAREHOUSE.BUTTON.RETURN.TEST_ID}
+                        text={UPDATE_WAREHOUSE.BUTTON.RETURN.TEXT}
+                        click={() => routeChange(`${PATH_VARIBLES.WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}`)}
+                        className={`update-warehouse__return-button ${issueCode !== UPDATE_WAREHOUSE.ERROR.CODE.OK ? '' : 'update-warehouse__correct'}`}
                         type="secondary"
                         size="md"
                     />
                     <Button
-                        data-testid={UPDATE_WAREHOUSE.BUTTON.TEST_ID[1]}
-                        text={UPDATE_WAREHOUSE.BUTTON.TEXT[1]}
+                        data-testid={UPDATE_WAREHOUSE.BUTTON.UPDATE.TEST_ID}
+                        text={UPDATE_WAREHOUSE.BUTTON.UPDATE.TEXT}
                         click={() => submitFunction()}
                         className={`update-warehouse__submit-button ${issueCode !== UPDATE_WAREHOUSE.ERROR.CODE.OK ? '' : 'update-warehouse__correct'}`}
                         type="primary"

@@ -8,9 +8,9 @@ const TOKEN_LIFETIME = process.env.TOKEN_LIFETIME;
 module.exports = {
     createToken(data){
         return jwt.sign(data, JWT_SECRET, 
-            // {
-            //     expiresIn: TOKEN_LIFETIME,
-            // }
+            {
+                expiresIn: TOKEN_LIFETIME,
+            }
           );
     },
     verifyToken(token){

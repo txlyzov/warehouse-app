@@ -2,12 +2,15 @@ import './CreateEntity.scss'
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { StatusCodes } from 'http-status-codes';
 import Button from '../../components/button/Button';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
 import { ErrorModal, InputModal } from '../../components/modal/modal-templates/modal-templates';
 import Counter from '../../components/counter/Counter';
 import { getWarehouseById } from '../../../services/WarehouseService';
 import { createCargo } from '../../../services/CargoService';
+import { PATH_VARIBLES } from '../../../utils/Constants';
+import CREATE_ENTITY from './CreateEntity.dictionary';
 
 
 function CreateEntity() {
@@ -30,39 +33,41 @@ function CreateEntity() {
             entityQuantity,
             entityImageUrl,
             entityNotes,
-            params.warehouseId
+            params[PATH_VARIBLES.WAREHOUSE_ID]
         );
 
-        if (cargoRequestResult.status !== 200) {
+        if (cargoRequestResult.status !== StatusCodes.OK) {
             dispatch(
                 setModalContent(
                     <ErrorModal
-                        title="Request error"
-                        errorText="Something happend with request. Please,relogin."
+                        title={CREATE_ENTITY.MODAL.TITLE_ERROR}
+                        errorText={CREATE_ENTITY.MODAL.TEXT_ERROR}
                     />
                 )
             )
-            routeChange('/home');
+            routeChange(PATH_VARIBLES.HOME);
+
             return
         }
 
-        routeChange(`/warehouse/${params.warehouseId}`)
+        routeChange(`${PATH_VARIBLES.WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}`)
     }
 
     useEffect(() => {
         const asyncActions = async () => {
-            const warehouseRequestResult = await getWarehouseById(params.warehouseId);
+            const warehouseRequestResult = await getWarehouseById(params[PATH_VARIBLES.WAREHOUSE_ID]);
 
-            if (warehouseRequestResult.status !== 200) {
+            if (warehouseRequestResult.status !== StatusCodes.OK) {
                 dispatch(
                     setModalContent(
                         <ErrorModal
-                            title="Request error"
-                            errorText="Something happend with request. Please,relogin."
+                            title={CREATE_ENTITY.MODAL.TITLE_ERROR}
+                            errorText={CREATE_ENTITY.MODAL.TEXT_ERROR}
                         />
                     )
                 )
-                routeChange('/home');
+                routeChange(PATH_VARIBLES.HOME);
+
                 return
             }
 
@@ -70,12 +75,13 @@ function CreateEntity() {
                 dispatch(
                     setModalContent(
                         <ErrorModal
-                            title="Error"
-                            errorText="Unexist warehouse"
+                            title={CREATE_ENTITY.MODAL.TITLE_ERROR}
+                            errorText={CREATE_ENTITY.MODAL.UNEXIST_WAREHOUSE_ERROR}
                         />
                     )
                 )
-                routeChange('/home');
+                routeChange(PATH_VARIBLES.HOME);
+
                 return
             }
 
@@ -95,11 +101,11 @@ function CreateEntity() {
                             dispatch(
                                 setModalContent(
                                     <InputModal
-                                        title="Edit name"
-                                        noteText="You can update the name of cargo. Not empty string."
+                                        title={CREATE_ENTITY.MODAL.TITLE_INPUT_NAME}
+                                        noteText={CREATE_ENTITY.MODAL.TEXT_INPUT_NAME}
                                         setInputValue={setEntityName}
                                         inputValue={entityName}
-                                        placeholder="Item name"
+                                        placeholder={CREATE_ENTITY.INPUT.MODAL_INPUT_NAME.PLACEHOLDER}
                                         notNull
                                     />
                                 )
@@ -110,7 +116,7 @@ function CreateEntity() {
                         <h2
                             className='create-entity__name'
                         >
-                            {entityName || 'Set entity name'}
+                            {entityName || CREATE_ENTITY.TEXTS.EMPTY_NAME}
                         </h2>
                     </div>
 
@@ -129,7 +135,7 @@ function CreateEntity() {
                         :
                         <div className='create-entity__location-block'>
                             <h3 className='create-entity__text'>
-                                Loading..
+                                {CREATE_ENTITY.TEXTS.LOADING}
                             </h3>
                         </div>
                     }
@@ -145,11 +151,11 @@ function CreateEntity() {
                                     dispatch(
                                         setModalContent(
                                             <InputModal
-                                                title="Edit note"
-                                                noteText="You can update cargo note."
+                                                title={CREATE_ENTITY.MODAL.TITLE_INPUT_NOTE}
+                                                noteText={CREATE_ENTITY.MODAL.TEXT_INPUT_NOTE}
                                                 setInputValue={setEntityNotes}
                                                 inputValue={entityNotes}
-                                                placeholder="Note text"
+                                                placeholder={CREATE_ENTITY.INPUT.MODAL_INPUT_NOTE.PLACEHOLDER}
                                             />
                                         )
                                     )
@@ -157,7 +163,7 @@ function CreateEntity() {
                                 }
                             >
                                 <h3 className='create-entity__note'>
-                                    {entityNotes || 'You can write notes here or left field empty.'}
+                                    {entityNotes || CREATE_ENTITY.TEXTS.EMPTY_NOTE}
                                 </h3>
                             </div>
 
@@ -179,11 +185,11 @@ function CreateEntity() {
                                 dispatch(
                                     setModalContent(
                                         <InputModal
-                                            title="Edit image"
-                                            noteText="You can update cargo image."
+                                            title={CREATE_ENTITY.MODAL.TITLE_INPUT_IMAGE}
+                                            noteText={CREATE_ENTITY.MODAL.TEXT_INPUT_IMAGE}
                                             setInputValue={setEntityImageUrl}
                                             inputValue={entityImageUrl}
-                                            placeholder="Image link"
+                                            placeholder={CREATE_ENTITY.INPUT.MODAL_INPUT_IMAGE.PLACEHOLDER}
                                         />
                                     )
                                 )
@@ -195,7 +201,7 @@ function CreateEntity() {
                                 :
                                 <div className='create-entity__no-image-background'>
                                     <h2 className='create-entity__text'>
-                                        You can link image or left field empty
+                                        {CREATE_ENTITY.TEXTS.EMPTY_IMAGE}
                                     </h2>
                                 </div>}
                         </div>
@@ -205,16 +211,18 @@ function CreateEntity() {
 
                 <div className="create-entity__bottom-elements">
                     <div className='create-entity__buttons-block'>
-                        <Button click={() => routeChange(`/warehouse/${params.warehouseId}`)}
+                        <Button click={() => routeChange(`${PATH_VARIBLES.WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}`)}
+                            data-testid={CREATE_ENTITY.BUTTON.RETURN.TEST_ID}
+                            text={CREATE_ENTITY.BUTTON.RETURN.TEXT}
                             className="create-entity__return-button"
                             type="secondary"
-                            text="Return"
                             size="md"
                         />
                         <Button click={() => createFunction()}
+                            data-testid={CREATE_ENTITY.BUTTON.CREATE.TEST_ID}
+                            text={CREATE_ENTITY.BUTTON.CREATE.TEXT}
                             className="create-entity__delete-button"
                             type="primary"
-                            text="Create"
                             size="md"
                             disabled={!entityName}
                         />

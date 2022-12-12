@@ -26,19 +26,17 @@ describe.skip('Confirm removing component', () => {
         </Provider>,
     );
 
-    window.matchMedia = window.matchMedia || function noName() {
-        return {
-            matches: false,
-            addListener() { },
-            removeListener() { },
-        };
-    };
+    window.matchMedia = window.matchMedia || (() => ({
+        matches: false,
+        addListener() { },
+        removeListener() { },
+    }))
 
     test(`should`, async () => {
 
         renderConfirmRemovingWithProvider();
 
-        const confirmDeleteButton = screen.getByTestId(CONFIRM_REMOVING.BUTTON[2]);
+        const confirmDeleteButton = screen.getByTestId(CONFIRM_REMOVING.BUTTON.CONFIRM_DELETE.TEST_ID);
         expect(confirmDeleteButton).toBeInTheDocument();
     });
 });

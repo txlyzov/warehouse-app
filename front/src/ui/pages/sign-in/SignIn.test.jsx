@@ -27,19 +27,17 @@ describe('Sign in component', () => {
         </Provider>,
     );
 
-    window.matchMedia = window.matchMedia || function noName() {
-        return {
-            matches: false,
-            addListener() { },
-            removeListener() { },
-        };
-    };
+    window.matchMedia = window.matchMedia || (() => ({
+        matches: false,
+        addListener() { },
+        removeListener() { },
+    }))
 
-    test(`should have ${SIGN_IN.BUTTON.TEXT[0]} and ${SIGN_IN.BUTTON.TEXT[1]} button`, async () => {
+    test(`should have ${SIGN_IN.BUTTON.FORGOT_PASSWORD.TEXT} and ${SIGN_IN.BUTTON.SIGN_IN.TEXT} button`, async () => {
         renderSignInWithProvider();
 
-        const button0 = screen.getByTestId(SIGN_IN.BUTTON.TEST_ID[0]);
-        const button1 = screen.getByTestId(SIGN_IN.BUTTON.TEST_ID[1]);
+        const button0 = screen.getByTestId(SIGN_IN.BUTTON.FORGOT_PASSWORD.TEST_ID);
+        const button1 = screen.getByTestId(SIGN_IN.BUTTON.SIGN_IN.TEST_ID);
 
         expect(button0).toBeInTheDocument();
         expect(button1).toBeInTheDocument();
@@ -49,7 +47,7 @@ describe('Sign in component', () => {
         renderSignInWithProvider();
 
         const promt0 = screen.getByText(SIGN_IN.TEXTS.PROMT_1);
-        const input0 = screen.getByTestId(SIGN_IN.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(SIGN_IN.INPUT.EMAIL.TEST_ID);
 
         expect(promt0).toBeInTheDocument();
         expect(input0).toBeInTheDocument();
@@ -59,7 +57,7 @@ describe('Sign in component', () => {
         renderSignInWithProvider();
 
         const promt0 = screen.getByText(SIGN_IN.TEXTS.PROMT_2);
-        const input0 = screen.getByTestId(SIGN_IN.INPUT.TEST_ID[1]);
+        const input0 = screen.getByTestId(SIGN_IN.INPUT.PASSWORD.TEST_ID);
 
         expect(promt0).toBeInTheDocument();
         expect(input0).toBeInTheDocument();
@@ -73,7 +71,8 @@ describe('Sign in component', () => {
 
             expect(error).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
-        const confirmButton = screen.getByTestId(SIGN_IN.BUTTON.TEST_ID[1]);
+
+        const confirmButton = screen.getByTestId(SIGN_IN.BUTTON.SIGN_IN.TEST_ID);
         userEvent.click(confirmButton);
         const error = screen.getByTestId(`sign-in-issue-${SIGN_IN.ERROR.CODE.EMPTY_FIELDS}`);
 
@@ -89,12 +88,11 @@ describe('Sign in component', () => {
             expect(error).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
 
-        const input0 = screen.getByTestId(SIGN_IN.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(SIGN_IN.INPUT.EMAIL.TEST_ID);
         userEvent.type(input0, 'q'.repeat(22));
-        const input1 = screen.getByTestId(SIGN_IN.INPUT.TEST_ID[1]);
+        const input1 = screen.getByTestId(SIGN_IN.INPUT.PASSWORD.TEST_ID);
         userEvent.type(input1, 'q'.repeat(22));
-
-        const confirmButton = screen.getByTestId(SIGN_IN.BUTTON.TEST_ID[1]);
+        const confirmButton = screen.getByTestId(SIGN_IN.BUTTON.SIGN_IN.TEST_ID);
         userEvent.click(confirmButton);
         const error = screen.getByTestId(`sign-in-issue-${SIGN_IN.ERROR.CODE.EMAIL_VALIDATION}`);
 
@@ -104,12 +102,11 @@ describe('Sign in component', () => {
     test(`should NOT have any errors after click`, async () => {
         renderSignInWithProvider();
 
-        const input0 = screen.getByTestId(SIGN_IN.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(SIGN_IN.INPUT.EMAIL.TEST_ID);
         userEvent.type(input0, 'q@q.q');
-        const input1 = screen.getByTestId(SIGN_IN.INPUT.TEST_ID[1]);
+        const input1 = screen.getByTestId(SIGN_IN.INPUT.PASSWORD.TEST_ID);
         userEvent.type(input1, 'q@q.q');
-
-        const updateButton = screen.getByTestId(SIGN_IN.BUTTON.TEST_ID[1]);
+        const updateButton = screen.getByTestId(SIGN_IN.BUTTON.SIGN_IN.TEST_ID);
         userEvent.click(updateButton);
 
         try {

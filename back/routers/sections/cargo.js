@@ -7,6 +7,7 @@ module.exports = {
   async createCargo(req,res) {
     const token = req.get('token');
     const verify = verifyToken(token);
+
     if (!verify) {
       return res.status(HSC.FORBIDDEN).send(`Wrong token.`);;
     }
@@ -29,18 +30,20 @@ module.exports = {
     if (result) {
       return res.sendStatus(HSC.OK)
     }
+
     return res.json(result);
   },
 
   async getCargosByWarehouseID(req,res) {
     const token = req.get('token');
     const verify = verifyToken(token);
+
     if (!verify) {
       return res.status(HSC.FORBIDDEN).send(`Wrong token.`);;
     }
+
     const { warehouseId } = req.params;
     const userId = verify.id;
-
     const warehouse = await warehousesModel.findOne({
       where : {
         id: warehouseId,

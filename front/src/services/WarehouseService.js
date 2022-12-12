@@ -1,4 +1,5 @@
 import axios from "axios";
+import { StatusCodes } from "http-status-codes";
 import { getLoginData, removeLoginData } from "../utils/LocalStorageUtil";
 
 export const createWarehouse = async (warehouseName, warehouseLocation) => {
@@ -16,11 +17,13 @@ export const createWarehouse = async (warehouseName, warehouseLocation) => {
         },
       }
     );
+
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error.response.status === StatusCodes.FORBIDDEN) {
       removeLoginData();
     }
+
     return error;
   }
 };
@@ -36,11 +39,13 @@ export const getWarehousesByUserId = async () => {
         },
       }
     );
+
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error.response.status === StatusCodes.FORBIDDEN) {
       removeLoginData();
     }
+
     return error;
   }
 };
@@ -59,9 +64,10 @@ export const getWarehouseById = async (warehouseId) => {
 
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error.response.status === StatusCodes.FORBIDDEN) {
       removeLoginData();
     }
+
     return error;
   }
 };
@@ -85,17 +91,20 @@ export const updateWarehouseById = async (
         },
       }
     );
+
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error.response.status === StatusCodes.FORBIDDEN) {
       removeLoginData();
     }
+
     return error;
   }
 };
 
 export const deleteWarehouseById = async (warehouseId) => {
   const { token } = getLoginData();
+
   try {
     const response = await axios.delete(
       `http://${process.env.REACT_APP_SERVER_URL}/api/warehouses/${warehouseId}/delete`,
@@ -105,11 +114,13 @@ export const deleteWarehouseById = async (warehouseId) => {
         },
       }
     );
+
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error.response.status === StatusCodes.FORBIDDEN) {
       removeLoginData();
     }
+
     return error;
   }
 };

@@ -14,7 +14,7 @@ module.exports = {
         sendRequest(request) {
 
         return new Promise((resolve, reject)=>{
-            configuration.query(request, (err, result, fields) => {
+            configuration.query(request, (err, result) => {
                 if(err){
                     return reject(err);
                 }

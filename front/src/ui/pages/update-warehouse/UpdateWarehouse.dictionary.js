@@ -31,20 +31,22 @@ const UPDATE_WAREHOUSE = {
     ],
   },
   INPUT: {
-    TEST_ID: [
-      `${TEST_NAME}-input-0`,
-      `${TEST_NAME}-input-1`,
-      `${TEST_NAME}-input-2`,
-    ],
-    PLACEHOLDER: [
-      "Enter warehouse name",
-      "Enter warehouse location city",
-      "Disabled functionality",
-    ],
+    NAME: {
+      TEST_ID: `${TEST_NAME}-input-0`,
+      PLACEHOLDER: "Enter warehouse name",
+    },
+    LOCATION: {
+      TEST_ID: `${TEST_NAME}-input-1`,
+      PLACEHOLDER: 'Enter warehouse location city (Example: "City,Contry")',
+    },
+    DISABLED: {
+      TEST_ID: `${TEST_NAME}-input-2`,
+      PLACEHOLDER: "Disabled functionality",
+    },
   },
   BUTTON: {
-    TEST_ID: [`${TEST_NAME}-button-0`, `${TEST_NAME}-button-1`],
-    TEXT: ["Return", "Create"],
+    RETURN: { TEST_ID: `${TEST_NAME}-button-0`, TEXT: "Return" },
+    UPDATE: { TEST_ID: `${TEST_NAME}-button-1`, TEXT: "Update" },
   },
   TEXTS: {
     MAIN_TITLE: "Update warehouse",

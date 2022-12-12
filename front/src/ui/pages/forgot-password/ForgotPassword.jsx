@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
-import { EMAIL_REGEX } from '../../../utils/Constants';
+import { EMAIL_REGEX, PATH_VARIBLES } from '../../../utils/Constants';
 import { resetUserPassword } from '../../../services/AuthService';
 import FORGOT_PASSWORD from './ForgotPassword.dictionary';
 
@@ -46,7 +46,7 @@ function ForgotPassword() {
       setIssueCode(FORGOT_PASSWORD.ERROR.CODE.UNKNOWN);
       return
     }
-    routeChange('/sign-in');
+    routeChange(PATH_VARIBLES.SIGN_IN);
   };
 
   return (
@@ -56,8 +56,8 @@ function ForgotPassword() {
         <hr className="forgot-password__separator" />
         <h3 className="forgot-password__prompt">{FORGOT_PASSWORD.TEXTS.PROMT_1}</h3>
         <Input
-          data-testid={FORGOT_PASSWORD.INPUT.TEST_ID[0]}
-          placeholder={FORGOT_PASSWORD.INPUT.PLACEHOLDER[0]}
+          data-testid={FORGOT_PASSWORD.INPUT.EMAIL.TEST_ID}
+          placeholder={FORGOT_PASSWORD.INPUT.EMAIL.PLACEHOLDER}
           type="email"
           issue={inputEmailIssue}
           closable
@@ -70,8 +70,8 @@ function ForgotPassword() {
           ? FORGOT_PASSWORD.ERROR.CONTENT[issueCode]
           : ''}
         <Button
-          data-testid={FORGOT_PASSWORD.BUTTON.TEST_ID[0]}
-          text={FORGOT_PASSWORD.BUTTON.TEXT[0]}
+          data-testid={FORGOT_PASSWORD.BUTTON.SUBMIT.TEST_ID}
+          text={FORGOT_PASSWORD.BUTTON.SUBMIT.TEXT}
           click={() => submitFunction()}
           className={`forgot-password__submit-button ${issueCode !== FORGOT_PASSWORD.ERROR.CODE.OK ? '' : 'forgot-password__correct'}`}
           type="primary"

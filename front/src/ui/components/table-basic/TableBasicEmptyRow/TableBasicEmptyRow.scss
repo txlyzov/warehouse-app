@@ -5,6 +5,7 @@ $table-borders: 1px;
 .table-basic__row {
   .table-basic__cell {
     border: $table-borders $black-100 solid;
+
     .cell-content-1 {
       @include text-h4();
     }
@@ -25,6 +26,7 @@ $table-borders: 1px;
     .row-1.col-1 {
       background: $white-75;
     }
+
     .row-0.col-1,
     .row-1.col-0 {
       background: $green-fgc-75;
@@ -36,6 +38,7 @@ $table-borders: 1px;
     .row-1.col-1 {
       background: $white-25;
     }
+
     .row-0.col-1,
     .row-1.col-0 {
       background: $green-fgc-25;

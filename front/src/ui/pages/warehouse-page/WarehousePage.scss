@@ -1,81 +1,69 @@
 @import "../../styles/Text";
 @import "../../styles/Colors";
+@import "../../styles/Panes.scss";
 
 .warehouse.wrapper {
-  background: url("../../../assets/images/background-tables.jpg") no-repeat
-    center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include background-image-styles("background-tables.jpg");
+  @include flex-center-styles();
 
   .warehouse__elements-block {
-    margin: 20px;
-    width: 1200px;
-    min-height: 690px;
-    height: min-content;
-    border-radius: 50px;
+    align-items: center;
     background-color: rgba($white-100, 0.75);
+    border-radius: 50px;
     box-shadow: 0px 0px 10px 10px $black-100;
     display: flex;
-    align-items: center;
     flex-direction: column;
+    height: min-content;
+    margin: 20px;
+    min-height: 690px;
+    width: 1200px;
 
     .warehouse {
       &__top-elements {
-        width: 100%;
+        @include text-stroke-05($black-100);
+        align-items: center;
+        color: $white-100;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        align-items: center;
         justify-content: center;
-        color: $white-100;
-        @include text-stroke-05($black-100);
+        width: 100%;
 
         .warehouse {
           &__name-block {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 340px;
-            height: 140px;
+            @include flex-center-styles();
             background: $green-pp-100;
-            border-width: 0px 2px 2px 0px;
-            border-style: solid;
             border-color: $red-en-100;
             border-radius: 50px 0px 20px;
+            border-style: solid;
+            border-width: 0px 2px 2px 0px;
+            flex-direction: column;
+            height: 140px;
+            width: 340px;
           }
 
           &__location-block,
           &__items-counter-block {
-            width: 300px;
-            height: 60px;
+            @include flex-center-styles();
             background: $green-pp-100;
             border: 2px solid $red-en-100;
             border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 60px;
+            width: 300px;
           }
         }
       }
 
       &__center-elements {
-        margin: 15px 0 40px 0;
-        width: 100%;
-        height: 100%;
         display: grid;
         grid-template-columns: 1fr 2fr;
+        height: 100%;
+        margin: 15px 0 40px 0;
+        width: 100%;
 
         .warehouse {
           &__options-buttons-block {
-            display: flex;
             align-items: center;
+            display: flex;
             flex-direction: column;
 
             .warehouse {
@@ -85,10 +73,10 @@
 
               &__delete-buttons,
               &__edit-buttons {
-                display: flex;
                 align-items: center;
-                justify-content: center;
+                display: flex;
                 flex-direction: column;
+                justify-content: center;
 
                 .warehouse {
                   &__delete-selected-button,
@@ -102,11 +90,11 @@
               }
 
               &__pagination {
-                display: flex;
-                justify-content: center;
                 align-items: flex-start;
-                margin: 20px auto auto auto;
+                display: flex;
                 height: 100%;
+                justify-content: center;
+                margin: 20px auto auto auto;
               }
             }
           }
@@ -117,17 +105,17 @@
 
             .warehouse {
               &__table-options {
+                align-items: center;
                 display: flex;
                 flex-direction: row;
-                align-items: center;
                 justify-content: space-between;
                 margin: 0px 20px 30px 80px;
 
                 .warehouse {
                   &__table-sizes {
+                    align-items: center;
                     display: flex;
                     justify-content: space-between;
-                    align-items: center;
                     width: 160px;
 
                     .warehouse__size-button {
@@ -143,19 +131,17 @@
               }
 
               &__empty-note-block {
-                margin: 50px 120px 50px auto;
-                width: 600px;
-                height: 70px;
+                @include flex-center-styles();
                 background: $green-pp-100;
                 border: 2px solid $red-en-100;
                 border-radius: 10px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                height: 70px;
+                margin: 50px 120px 50px auto;
+                width: 600px;
                 .warehouse__empty-note {
-                  margin: 10px;
-                  color: $white-100;
                   @include text-stroke-05($black-100);
+                  color: $white-100;
+                  margin: 10px;
                 }
               }
             }
@@ -164,14 +150,12 @@
       }
 
       &__bottom-elements {
-        width: 100%;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
+        width: 100%;
 
         .warehouse__pagination-element {
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          @include flex-center-styles();
           margin: 20px auto 40px auto;
         }
       }

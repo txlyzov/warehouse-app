@@ -14,16 +14,19 @@
   font-size: 64px;
   line-height: 78px;
 }
+
 @mixin text-h2 {
   @include text-style();
   font-size: 32px;
   line-height: 39px;
 }
+
 @mixin text-h3 {
   @include text-style();
   font-size: 20px;
   line-height: 24px;
 }
+
 @mixin text-h4 {
   @include text-style();
   font-size: 15px;
@@ -34,10 +37,12 @@
   text-shadow: 1px 0 0.75px $color, 0 1px 0.75px $color, -1px 0 0.75px $color,
     0 -1px 0.75px $color;
 }
+
 @mixin text-stroke-075($color) {
   text-shadow: 1px 0 0.75px $color, 0 1px 0.75px $color, -1px 0 0.75px $color,
     0 -1px 0.75px $color;
 }
+
 @mixin text-stroke-05($color) {
   text-shadow: 1px 0 0.75px $color, 0 1px 0.75px $color, -1px 0 0.75px $color,
     0 -1px 0.75px $color;
@@ -71,19 +76,4 @@ h4 {
 
 p {
   margin: 0;
-}
-
-@media (min-width: map.get($grid-breakpoints,xxl)) {
-  // h1 {
-  //   @include text-h2();
-  // }
-  // h2 {
-  //   @include text-h3();
-  // }
-  // h3 {
-  //   @include text-h4();
-  // }
-  // h4 {
-  //   @include text-h4();
-  // }
 }

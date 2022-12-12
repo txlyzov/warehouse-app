@@ -2,8 +2,8 @@
 @import "../../styles/Colors";
 
 .button {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: center;
 
   &:hover,
@@ -17,9 +17,9 @@
 // Types
 
 .button-primary {
-  color: $white-100;
   background-color: $green-djg-100;
   border: 2px solid $red-en-100;
+  color: $white-100;
 
   &:hover {
     &:not(.disabled) {
@@ -34,15 +34,15 @@
   }
 
   &.disabled {
-    color: $white-100;
     background-color: $white-25;
+    color: $white-100;
   }
 }
 
 .button-secondary {
-  color: $white-100;
   background-color: $green-fgc-100;
   border: 2px solid $red-en-100;
+  color: $white-100;
 
   &:hover {
     &:not(.disabled) {
@@ -57,41 +57,41 @@
   }
 
   &.disabled {
-    color: $black-100;
     background-color: $white-75;
+    color: $black-100;
   }
 }
 
 // Basic buttons
 
 .button-sm {
-  width: 100px;
-  height: 30px;
-  @include text-h4();
   border-radius: 22px;
+  height: 30px;
+  width: 100px;
+  @include text-h4();
 }
 
 .button-md {
-  width: 200px;
-  height: 40px;
-  @include text-h3();
   border-radius: 22px;
+  height: 40px;
+  width: 200px;
+  @include text-h3();
 }
 
 .button-lg {
-  width: 250px;
-  height: 50px;
-  @include text-h3();
   border-radius: 22px;
+  height: 50px;
+  width: 250px;
+  @include text-h3();
 }
 
 // Square buttons
 
 .button-ssm {
-  width: 30px;
+  border-radius: 10px;
   height: 30px;
   padding: 0;
-  border-radius: 10px;
+  width: 30px;
 
   &:active {
     border: 2px solid $red-en-100;
@@ -99,10 +99,10 @@
 }
 
 .button-smd {
-  width: 40px;
+  border-radius: 10px;
   height: 40px;
   padding: 0;
-  border-radius: 10px;
+  width: 40px;
 
   &:active {
     border: 2px solid $red-en-100;

@@ -12,52 +12,73 @@ import SignIn from "../ui/pages/sign-in/SignIn";
 import SignUp from "../ui/pages/sign-up/SignUp";
 import UpdateWarehouse from "../ui/pages/update-warehouse/UpdateWarehouse";
 import WarehousePage from "../ui/pages/warehouse-page/WarehousePage";
+import { PATH_VARIBLES } from "../utils/Constants";
 
 const routes = [
-  { path: "/", element: <MainPage />, exact: true },
-  { path: "/help", element: <Help />, exact: true },
-  { path: "/sign-in", needAuth: false, element: <SignIn />, exact: true },
-  { path: "/sign-up", needAuth: false, element: <SignUp />, exact: true },
+  { path: PATH_VARIBLES.MAIN, element: <MainPage />, exact: true },
+  { path: PATH_VARIBLES.HELP, element: <Help />, exact: true },
   {
-    path: "/forgot-password",
+    path: PATH_VARIBLES.SIGN_IN,
+    needAuth: false,
+    element: <SignIn />,
+    exact: true,
+  },
+  {
+    path: PATH_VARIBLES.SIGN_UP,
+    needAuth: false,
+    element: <SignUp />,
+    exact: true,
+  },
+  {
+    path: PATH_VARIBLES.FORGOT_PASSWORD,
     needAuth: false,
     element: <ForgotPassword />,
     exact: true,
   },
-  { path: "/home", needAuth: true, element: <HomePage />, exact: true },
-  { path: "/settings", needAuth: true, element: <Settings />, exact: true },
   {
-    path: "/warehouse/:warehouseId",
+    path: PATH_VARIBLES.HOME,
+    needAuth: true,
+    element: <HomePage />,
+    exact: true,
+  },
+  {
+    path: PATH_VARIBLES.SETTINGS,
+    needAuth: true,
+    element: <Settings />,
+    exact: true,
+  },
+  {
+    path: `${PATH_VARIBLES.WAREHOUSE}:${PATH_VARIBLES.WAREHOUSE_ID}`,
     needAuth: true,
     element: <WarehousePage />,
     exact: true,
   },
   {
-    path: "/create-warehouse",
+    path: PATH_VARIBLES.CREATE_WAREHOUSE,
     needAuth: true,
     element: <CreateWarehouse />,
     exact: true,
   },
   {
-    path: "/update-warehouse/:warehouseId",
+    path: `${PATH_VARIBLES.UPDATE_WAREHOUSE}:${PATH_VARIBLES.WAREHOUSE_ID}`,
     needAuth: true,
     element: <UpdateWarehouse />,
     exact: true,
   },
   {
-    path: "/warehouse/:warehouseId/confirm-removing",
+    path: `${PATH_VARIBLES.WAREHOUSE}:${PATH_VARIBLES.WAREHOUSE_ID}${PATH_VARIBLES.CONFIRM_REMOVING}`,
     needAuth: true,
     element: <ConfirmRemoving />,
     exact: true,
   },
   {
-    path: "/warehouse/:warehouseId/create-entity",
+    path: `${PATH_VARIBLES.WAREHOUSE}:${PATH_VARIBLES.WAREHOUSE_ID}${PATH_VARIBLES.CREATE_ENTITY}`,
     needAuth: true,
     element: <CreateEntity />,
     exact: true,
   },
   {
-    path: "/warehouse/:warehouseId/entity/:entityId",
+    path: `${PATH_VARIBLES.WAREHOUSE}:${PATH_VARIBLES.WAREHOUSE_ID}${PATH_VARIBLES.ENTITY}:${PATH_VARIBLES.ENTITY_ID}`,
     needAuth: true,
     element: <EntityPage />,
     exact: true,

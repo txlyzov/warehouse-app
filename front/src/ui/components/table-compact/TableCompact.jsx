@@ -1,4 +1,5 @@
 import './TableCompact.scss';
+import { v4 as uuidv4 } from 'uuid';
 import React from 'react';
 
 function TableCompact({
@@ -12,7 +13,7 @@ function TableCompact({
   const generateCellContent = (row, column) => {
     const p = [];
     for (let field = 0; field < tableSettings.value.length; field += 1) {
-      p.push(<p key={field} className={`cell-content-${field}`}>{content[tableSettings.columns * row + column][`${tableSettings.value[field]}`]}</p>);
+      p.push(<p key={`generateCellContent${row}${column}${field}`} className={`cell-content-${field}`}>{content[tableSettings.columns * row + column][`${tableSettings.value[field]}`]}</p>);
     }
     return p;
   };
@@ -26,11 +27,11 @@ function TableCompact({
           onClick={() => action(content[tableSettings.columns * row + column])}
           style={style}
           className={`table-compact__cell row-${row % 2} col-${column % 2} ${action ? 'selectable' : ''}`}
-          key={column}>
+          key={`generateRowContent${row}${column}`}>
           {generateCellContent(row, column)}
         </td>);
       } else {
-        td.push(<td style={style} className={`table-compact__cell row-${row % 2} col-${column % 2} ${action ? 'selectable' : ''}`} key={column} />);
+        td.push(<td style={style} className={`table-compact__cell row-${row % 2} col-${column % 2} ${action ? 'selectable' : ''}`} key={`generateRowContent${row}${column}`} />);
       }
     }
     return td;
@@ -41,7 +42,7 @@ function TableCompact({
   const generateTbodyContent = () => {
     const tr = [];
     for (let row = 0; row < tableSettings.rows; row += 1) {
-      tr.push(<tr key={row} className="table-compact__row">
+      tr.push(<tr key={`generateTbodyContent${row}`} className="table-compact__row">
         {generateRowContent(row)}
       </tr>);
     }

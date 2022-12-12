@@ -1,5 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Link } from "react-router-dom";
+import { PATH_VARIBLES } from "../../../utils/Constants";
 
 const TEST_NAME = "sign-in";
 
@@ -25,14 +26,14 @@ const SIGN_IN = {
       </h3>,
       <h3 data-testid={`${TEST_NAME}-issue-3`} className="sign-in__issue">
         Account does not exist. [
-        <Link className="" to="/sign-up">
+        <Link className="" to={PATH_VARIBLES.SIGN_UP}>
           Registration
         </Link>
         ]
       </h3>,
       <h3 data-testid={`${TEST_NAME}-issue-4`} className="sign-in__issue">
         Wrong password. [
-        <Link className="" to="/forgot-password">
+        <Link className="" to={PATH_VARIBLES.FORGOT_PASSWORD}>
           Reset password
         </Link>
         ]
@@ -40,17 +41,27 @@ const SIGN_IN = {
     ],
   },
   INPUT: {
-    TEST_ID: [`${TEST_NAME}-input-0`, `${TEST_NAME}-input-1`],
-    PLACEHOLDER: ["Enter your email", "Enter your password"],
+    EMAIL: { TEST_ID: `${TEST_NAME}-input-0`, PLACEHOLDER: "Enter your email" },
+    PASSWORD: {
+      TEST_ID: `${TEST_NAME}-input-1`,
+      PLACEHOLDER: "Enter your password",
+    },
   },
   BUTTON: {
-    TEST_ID: [`${TEST_NAME}-button-0`, `${TEST_NAME}-button-1`],
-    TEXT: ["Forgot password", "Sign in"],
+    FORGOT_PASSWORD: {
+      TEST_ID: `${TEST_NAME}-button-0`,
+      TEXT: "Forgot password",
+    },
+    SIGN_IN: { TEST_ID: `${TEST_NAME}-button-1`, TEXT: "Sign in" },
   },
   TEXTS: {
     MAIN_TITLE: "Sign in",
     PROMT_1: "Type your account email here:",
     PROMT_2: "Type your password here:",
+  },
+  SERVER: {
+    WRONG_EMAIL_ERROR: "Wrong email.",
+    WRONG_PASSWORD_ERROR: "Wrong password.",
   },
 };
 

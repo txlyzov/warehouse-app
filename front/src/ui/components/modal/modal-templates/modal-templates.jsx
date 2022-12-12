@@ -4,10 +4,14 @@ import { useDispatch } from 'react-redux';
 import { resetModal, setErrorCase, setModalContent, setModalTitle } from '../../../../redux-store/modal/ModalSlice';
 import Button from '../../button/Button';
 import Input from '../../input/Input';
+import { CONFIRM_MODAL, ERROR_MODAL, INPUT_MODAL, NOTE_MODAL } from './modal-templates.dictionary';
 
-export function ConfirmModal({ title = '', noteText = '', conformationValue = '', action }) {
+export function ConfirmModal({
+    title = CONFIRM_MODAL.BASIC.TITLE,
+    noteText = CONFIRM_MODAL.BASIC.NOTE_TEXT,
+    conformationValue = CONFIRM_MODAL.BASIC.CONFORMATION_VALUE, action
+}) {
     const dispatch = useDispatch();
-
     const [inputValue, setInputValue] = useState('');
     const [inputIssue, setInputIssue] = useState(false);
 
@@ -19,13 +23,16 @@ export function ConfirmModal({ title = '', noteText = '', conformationValue = ''
         if (inputValue === conformationValue) {
             setInputIssue(false)
         }
+
     }, [inputValue]);
 
     const confirmAction = () => {
         if (conformationValue.toString() !== inputValue) {
             setInputIssue(true);
+
             return;
         }
+
         action();
         dispatch(setModalTitle(''));
         dispatch(setModalContent());
@@ -59,7 +66,7 @@ export function ConfirmModal({ title = '', noteText = '', conformationValue = ''
             {inputIssue ?
                 <div className='content__issue-block'>
                     <h3 className='content__issue'>
-                        Values do not match
+                        {CONFIRM_MODAL.TEXTS.ERROR_NOT_CONFIRMED}
                     </h3>
                 </div>
                 :
@@ -97,14 +104,17 @@ function noteJSXPattern(className, title, text) {
     </div>
 }
 
-export function NoteModal({ title = 'Note', noteText = 'Something' }) {
+export function NoteModal({
+    title = NOTE_MODAL.BASIC.TITLE,
+    noteText = NOTE_MODAL.BASIC.NOTE_TEXT
+}) {
     return (
         noteJSXPattern('note-modal', title, noteText)
     )
 }
 
 
-export function ErrorModal({ title = 'Error', errorText = 'Unknown error' }) {
+export function ErrorModal({ title = ERROR_MODAL.BASIC.TITLE, errorText = ERROR_MODAL.BASIC.TITLE }) {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setErrorCase());
@@ -116,8 +126,8 @@ export function ErrorModal({ title = 'Error', errorText = 'Unknown error' }) {
 }
 
 export function InputModal({
-    title = 'Input',
-    noteText = 'Unknown error',
+    title = INPUT_MODAL.BASIC.TITLE,
+    noteText = INPUT_MODAL.BASIC.NOTE_TEXT,
     inputValue,
     setInputValue,
     placeholder = null,
@@ -131,22 +141,27 @@ export function InputModal({
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setModalTitle(title))
-        // dispatch(setErrorCase());
     }, []);
 
     const closeModal = () => {
         if (notNull && modalInputValue.length === 0) {
-            setInputIssue({ issue: true, text: 'Field must be not empty' });
+            setInputIssue({ issue: true, text: INPUT_MODAL.TEXTS.ERROR_EMPTY });
+
             return
         }
+
         if (notString && !/^\d+$/g.test(modalInputValue)) {
-            setInputIssue({ issue: true, text: 'Field must be not a string' });
+            setInputIssue({ issue: true, text: INPUT_MODAL.TEXTS.ERROR_NOT_STRING });
+
             return
         }
+
         if (regexCheck && !regexCheck.test(modalInputValue)) {
-            setInputIssue({ issue: true, text: 'Conditions failed' });
+            setInputIssue({ issue: true, text: INPUT_MODAL.TEXTS.ERROR_ADDITIONAL_CONDITION });
+
             return
         }
+
         setInputValue(modalInputValue)
         dispatch(resetModal())
     }

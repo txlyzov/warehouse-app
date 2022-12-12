@@ -14,33 +14,33 @@ $blocks-border-width: 2px;
   @include flex-center-styles;
 
   .confirm-removing__elements-block {
-    margin: 20px;
-    width: min-content;
-    height: min-content;
-    border-radius: 50px;
     background-color: rgba($white-100, 0.75);
+    border-radius: 50px;
     box-shadow: 0px 0px 10px 10px $black-100;
     display: flex;
     flex-direction: row;
+    height: min-content;
+    margin: 20px;
+    width: min-content;
 
     .confirm-removing {
       &__left-elements {
-        width: 340px;
-        height: min-content;
         @include flex-center-styles;
         flex-direction: column;
+        height: min-content;
+        width: 340px;
 
         .confirm-removing {
           &__name-block {
             @include block-styles;
             @include flex-center-styles;
-            flex-direction: column;
-            width: 340px - $blocks-border-width;
-            height: 140px - $blocks-border-width;
-            border-width: 0px $blocks-border-width $blocks-border-width 0px;
-            border-radius: 50px 0px 20px;
-            color: $white-100;
             @include text-stroke-05($black-100);
+            border-radius: 50px 0px 20px;
+            border-width: 0px $blocks-border-width $blocks-border-width 0px;
+            color: $white-100;
+            flex-direction: column;
+            height: 140px - $blocks-border-width;
+            width: 340px - $blocks-border-width;
           }
 
           &__cancel-button {
@@ -49,20 +49,20 @@ $blocks-border-width: 2px;
 
           &__info-block {
             @include block-styles;
-            width: 300px - $blocks-border-width * 2;
             height: 210px - $blocks-border-width * 2;
+            width: 300px - $blocks-border-width * 2;
 
             .confirm-removing__info-text {
-              margin: 10px;
-              color: $white-100;
               @include text-stroke-05($black-100);
+              color: $white-100;
+              margin: 10px;
             }
           }
 
           &__delete-buttons-block {
-            margin: 20px 0 40px 0;
             display: grid;
             grid-template-columns: 40px 1fr 40px;
+            margin: 20px 0 40px 0;
             width: 100%;
 
             .confirm-removing {
@@ -80,9 +80,10 @@ $blocks-border-width: 2px;
       }
 
       &__right-elements {
-        min-width: 715px;
         margin: 40px 5px 40px 40px;
+        min-width: 715px;
         width: 100%;
+
         .confirm-removing {
           &__table-search {
             justify-content: end;

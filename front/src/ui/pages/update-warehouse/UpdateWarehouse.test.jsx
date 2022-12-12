@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { StatusCodes } from 'http-status-codes';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
@@ -24,8 +25,8 @@ describe('Create warehouse component', () => {
     });
 
     beforeEach(() => {
-        jest.spyOn(WarehouseService, "getWarehouseById").mockReturnValue({ status: 200, data: WAREHOUSE_TEST_OBJECT });
-        jest.spyOn(WarehouseService, "updateWarehouseById").mockReturnValue({ status: 200 });
+        jest.spyOn(WarehouseService, "getWarehouseById").mockReturnValue({ status: StatusCodes.OK, data: WAREHOUSE_TEST_OBJECT });
+        jest.spyOn(WarehouseService, "updateWarehouseById").mockReturnValue({ status: StatusCodes.OK });
     })
 
     const renderUpdateWarehouseWithProvider = () => render(
@@ -36,21 +37,19 @@ describe('Create warehouse component', () => {
         </Provider>,
     );
 
-    window.matchMedia = window.matchMedia || function noName() {
-        return {
-            matches: false,
-            addListener() { },
-            removeListener() { },
-        };
-    };
+    window.matchMedia = window.matchMedia || (() => ({
+        matches: false,
+        addListener() { },
+        removeListener() { },
+    }))
 
-    test(`should have ${UPDATE_WAREHOUSE.BUTTON.TEXT[0]} and ${UPDATE_WAREHOUSE.BUTTON.TEXT[1]} buttons`, async () => {
+    test(`should have ${UPDATE_WAREHOUSE.BUTTON.RETURN.TEXT} and ${UPDATE_WAREHOUSE.BUTTON.UPDATE.TEXT} buttons`, async () => {
         await act(async () => {
             renderUpdateWarehouseWithProvider();
         });
 
-        const button0 = screen.getByTestId(UPDATE_WAREHOUSE.BUTTON.TEST_ID[0]);
-        const button1 = screen.getByTestId(UPDATE_WAREHOUSE.BUTTON.TEST_ID[1]);
+        const button0 = screen.getByTestId(UPDATE_WAREHOUSE.BUTTON.RETURN.TEST_ID);
+        const button1 = screen.getByTestId(UPDATE_WAREHOUSE.BUTTON.UPDATE.TEST_ID);
 
         expect(button0).toBeInTheDocument();
         expect(button1).toBeInTheDocument();
@@ -62,7 +61,7 @@ describe('Create warehouse component', () => {
         });
 
         const promt0 = screen.getByText(UPDATE_WAREHOUSE.TEXTS.PROMT_1);
-        const input0 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.NAME.TEST_ID);
 
         expect(promt0).toBeInTheDocument();
         expect(input0).toBeInTheDocument();
@@ -73,8 +72,8 @@ describe('Create warehouse component', () => {
             renderUpdateWarehouseWithProvider();
         });
 
-        const input0 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.TEST_ID[0]);
-        const input1 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.TEST_ID[1]);
+        const input0 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.NAME.TEST_ID);
+        const input1 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.LOCATION.TEST_ID);
 
         expect(input0).toHaveValue(WAREHOUSE_TEST_OBJECT.name);
         expect(input1).toHaveValue(WAREHOUSE_TEST_OBJECT.location);
@@ -91,8 +90,8 @@ describe('Create warehouse component', () => {
             expect(error).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
 
-        const confirmButton = screen.getByTestId(UPDATE_WAREHOUSE.BUTTON.TEST_ID[1]);
-        const input0 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.TEST_ID[0]);
+        const confirmButton = screen.getByTestId(UPDATE_WAREHOUSE.BUTTON.UPDATE.TEST_ID);
+        const input0 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.NAME.TEST_ID);
         userEvent.clear(input0);
         await act(async () => {
             userEvent.click(confirmButton);
@@ -103,7 +102,7 @@ describe('Create warehouse component', () => {
     });
 
     test(`should have error with code ${UPDATE_WAREHOUSE.ERROR.CODE.AUTH_ERROR} after click`, async () => {
-        jest.spyOn(WarehouseService, "updateWarehouseById").mockReturnValue({ status: 403 });
+        jest.spyOn(WarehouseService, "updateWarehouseById").mockReturnValue({ status: StatusCodes.FORBIDDEN });
         await act(async () => {
             renderUpdateWarehouseWithProvider();
         });
@@ -114,11 +113,11 @@ describe('Create warehouse component', () => {
             expect(error).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
 
-        const input0 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.NAME.TEST_ID);
         userEvent.type(input0, 'q'.repeat(22));
-        const input1 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.TEST_ID[1]);
+        const input1 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.LOCATION.TEST_ID);
         userEvent.type(input1, 'q'.repeat(22));
-        const confirmButton = screen.getByTestId(UPDATE_WAREHOUSE.BUTTON.TEST_ID[1]);
+        const confirmButton = screen.getByTestId(UPDATE_WAREHOUSE.BUTTON.UPDATE.TEST_ID);
         await act(async () => {
             userEvent.click(confirmButton);
         });
@@ -129,7 +128,7 @@ describe('Create warehouse component', () => {
     });
 
     test(`should have error with code ${UPDATE_WAREHOUSE.ERROR.CODE.UNKNOWN} after click`, async () => {
-        jest.spyOn(WarehouseService, "updateWarehouseById").mockReturnValue({ status: 404 });
+        jest.spyOn(WarehouseService, "updateWarehouseById").mockReturnValue({ status: StatusCodes.NOT_FOUND });
         await act(async () => {
             renderUpdateWarehouseWithProvider();
         });
@@ -140,11 +139,11 @@ describe('Create warehouse component', () => {
             expect(error).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
 
-        const input0 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.NAME.TEST_ID);
         userEvent.type(input0, 'q'.repeat(22));
-        const input1 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.TEST_ID[1]);
+        const input1 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.LOCATION.TEST_ID);
         userEvent.type(input1, 'q'.repeat(22));
-        const confirmButton = screen.getByTestId(UPDATE_WAREHOUSE.BUTTON.TEST_ID[1]);
+        const confirmButton = screen.getByTestId(UPDATE_WAREHOUSE.BUTTON.UPDATE.TEST_ID);
         await act(async () => {
             userEvent.click(confirmButton);
         });
@@ -159,9 +158,9 @@ describe('Create warehouse component', () => {
             renderUpdateWarehouseWithProvider();
         });
 
-        const input0 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.TEST_ID[0]);
+        const input0 = screen.getByTestId(UPDATE_WAREHOUSE.INPUT.NAME.TEST_ID);
         userEvent.type(input0, 'q@q.q');
-        const confirmButton = screen.getByTestId(UPDATE_WAREHOUSE.BUTTON.TEST_ID[1]);
+        const confirmButton = screen.getByTestId(UPDATE_WAREHOUSE.BUTTON.UPDATE.TEST_ID);
         await act(async () => {
             userEvent.click(confirmButton);
         });
@@ -171,11 +170,13 @@ describe('Create warehouse component', () => {
 
             expect(error1).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
+
         try {
             const error2 = await screen.getByTestId(`update-warehouse-issue-${UPDATE_WAREHOUSE.ERROR.CODE.UNKNOWN}`);
 
             expect(error2).not.toBeInTheDocument();
         } catch (error) { /* empty */ }
+
         try {
             const error3 = await screen.getByTestId(`update-warehouse-issue-${UPDATE_WAREHOUSE.ERROR.CODE.AUTH_ERROR}`);
 

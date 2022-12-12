@@ -13,7 +13,6 @@ function Input({
   return (
     <div className={`input-block ${className}`}>
       <input
-        // style={{ width }}
         value={inputValue || ''}
         {...props}
         onChange={(e) => setInputValue(e.target.value)}

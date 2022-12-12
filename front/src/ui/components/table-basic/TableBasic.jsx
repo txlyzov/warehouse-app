@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './TableBasic.scss';
+import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import TableBasicRow from './TableBasicRow/TableBasicRow';
 import { selectCheckboxesSelected, selectGlobalCheckboxState, selectTableData, setGlobalCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
@@ -23,6 +24,7 @@ function TableBasic({
     if (selectedOptionsValue === tableData.length) {
       dispatch(setGlobalCheckboxState(true))
     }
+
     if (selectedOptionsValue === 0) {
       dispatch(setGlobalCheckboxState(false))
     }
@@ -35,7 +37,7 @@ function TableBasic({
 
   function TableHeadItem({ item }) {
     return <th
-      key={item.heading}
+      key={`TableHeadItem-1${item.value}${uuidv4()}`}
       style={style}
       className="table-basic__column-name">
       {item.heading}
@@ -48,12 +50,13 @@ function TableBasic({
       tableBasicEmptyRow.push(
         <TableBasicEmptyRow
           style={style}
-          key={row}
+          key={data.length + row}
           columnInRow={column}
           rowIndex={data.length + row}
         />
       )
     }
+
     return tableBasicEmptyRow;
   };
 
@@ -67,7 +70,7 @@ function TableBasic({
     <table className={`${className || ''} table-basic wrapper`}>
       <thead className="table-basic__thead">
         <tr>
-          {column.map((item, index) => <TableHeadItem key={index} item={item} />)}
+          {column.map((item) => <TableHeadItem key={`TableHeadItem-2${item.value}${uuidv4()}`} item={item} />)}
           <td style={style}
             aria-hidden="true"
             className={`table-basic__column-name selectable ${tableCheckboxState ? 'selected' : ''}`}
@@ -84,7 +87,8 @@ function TableBasic({
           <TableBasicRow
             action={action}
             style={style}
-            key={rowIndex}
+            // eslint-disable-next-line react/no-array-index-key
+            key={`TableBasicRow${rowIndex}`}
             item={item}
             columnInRow={column}
             rowIndex={rowIndex}
@@ -100,17 +104,3 @@ function TableBasic({
 }
 
 export default TableBasic;
-
-// axios('https://jsonplaceholder.typicode.com/users')
-//     .then(res => {
-//         setWarehouseData(res.data);
-//         setTableContent(res.data);
-//     })
-//     .catch(err => console.log(err))
-// const column = [
-//     { heading: 'Name', value: 'name' },
-//     { heading: 'Email', value: 'email' },
-//     { heading: 'Phone', value: 'phone' },
-//     { heading: 'City', value: 'id' },
-// ]
-// <TableBasic action={(element) => routeChange(`/warehouse/${element.id}`)} data={tableContent} column={column} cellHeight='50px' cellWidth='150px' />

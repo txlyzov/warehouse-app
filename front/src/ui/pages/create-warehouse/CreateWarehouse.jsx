@@ -1,10 +1,12 @@
 import './CreateWarehouse.scss';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import { StatusCodes } from 'http-status-codes';
 import Button from '../../components/button/Button';
 import Input from '../../components/input/Input';
 import { createWarehouse, getWarehousesByUserId } from '../../../services/WarehouseService';
 import CREATE_WAREHOUSE from './CreateWarehouse.dictionary';
+import { PATH_VARIBLES } from '../../../utils/Constants';
 
 function CreateWarehouse() {
     const [issueCode, setIssueCode] = useState(CREATE_WAREHOUSE.ERROR.CODE.OK);
@@ -41,34 +43,41 @@ function CreateWarehouse() {
         }
 
         setIssueCode(issue);
+
         if (issue !== CREATE_WAREHOUSE.ERROR.CODE.OK) {
             return;
         }
 
         const requestCountResult = await getWarehousesByUserId();
-        if (requestCountResult.status === 403) {
+        if (requestCountResult.status === StatusCodes.FORBIDDEN) {
             setIssueCode(CREATE_WAREHOUSE.ERROR.CODE.AUTH_ERROR);
             return;
         }
-        if (requestCountResult.status !== 200) {
+
+        if (requestCountResult.status !== StatusCodes.OK) {
             setIssueCode(CREATE_WAREHOUSE.ERROR.CODE.UNKNOWN);
+
             return;
         }
+
         if (requestCountResult.data.count >= 20) {
             setIssueCode(CREATE_WAREHOUSE.ERROR.CODE.LIMIT_REACHED);
             return;
         }
 
         const requestCreateResult = await createWarehouse(inputName, inputLocation);
-        if (requestCreateResult.status === 403) {
+
+        if (requestCreateResult.status === StatusCodes.FORBIDDEN) {
             setIssueCode(CREATE_WAREHOUSE.ERROR.CODE.AUTH_ERROR);
             return;
         }
-        if (requestCreateResult.status !== 200) {
+
+        if (requestCreateResult.status !== StatusCodes.OK) {
             setIssueCode(CREATE_WAREHOUSE.ERROR.CODE.UNKNOWN);
             return;
         }
-        routeChange('/home');
+
+        routeChange(PATH_VARIBLES.HOME);
     };
 
     return (
@@ -78,8 +87,8 @@ function CreateWarehouse() {
                 <hr className="create-warehouse__separator" />
                 <h3 className="create-warehouse__prompt">{CREATE_WAREHOUSE.TEXTS.PROMT_1}</h3>
                 <Input
-                    data-testid={CREATE_WAREHOUSE.INPUT.TEST_ID[0]}
-                    placeholder={CREATE_WAREHOUSE.INPUT.PLACEHOLDER[0]}
+                    data-testid={CREATE_WAREHOUSE.INPUT.NAME.TEST_ID}
+                    placeholder={CREATE_WAREHOUSE.INPUT.NAME.PLACEHOLDER}
                     issue={inputNameIssue}
                     closable
                     className="create-warehouse__input-name"
@@ -89,8 +98,8 @@ function CreateWarehouse() {
                 />
                 <h3 className="create-warehouse__prompt">{CREATE_WAREHOUSE.TEXTS.PROMT_2}</h3>
                 <Input
-                    data-testid={CREATE_WAREHOUSE.INPUT.TEST_ID[1]}
-                    placeholder={CREATE_WAREHOUSE.INPUT.PLACEHOLDER[1]}
+                    data-testid={CREATE_WAREHOUSE.INPUT.LOCATION.TEST_ID}
+                    placeholder={CREATE_WAREHOUSE.INPUT.LOCATION.PLACEHOLDER}
                     issue={inputLocationIssue}
                     closable
                     className="create-warehouse__input-location"
@@ -100,8 +109,8 @@ function CreateWarehouse() {
                 />
                 <h3 className="create-warehouse__prompt">{CREATE_WAREHOUSE.TEXTS.PROMT_3}</h3>
                 <Input
-                    data-testid={CREATE_WAREHOUSE.INPUT.TEST_ID[2]}
-                    placeholder={CREATE_WAREHOUSE.INPUT.PLACEHOLDER[2]}
+                    data-testid={CREATE_WAREHOUSE.INPUT.DISABLED.TEST_ID}
+                    placeholder={CREATE_WAREHOUSE.INPUT.DISABLED.PLACEHOLDER}
                     type="email"
                     issue={inputCollaboratorsIssue}
                     closable
@@ -116,16 +125,16 @@ function CreateWarehouse() {
                     : ''}
                 <div className='create-warehouse__buttons-block'>
                     <Button
-                        data-testid={CREATE_WAREHOUSE.BUTTON.TEST_ID[0]}
-                        text={CREATE_WAREHOUSE.BUTTON.TEXT[0]}
-                        click={() => routeChange('/home')}
-                        className={`create-warehouse__submit-button ${issueCode !== CREATE_WAREHOUSE.ERROR.CODE.OK ? '' : 'create-warehouse__correct'}`}
+                        data-testid={CREATE_WAREHOUSE.BUTTON.RETURN.TEST_ID}
+                        text={CREATE_WAREHOUSE.BUTTON.RETURN.TEXT}
+                        click={() => routeChange(PATH_VARIBLES.HOME)}
+                        className={`create-warehouse__return-button ${issueCode !== CREATE_WAREHOUSE.ERROR.CODE.OK ? '' : 'create-warehouse__correct'}`}
                         type="secondary"
                         size="md"
                     />
                     <Button
-                        data-testid={CREATE_WAREHOUSE.BUTTON.TEST_ID[1]}
-                        text={CREATE_WAREHOUSE.BUTTON.TEXT[1]}
+                        data-testid={CREATE_WAREHOUSE.BUTTON.CREATE.TEST_ID}
+                        text={CREATE_WAREHOUSE.BUTTON.CREATE.TEXT}
                         click={() => submitFunction()}
                         className={`create-warehouse__submit-button ${issueCode !== CREATE_WAREHOUSE.ERROR.CODE.OK ? '' : 'create-warehouse__correct'}`}
                         type="primary"

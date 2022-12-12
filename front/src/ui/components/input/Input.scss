@@ -9,10 +9,12 @@
       border-color: $red-en-100;
       box-shadow: 0 0 10px 0 $red-en-100;
     }
+
     &:focus {
       border-color: $green-pp-100;
       box-shadow: 0 0 10px 0 $green-pp-100;
     }
+
     &:active,
     &:hover,
     &:focus {
@@ -22,8 +24,8 @@
   }
 
   &__reset-button {
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: center;
 
     &.reset-button-bs {
@@ -33,8 +35,8 @@
 }
 
 .input-bs {
-  width: 400px;
   border: 1px solid $black-100;
+  width: 400px;
 }
 
 .icon-close-bs {

@@ -2,35 +2,30 @@ import './WarehousePage.scss';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { StatusCodes } from 'http-status-codes';
 import Button from '../../components/button/Button';
 import TableBasic from '../../components/table-basic/TableBasic';
 import Input from '../../components/input/Input';
-import { resetTableStorage, selectCheckboxesSelected, selectTableData, setGlobalCheckboxState, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
+import { resetTableStorage, selectCheckboxesSelected, selectTableData, setTableData } from '../../../redux-store/basic-table/BasicTableSlise';
 import Pagination from '../../components/pagination/Pagination';
 import { setModalContent } from '../../../redux-store/modal/ModalSlice';
 import { ConfirmModal } from '../../components/modal/modal-templates/modal-templates';
 import { getCargosByWarehouseId } from '../../../services/CargoService';
 import { deleteWarehouseById, getWarehouseById } from '../../../services/WarehouseService';
+import { PATH_VARIBLES } from '../../../utils/Constants';
+import WAREHOUSE_PAGE from './WarehousePage.dictionary';
 
 function WarehousePage() {
     const location = useLocation();
     const params = useParams();
-
     const dispatch = useDispatch();
     const tableData = useSelector(selectTableData);
     const selectedOptionsValue = useSelector(selectCheckboxesSelected);
-
     const [warehouseData, setWarehouseData] = useState(null);
     const [tableDisplayedContent, setDisplayedContent] = useState([]);
     const [currentTablePage, setCurrentTablePage] = useState(0);
     const [itemsOnPage, setItemsOnPage] = useState(5);
     const [inputSearch, setInputSearch] = useState('');
-
-    const columnSettings = [
-        { heading: 'Item Id', value: 'id' },
-        { heading: 'Name', value: 'name' },
-        { heading: 'Value', value: 'quantity' },
-    ]
 
     const navigate = useNavigate();
     const routeChange = (route, options = {}) => {
@@ -46,7 +41,7 @@ function WarehousePage() {
     const removeItems = () => {
         const itemsToRemove = tableData.filter(item => item.isSelected).map((item, index) => ({ ...item, index }));
         routeChange(
-            `/warehouse/${params.warehouseId}/confirm-removing`,
+            `${PATH_VARIBLES.WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}${PATH_VARIBLES.CONFIRM_REMOVING}`,
             {
                 state: {
                     selectedOptionsValue: itemsToRemove,
@@ -60,20 +55,20 @@ function WarehousePage() {
         dispatch(resetTableStorage());
 
         const asyncActions = async () => {
-            const warehouseRequestResult = await getWarehouseById(params.warehouseId);
+            const warehouseRequestResult = await getWarehouseById(params[PATH_VARIBLES.WAREHOUSE_ID]);
 
-            if (warehouseRequestResult.status !== 200) {
-                routeChange('/home');
+            if (warehouseRequestResult.status !== StatusCodes.OK) {
+                routeChange(PATH_VARIBLES.HOME);
                 return
             }
 
             setWarehouseData(warehouseRequestResult.data)
 
-            const cargoRequestResult = await getCargosByWarehouseId(params.warehouseId);
+            const cargoRequestResult = await getCargosByWarehouseId(params[PATH_VARIBLES.WAREHOUSE_ID]);
 
 
-            if (cargoRequestResult.status !== 200) {
-                routeChange('/home');
+            if (cargoRequestResult.status !== StatusCodes.OK) {
+                routeChange(PATH_VARIBLES.HOME);
                 return
             }
 
@@ -82,8 +77,8 @@ function WarehousePage() {
                 dataArray.push({ index, data: element, isSelected: false })
             });
 
-            dispatch(setTableData(dataArray.slice(0, 9)));
-            setDisplayedContent(dataArray.slice(0, 5))
+            dispatch(setTableData(dataArray));
+            setDisplayedContent(dataArray.slice(0, WAREHOUSE_PAGE.TABLE.ITEMS_ON_PAGE_1))
         }
 
         asyncActions();
@@ -106,21 +101,18 @@ function WarehousePage() {
                 <div className="warehouse__top-elements">
                     <div className='warehouse__name-block'
                         aria-hidden="true"
-                        onClick={() => { navigator.clipboard.writeText('name') }}
+                        onClick={() => { navigator.clipboard.writeText(warehouseData.name || null) }}
                     >
                         <h2 className='warehouse__name'>
                             Warehouse
                         </h2>
                         <h2 className='warehouse__name'>
-                            {warehouseData ? warehouseData.name : "Loading"}
+                            {warehouseData ? warehouseData.name : WAREHOUSE_PAGE.TEXTS.LOADING}
                         </h2>
                     </div>
-                    <div className='warehouse__location-block'
-                        aria-hidden="true"
-                        onClick={() => { navigator.clipboard.writeText('id') }}
-                    >
+                    <div className='warehouse__location-block'>
                         <h3 className='warehouse__id'>
-                            Location: {warehouseData ? warehouseData.location : "Loading"}
+                            Location: {warehouseData ? warehouseData.location : WAREHOUSE_PAGE.TEXTS.LOADING}
                         </h3>
                     </div>
                     <div className='warehouse__items-counter-block'>
@@ -133,48 +125,52 @@ function WarehousePage() {
                     <div className='warehouse__options-buttons-block'>
                         <div className='warehouse__delete-buttons'>
                             <Button click={() => removeItems()}
+                                data-testid={WAREHOUSE_PAGE.BUTTON.DELETE_CARGO.TEST_ID}
+                                text={WAREHOUSE_PAGE.BUTTON.DELETE_CARGO.TEXT}
                                 className="warehouse__delete-selected-button"
                                 type="primary"
-                                text="Delete selected"
                                 size="md"
                                 disabled={selectedOptionsValue <= 0}
                             />
-                            <Button click={() => {
-                                dispatch(
-                                    setModalContent(
-                                        <ConfirmModal
-                                            conformationValue={warehouseData.id}
-                                            title="Delete warehouse?"
-                                            noteText="Are you sure that you want to delete warehouse? 
-                                            Place warehouse id to submit 
-                                            (you can copy it by clicking on it)"
-                                            action={() => {
-                                                deleteWarehouseById(params.warehouseId)
-                                                navigate("/home")
-                                            }}
-                                        />
+                            <Button
+                                data-testid={WAREHOUSE_PAGE.BUTTON.DELETE_WAREHOUSE.TEST_ID}
+                                text={WAREHOUSE_PAGE.BUTTON.DELETE_WAREHOUSE.TEXT}
+                                click={() => {
+                                    dispatch(
+                                        setModalContent(
+                                            <ConfirmModal
+                                                conformationValue={warehouseData.id}
+                                                title={WAREHOUSE_PAGE.MODAL.TITLE_CONFIRM_DELETE}
+                                                noteText={WAREHOUSE_PAGE.MODAL.TEXT_CONFIRM_DELETE}
+                                                action={() => {
+                                                    deleteWarehouseById(params[PATH_VARIBLES.WAREHOUSE_ID])
+                                                    navigate(PATH_VARIBLES.HOME)
+                                                }}
+                                            />
+                                        )
                                     )
-                                )
-                            }
-
-                            }
+                                }
+                                }
                                 className="warehouse__delete-warehouse-button"
                                 type="primary"
-                                text="Delete warehouse"
                                 size="md"
                             />
                         </div>
                         <div className='warehouse__edit-buttons'>
-                            <Button click={() => routeChange(`/warehouse/${params.warehouseId}/create-entity`)}
+                            <Button
+                                data-testid={WAREHOUSE_PAGE.BUTTON.ADD_CARGO.TEST_ID}
+                                text={WAREHOUSE_PAGE.BUTTON.ADD_CARGO.TEXT}
+                                click={() => routeChange(`${PATH_VARIBLES.WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}${PATH_VARIBLES.CREATE_ENTITY}`)}
                                 className="warehouse__add-cargo-button"
                                 type="secondary"
-                                text="Add cargo"
                                 size="md"
                             />
-                            <Button click={() => routeChange(`/update-warehouse/${params.warehouseId}`)}
+                            <Button
+                                data-testid={WAREHOUSE_PAGE.BUTTON.EDIT_WAREHOUSE.TEST_ID}
+                                text={WAREHOUSE_PAGE.BUTTON.EDIT_WAREHOUSE.TEXT}
+                                click={() => routeChange(`${PATH_VARIBLES.UPDATE_WAREHOUSE}${params[PATH_VARIBLES.WAREHOUSE_ID]}`)}
                                 className="warehouse__edit-warehouse-button"
                                 type="secondary"
-                                text="Edit warehouse"
                                 size="md"
                             />
                         </div>
@@ -198,19 +194,17 @@ function WarehousePage() {
                             <div className='warehouse__table-sizes'>
                                 <Button
                                     className='warehouse__size-button'
-                                    type={itemsOnPage === 5 ? 'primary' : 'secondary'}
+                                    type={itemsOnPage === WAREHOUSE_PAGE.TABLE.ITEMS_ON_PAGE_1 ? 'primary' : 'secondary'}
                                     size='smd'
-                                    text='5'
-                                    click={() => changeItemsOnPage(5)}
-                                // disabled // should be removed after select counter fix
+                                    text={WAREHOUSE_PAGE.TABLE.ITEMS_ON_PAGE_1}
+                                    click={() => changeItemsOnPage(WAREHOUSE_PAGE.TABLE.ITEMS_ON_PAGE_1)}
                                 />
                                 <Button
                                     className='warehouse__size-button'
-                                    type={itemsOnPage === 15 ? 'primary' : 'secondary'}
+                                    type={itemsOnPage === WAREHOUSE_PAGE.TABLE.ITEMS_ON_PAGE_2 ? 'primary' : 'secondary'}
                                     size='smd'
-                                    text='15'
-                                    click={() => changeItemsOnPage(15)}
-                                // disabled // should be removed after select counter fix
+                                    text={WAREHOUSE_PAGE.TABLE.ITEMS_ON_PAGE_2}
+                                    click={() => changeItemsOnPage(WAREHOUSE_PAGE.TABLE.ITEMS_ON_PAGE_2)}
                                 />
                                 <Button
                                     className='warehouse__size-button'
@@ -224,7 +218,7 @@ function WarehousePage() {
                             <Input
                                 closable
                                 className="warehouse__table-search"
-                                placeholder="Search by name"
+                                placeholder={WAREHOUSE_PAGE.INPUT.SEARCH.PLACEHOLDER}
                                 width="390px"
                                 inputValue={inputSearch}
                                 setInputValue={setInputSearch}
@@ -232,18 +226,17 @@ function WarehousePage() {
                         </div>
                         {tableData.length > 0 ?
                             <TableBasic
-                                action={(element) => routeChange(`${location.pathname}/entity/${element.data.id}`)}
+                                action={(element) => routeChange(`${location.pathname}${PATH_VARIBLES.ENTITY}${element.data.id}`)}
                                 className="warehouse__table"
                                 data={tableDisplayedContent}
-                                column={columnSettings}
+                                column={WAREHOUSE_PAGE.TABLE.COLUMN_SETTINGS}
                                 cellHeight='46px'
                                 cellWidth='146px'
                                 minRowsOnPage={itemsOnPage}
                             /> :
                             <div className='warehouse__empty-note-block'>
                                 <h3 className='warehouse__empty-note'>
-                                    {/* eslint-disable-next-line react/no-unescaped-entities */}
-                                    Warehouse have no registered records for it. You can add some with "Add cargo" option.
+                                    {WAREHOUSE_PAGE.TEXTS.EMPTY_TABLE}
                                 </h3>
                             </div>}
                     </div>

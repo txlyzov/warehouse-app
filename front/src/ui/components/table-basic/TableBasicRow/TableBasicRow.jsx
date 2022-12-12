@@ -1,5 +1,6 @@
 import './TableBasicRow.scss';
 import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import Checkbox from '../../checkbox/Checkbox';
 import { selectTableData, setCheckboxesSelected, setTableData } from '../../../../redux-store/basic-table/BasicTableSlise';
@@ -28,7 +29,7 @@ function TableBasicRow({ action, item, columnInRow, rowIndex, style }) {
         <tr className={`table-basic__row ${action ? 'selectable' : ''}`}>
             {columnInRow.map((columnItem, colIndex) => <td
                 aria-hidden="true"
-                key={columnItem + colIndex}
+                key={`TableBasicRow${rowIndex}${columnItem.value}${uuidv4()}`}
                 style={style}
                 className={`table-basic__cell row-${rowIndex % 2} col-${colIndex % 2}`}
                 onClick={() => {

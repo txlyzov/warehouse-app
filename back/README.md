@@ -1,20 +1,21 @@
-# The Aqua-playground project
-"The Aqua-playground project" is an educational project of Syberry academy.
+# The warehouse project
+
+"The warehouse project" is an individual educational project of Syberry academy.
 3 month are allocated for the project to work with React, up skills, get acquainted with the company's processes in time between other projects.
 
 ---
 
 ## Requirements:
 
-- [Front end](https://git.syberry.com/t.khlyzov/aqua-playground/front);
+- [Front end](https://github.com/txlyzov/warehouse-app/tree/development/front);
 
 - Software: MySQL.
 
 ## Application launch
 
-- You can download the repository from [GitLab](https://git.syberry.com/t.khlyzov/aqua-playground/) 
-    - [Front end link](https://git.syberry.com/t.khlyzov/aqua-playground/front) 
-    - [Back end link](https://git.syberry.com/t.khlyzov/aqua-playground/back) 
+- You can download the repository from [GitHub](https://github.com/txlyzov/warehouse-app/) 
+    - [Front end link](https://github.com/txlyzov/warehouse-app/tree/development/front) 
+    - [Back end link](https://github.com/txlyzov/warehouse-app/tree/development/back) 
 
 - then for back end application: 
     - Open the BE project in your IDE;
